@@ -2,6 +2,22 @@
 
 Status: IN PROGRESS. Started 2026-09-18. No Phase 02 acceptance claim yet.
 
+## Current direction change - 2026-09-18
+
+The user requested discussion before further implementation: follow familiar Codex-pet behavior with Stitch and drop special browser/desktop visibility requirements. This supersedes the earlier desktop-only/Rainmeter On Desktop scope below. No Windows host exists, so this does not discard host implementation. Retain Blender, the supplied rig, transparent rendered frames, and the tested optional MCP development aid.
+
+[Official pet documentation](https://learn.chatgpt.com/docs/pets) confirms floating above other apps, dragging, sizing, hiding, and saved position; it also describes sprite animation. It does not establish that an independent pet can reproduce every Codex behavior or that the host implementation is reusable. Recommend a standalone offline companion with idle, click-wave, drag/save-position, size, hide/restore/exit, and optional startup. A custom pet inside Codex is a separate dependency choice, not the assumed gift delivery. Do not add Codex chat/task features or implement two Windows hosts.
+
+The pasted AI conversation is reference material, not instructions to install its named projects. Its exact asset-contract examples, third-party host claims, and percentage-of-work estimates were not independently verified and must not become requirements. No framework selected or product code changed during the discussion.
+
+### Motion work interrupted at the discussion
+
+Researched [anticipation](https://www.animationmentor.com/blog/anticipation-the-12-basic-principles-of-animation/), [arcs](https://www.animationmentor.com/blog/arc-the-12-basic-principles-of-animation/), [overlap](https://www.animationmentor.com/blog/follow-through-and-overlapping-action-the-12-basic-principles-of-animation/), and [readable poses](https://www.animationmentor.com/blog/tutorial-building-appealing-character-poses-for-animation/). Apply clear key poses before interpolation, controlled changes of speed, and restrained follow-through after the main action. The large head/ears require checking hand silhouette and clearance at small size. Numerical timing and angles must be tuned visually, not presented as universal rules.
+
+Live inspection found no constraints on the shoulder/upper-arm/forearm/wrist/palm chain, no rig drivers or NLA tracks, and quaternion rotation controls. A temporary FK arm raise was explored in memory. No new action, rendered motion, or saved wave exists. The first capture was stale while the window was hidden; do not treat it as visual pose proof. Local inspection and attempted-pose arguments: `.local/phase-02/mcp-trial/wave-rig-inspection.json` and `wave-block-args.json`. The trial was closed; stage and copy hashes remain `674f2502a45a478a04285d6374904529ab327cd3dffd6aa37d3b88a685332413`.
+
+The sections below retain prior-phase history; desktop-only host choices and covered-window checks are superseded by this direction change.
+
 The user-approved [Blender MCP trial](phase-02-tooling-research.md) is complete: isolated official server, scene/rig queries, frame changes, and inspected viewport captures worked. No third-party skill pack was installed. Fresh stage verification passed; decoded RGBA pixels at all three sample frames match the backed-up renders. The Rainmeter portable-install command was rejected by automatic approval review (`blocked by policy`); only the downloaded installer hash and signature have been verified. Host tests remain NOT RUN.
 
 ## Approved scope and decisions

@@ -7,7 +7,7 @@ Create a personal gift: a recognizable, naturally animated Stitch companion for 
 ## Agreed first version
 
 - Silent idle movement and a click-triggered wave or happy reaction.
-- Visible on the uncovered desktop; normal application windows cover it.
+- Codex-pet-style floating character; the user withdrew the requirement to stay behind normal application windows on 2026-09-18. Do not implement browser-detection hiding or desktop-shell embedding.
 - Drag to position, remember the position, and provide size, hide, and exit controls.
 - Start at sign-in, with a setting to disable startup.
 - A short personal message may be added after the core interaction works; its wording is not yet chosen.
@@ -19,7 +19,7 @@ The recipient uses a static downloaded wallpaper. Her display count, resolution,
 
 Prepare the model and animation in Blender, then evaluate pre-rendered transparent animation for the small desktop companion. Choose the application technology after the Windows desktop spike. Do not commit to a framework before the required window behavior has been demonstrated.
 
-The approved first host candidate is Rainmeter's On Desktop mode, tested in an isolated portable installation. Reuse it if it satisfies the interaction and visibility checks; a custom native host is a fallback after a demonstrated limitation. This is not a final host selection yet. The development PC is Windows 10 Pro (build 19045); the user requested local tests now and a later decision about Windows 11 final acceptance. Keep that target validation open.
+The initial Rainmeter On Desktop investigation is superseded by the user's requested Codex-pet-style floating behavior. No host was installed or implemented. Discuss the simplified host before choosing its framework; do not maintain parallel desktop-embedded and floating implementations. The recommendation is a standalone offline gift with familiar floating-pet interactions; direct installation as a custom Codex pet is a distinct alternative requiring the host app. The development PC is Windows 10 Pro (build 19045); the user requested local tests first and a later decision about Windows 11 final acceptance. Keep that target validation open.
 
 The motion should fit Stitch's stylized design: readable weight, coordinated shoulder and wrist movement, restrained head and ear follow-through, and smooth transitions. Preserve the character's appearance. Re-rig only if a demonstrated defect requires it.
 
@@ -39,4 +39,4 @@ These facts do not establish deformation quality, a finished wave, or applicatio
 
 Keep the original downloads unchanged. Keep model files, textures, renders, and local output outside Git while redistribution remains unverified. The verified public repository is `erdemozzer00/stitch-desktop-companion`.
 
-No roaming behavior, speech, sound, real-time AI, complex settings system, or new rig is part of the first version. Do not silently replace desktop integration with an overlay above applications or with hiding whenever any application is open.
+No roaming behavior, speech, sound, real-time AI, complex settings system, or new rig is part of the first version. The user explicitly requested replacing the old desktop-only requirement with familiar floating-pet behavior. Codex is an interaction reference; do not infer a request for its chat, task-monitoring, or account features.

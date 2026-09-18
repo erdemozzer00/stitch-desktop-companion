@@ -16,11 +16,11 @@ Inventory and hash the supplied files; inspect the model, rig, action, texture p
 
 **Status: ACTIVE — 2026-09-18**
 
-Produce a rough wave using the existing rig and a separate minimal Windows desktop prototype using a simple visual. Test visibility behind full and partial application windows, minimize/restore, Win+D, click handling, dragging, and access to underlying desktop icons.
+Produce a rough wave using the existing rig and a minimal floating Windows pet prototype. Following the user's 2026-09-18 direction change, test transparent presentation, click versus drag, position, size, hide/restore/exit, and access outside the visible character. The prior behind-applications/desktop-layer requirement is withdrawn.
 
-Start with the small Phase 01 audit corrections, then evaluate a portable Rainmeter host before writing custom Windows window management. The user approved local Windows 10 testing first; Windows 11 recipient acceptance remains deferred and unproven. Record local test gaps explicitly. See [Phase 02 execution notes](evidence/phase-02-review.md).
+Audit corrections and the bounded official Blender MCP trial are complete. Discuss and select the smallest suitable floating host; Rainmeter On Desktop is no longer the required candidate. The user approved local Windows 10 testing first; Windows 11 recipient acceptance remains deferred and unproven. Record local test gaps explicitly. See [Phase 02 execution notes](evidence/phase-02-review.md).
 
-**Exit:** inspectable rough motion, observed desktop behavior, a selected implementation approach, and documented failures or tradeoffs. Turning off always-on-top is not sufficient proof of desktop integration. Rough motion is not final animation quality.
+**Exit:** inspectable rough motion, observed floating-pet interaction, a selected implementation approach, and documented failures or tradeoffs. A transparent preview alone does not prove click/drag behavior. Rough motion is not final animation quality.
 
 ## Phase 03 — Appearance and animation polish
 
