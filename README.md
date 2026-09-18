@@ -1,10 +1,10 @@
 # Stitch Desktop Companion
 
-A personal Windows 11 desktop companion built from a supplied Stitch model. The first version is silent, stays on the visible desktop behind application windows, reacts to clicks, and can be dragged into place.
+A project for a personal Windows 11 desktop companion using a supplied Stitch model. The planned first version is silent, stays on the visible desktop behind application windows, reacts to clicks, and can be dragged into place.
 
-**Status:** Phase 01 is active. This repository is a preparation and evidence workspace; it does not yet contain a working desktop companion or an approved new animation.
+**Status:** Phase 01 is complete. Phase 02 is next. This repository contains verified preparation and evidence; it does not yet contain a working desktop companion or an approved new animation.
 
-Public repository target: [erdemozzer00/stitch-desktop-companion](https://github.com/erdemozzer00/stitch-desktop-companion).
+Verified public repository: [erdemozzer00/stitch-desktop-companion](https://github.com/erdemozzer00/stitch-desktop-companion).
 
 ## Scope and progress
 
@@ -12,6 +12,7 @@ Public repository target: [erdemozzer00/stitch-desktop-companion](https://github
 - [Six-phase roadmap](context/ROADMAP.md)
 - [Current phase and handoff](context/ACTIVE.md)
 - [Third-party source notes](THIRD_PARTY.md)
+- [Phase 01 results and visual review](context/evidence/phase-01-review.md)
 
 Source models, textures, renders, and local working files are excluded from Git. The public repository tracks the implementation, preparation scripts, decisions, and appropriate evidence. The supplied assets are not redistributed here.
 

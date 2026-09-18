@@ -1,0 +1,85 @@
+{
+  "phase": "01",
+  "status": "PREPARED",
+  "blender_version": "5.2.2 LTS",
+  "local_input": ".local/input",
+  "source_blend_version": [
+    2,
+    78,
+    0
+  ],
+  "source_sha256": {
+    "stitch.zip": "a6611ed74fb85c07cf2f79c4f0a24699bde71bc0b79441bc4102229a26a847c6",
+    "stitch.glb": "22cbb36ea9023e109c534a7d1eab7b06cdb0e3da124d4888020ca639b8550942"
+  },
+  "vertices": 14886,
+  "bones": 127,
+  "unweighted_vertices": 0,
+  "mesh_geometry_sha256": "48248757f113922be5fcd2ad40f41ede3d5c9dfca0c133fa25cff3f477064787",
+  "rig_rest_sha256": "3150489acb2edeca015195c6c45f59fbb87e3e9fb2bab75a733e2227c421ce3b",
+  "shape_keys": [],
+  "constraints": {
+    "Eye.L": [
+      "TRACK_TO"
+    ],
+    "Eye.R": [
+      "TRACK_TO"
+    ],
+    "ForeLeg.L": [
+      "IK"
+    ],
+    "ForeLeg.R": [
+      "IK"
+    ]
+  },
+  "actions": [
+    {
+      "name": "Stitch_Anim",
+      "range": [
+        0.0,
+        40.0
+      ]
+    }
+  ],
+  "fps": 24,
+  "new_animation_created": false,
+  "used_images": [
+    {
+      "name": "Stitch_texture_v2.png",
+      "size": [
+        4096,
+        4096
+      ],
+      "packed": true
+    },
+    {
+      "name": "Stitch_texture_v3.png",
+      "size": [
+        4096,
+        4096
+      ],
+      "packed": true
+    }
+  ],
+  "outline": "Legacy Solidify preserved but disabled in viewport and render",
+  "camera": "Orthographic, slightly off center; candidate, not visual approval",
+  "render": {
+    "size": [
+      768,
+      768
+    ],
+    "samples": 32,
+    "engine": "CYCLES",
+    "alpha": true
+  },
+  "local_stage": ".local/phase-01/stitch-stage.blend",
+  "rendered_frames": [
+    1,
+    20,
+    40
+  ],
+  "limitations": [
+    "No new animation or timing evaluation",
+    "No desktop runtime or target-PC validation"
+  ]
+}

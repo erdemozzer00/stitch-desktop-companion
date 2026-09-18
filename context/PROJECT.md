@@ -23,7 +23,7 @@ The motion should fit Stitch's stylized design: readable weight, coordinated sho
 
 ## Initial inspection baseline
 
-These starting observations must be reconciled with Phase 01 evidence before that phase is completed:
+These observations were reconciled with the generated Phase 01 evidence:
 
 - Source Blender file version: 2.78.
 - Working Blender version: 5.2.2 LTS.
@@ -35,6 +35,6 @@ These facts do not establish deformation quality, a finished wave, or applicatio
 
 ## Boundaries
 
-Keep the original downloads unchanged. Keep model files, textures, renders, and local output outside Git while redistribution remains unverified. The public repository target is `erdemozzer00/stitch-desktop-companion`.
+Keep the original downloads unchanged. Keep model files, textures, renders, and local output outside Git while redistribution remains unverified. The verified public repository is `erdemozzer00/stitch-desktop-companion`.
 
 No roaming behavior, speech, sound, real-time AI, complex settings system, or new rig is part of the first version. Do not silently replace desktop integration with an overlay above applications or with hiding whenever any application is open.

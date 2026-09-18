@@ -1,10 +1,12 @@
 # Roadmap
 
-Exactly one phase is active. Complete its evidence handoff and stop before proceeding to the next phase.
+Work on one phase at a time. Complete its evidence handoff and stop before proceeding to the next phase. A completed handoff may have no active implementation phase.
 
 ## Phase 01 — Source verification and reproducible preparation
 
-**Status: ACTIVE**
+**Status: COMPLETE — 2026-09-18**
+
+Evidence: [review](evidence/phase-01-review.md), [source and stage report](evidence/phase-01.json), [reopen and render checks](evidence/phase-01-verification.json).
 
 Inventory and hash the supplied files; inspect the model, rig, action, texture paths, and local Blender version. Preserve originals and prepare a local working stage. Establish the public repository under the verified `erdemozzer00` account.
 
@@ -12,7 +14,7 @@ Inventory and hash the supplied files; inspect the model, rig, action, texture p
 
 ## Phase 02 — Motion and Windows feasibility spikes
 
-**Status: PLANNED**
+**Status: NEXT — not started**
 
 Produce a rough wave using the existing rig and a separate minimal Windows desktop prototype using a simple visual. Test visibility behind full and partial application windows, minimize/restore, Win+D, click handling, dragging, and access to underlying desktop icons.
 
@@ -23,6 +25,8 @@ Produce a rough wave using the existing rig and a separate minimal Windows deskt
 **Status: PLANNED**
 
 Set the camera, lighting, materials, and intended desktop size. Polish one sequence: idle, notice the user, wave, and return to idle. Review it both enlarged and at intended display size.
+
+Carry forward Phase 01's observed weak lower-body contrast on dark backgrounds. Resolve it through lighting/material and pose review without making the character look like a glowing sticker. The disabled legacy outline is not a settled final style.
 
 **Exit:** a viewable motion preview and recorded visual review covering foot contact, weight, deformation, self-intersection, timing, head/ear follow-through, loop continuity, and small-size readability. Resolve the user's visual feedback before building additional motions. Static renders do not prove motion quality.
 

@@ -1,29 +1,32 @@
-# Active phase
+# Current handoff
 
-**Phase:** 01 — Source verification and reproducible preparation
+**Last completed phase:** 01 - Source verification and reproducible preparation
 
-**Status:** ACTIVE
+**Status:** Complete; no implementation phase is currently active.
 
-**Next phase:** 02 — Motion and Windows feasibility spikes
+**Next phase:** 02 - Motion and Windows feasibility spikes. Not started.
 
-## Current work
+## Completed evidence
 
-1. Verify originals, hashes, provenance, and the installed Blender executable/version.
-2. Stage local copies and inspect the model, rig, action, materials, and texture dependencies.
-3. Run reproducible preparation and verification; visually inspect the baseline render.
-4. Verify the GitHub account and create/check the public repository at `erdemozzer00/stitch-desktop-companion`.
-5. Record the concrete outputs, checks, limitations, and next-step handoff.
+- Public repository owner: `erdemozzer00`; visibility: `public`.
+- Source hashes, inventory and stage settings: `evidence/phase-01.json`.
+- Reopen, packed-texture, geometry/rest-rig and RGBA checks: `evidence/phase-01-verification.json`.
+- Visual observations and limitations: `evidence/phase-01-review.md`.
+- Local outputs: `.local/phase-01/stitch-stage.blend`, `frame_01.png`, `frame_20.png`, `frame_40.png`, `inspection-board.png`.
+- Blender 5.2.2 LTS. No new animation, desktop host, installer or startup setting has been created.
 
-## Evidence required before completion
+## Next execution
 
-- Source integrity and inspection records, including exact hashes.
-- Preparation/verification commands and observed results.
-- A baseline render that has actually been inspected.
-- Confirmed GitHub owner, URL, and public visibility.
-- Clear separation between completed preparation and pending animation, Windows integration, packaging, and target-computer validation.
+1. Mark Phase 02 active when work resumes; preserve originals and the current stage.
+2. Test a small wave with the existing rig, checking shoulder/wrist deformation and readable motion.
+3. Independently test Windows desktop hosting with a placeholder: covered/uncovered desktop, Chrome, Win+D, click-through outside the shape, dragging and desktop icons.
+4. Select the host from observed results. Do not substitute a topmost overlay or focus-based hiding without explaining the behavior change.
+5. Record failures and tradeoffs, then stop at the Phase 02 handoff. Reserve polish for Phase 03.
 
-Phase 01 is not yet marked complete. Initial source observations are recorded in `PROJECT.md`; reconcile them with the generated evidence. Local source and rendered output stay outside Git.
+## Open items
 
-## Handoff boundary
-
-Finish Phase 01 and stop with an evidence handoff. The next phase contains a rough wave and a minimal Windows desktop prototype. Do not begin those later-phase changes while reporting only preparation progress.
+- Weak lower-body contrast on dark backgrounds at small size: observed, to address in Phase 03.
+- Legacy outline is disabled in the candidate stage; final appearance is not approved.
+- No visual evidence yet for wave deformation or natural animation timing.
+- Recipient display count, resolution and DPI are unknown; they do not block a local single-display spike.
+- Third-party character assets and personal messages remain local, excluded from public Git.

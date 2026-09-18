@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "stage_reopened": true,
+  "packed_textures_verified": true,
+  "geometry_and_rest_rig_preserved": true,
+  "existing_action_names_and_ranges_preserved": true,
+  "local_inputs_unchanged": true,
+  "renders": [
+    {
+      "frame": 1,
+      "sha256": "e5324e353cb820eb32274f4b59e1aa7ff747ccaf2d40fb7e57a622010e1a7ff5",
+      "alpha_border_clear": true
+    },
+    {
+      "frame": 20,
+      "sha256": "63a285dd716139b0572f8d55cbdfb669f8a40c63329e5a01e36c07b9e43a5af6",
+      "alpha_border_clear": true
+    },
+    {
+      "frame": 40,
+      "sha256": "235cae8421e4e78b77b8ed567bd1d4c85904d96807547abbd20b3b351c322dae",
+      "alpha_border_clear": true
+    }
+  ],
+  "limits": "Structural and rendered-frame checks; not animation quality, desktop or target-PC proof."
+}
