@@ -18,7 +18,7 @@ Inventory and hash the supplied files; inspect the model, rig, action, texture p
 
 Produce a rough wave using the existing rig and a minimal floating Windows pet prototype. Following the user's 2026-09-18 direction change, test transparent presentation, click versus drag, position, size, hide/restore/exit, and access outside the visible character. The prior behind-applications/desktop-layer requirement is withdrawn.
 
-Audit corrections and the bounded official Blender MCP trial are complete. Discuss and select the smallest suitable floating host; Rainmeter On Desktop is no longer the required candidate. The user approved local Windows 10 testing first; Windows 11 recipient acceptance remains deferred and unproven. Record local test gaps explicitly. See [Phase 02 execution notes](evidence/phase-02-review.md).
+Audit corrections and the bounded official Blender MCP trial are complete. The user authorized the simplified floating host; the current candidate is native C# WinForms with per-pixel alpha. Rainmeter On Desktop is superseded. Local Windows 10 testing is authorized; Windows 11 recipient acceptance remains deferred and unproven. Record local test gaps explicitly. See [Phase 02 execution notes](evidence/phase-02-review.md).
 
 **Exit:** inspectable rough motion, observed floating-pet interaction, a selected implementation approach, and documented failures or tradeoffs. A transparent preview alone does not prove click/drag behavior. Rough motion is not final animation quality.
 

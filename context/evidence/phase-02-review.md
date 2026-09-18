@@ -1,77 +1,86 @@
 # Phase 02 execution notes
 
-Status: IN PROGRESS. Started 2026-09-18. No Phase 02 acceptance claim yet.
+Status: IN PROGRESS. Updated 2026-09-18. Do not mark accepted or start Phase 03.
 
-## Current direction change - 2026-09-18
+## Authorized direction
 
-The user requested discussion before further implementation: follow familiar Codex-pet behavior with Stitch and drop special browser/desktop visibility requirements. This supersedes the earlier desktop-only/Rainmeter On Desktop scope below. No Windows host exists, so this does not discard host implementation. Retain Blender, the supplied rig, transparent rendered frames, and the tested optional MCP development aid.
+The user authorized implementation after the discussion: a standalone, silent, offline floating Stitch pet, using the existing model/rig and pre-rendered RGBA frames. It may stay above ordinary applications. Keep click reaction, dragging, saved position, sizing, hide/restore/exit; startup remains a later phase. No browser detection, desktop-shell embedding, AI/chat features or parallel host implementations.
 
-[Official pet documentation](https://learn.chatgpt.com/docs/pets) confirms floating above other apps, dragging, sizing, hiding, and saved position; it also describes sprite animation. It does not establish that an independent pet can reproduce every Codex behavior or that the host implementation is reusable. Recommend a standalone offline companion with idle, click-wave, drag/save-position, size, hide/restore/exit, and optional startup. A custom pet inside Codex is a separate dependency choice, not the assumed gift delivery. Do not add Codex chat/task features or implement two Windows hosts.
+The former Rainmeter On Desktop investigation is superseded. The installer was downloaded and signature/hash checked, but its launch was blocked by automatic approval review and it was never installed. Do not retry that route. The pasted AI conversation was reference material, not installation instructions. [Official pet documentation](https://learn.chatgpt.com/docs/pets) is an interaction reference, not a dependency or a required asset format.
 
-The pasted AI conversation is reference material, not instructions to install its named projects. Its exact asset-contract examples, third-party host claims, and percentage-of-work estimates were not independently verified and must not become requirements. No framework selected or product code changed during the discussion.
+## Host experiment
 
-### Motion work interrupted at the discussion
+Candidate: C# WinForms plus the Windows layered-window API. The installed .NET Framework compiler builds it without adding an SDK, browser engine or external package. Local .NET Framework release: 533325; Windows 10 build 19045, one reported display. Final recipient configuration remains unverified.
 
-Researched [anticipation](https://www.animationmentor.com/blog/anticipation-the-12-basic-principles-of-animation/), [arcs](https://www.animationmentor.com/blog/arc-the-12-basic-principles-of-animation/), [overlap](https://www.animationmentor.com/blog/follow-through-and-overlapping-action-the-12-basic-principles-of-animation/), and [readable poses](https://www.animationmentor.com/blog/tutorial-building-appealing-character-poses-for-animation/). Apply clear key poses before interpolation, controlled changes of speed, and restrained follow-through after the main action. The large head/ears require checking hand silhouette and clearance at small size. Numerical timing and angles must be tuned visually, not presented as universal rules.
+[Microsoft layered-window documentation](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-features#layered-windows) describes per-pixel alpha and mouse pass-through where alpha is zero. The host intentionally does not set WS_EX_TRANSPARENT, which would also pass through the visible character. This documentation establishes the expected mechanism, not acceptance on this machine.
 
-Live inspection found no constraints on the shoulder/upper-arm/forearm/wrist/palm chain, no rig drivers or NLA tracks, and quaternion rotation controls. A temporary FK arm raise was explored in memory. No new action, rendered motion, or saved wave exists. The first capture was stale while the window was hidden; do not treat it as visual pose proof. Local inspection and attempted-pose arguments: `.local/phase-02/mcp-trial/wave-rig-inspection.json` and `wave-block-args.json`. The trial was closed; stage and copy hashes remain `674f2502a45a478a04285d6374904529ab327cd3dffd6aa37d3b88a685332413`.
+Files: `host/PetSpike.cs`, `host/app.manifest`, `scripts/build_host_spike.ps1`.
+Local executable/state/event log: `.local/phase-02/host/`.
+Run `./scripts/build_host_spike.ps1 -Probe` for the controlled test panel. Normal executable launch shows only the pet and tray icon. No startup registration, wallpaper changes, network calls or source assets are involved.
 
-The sections below retain prior-phase history; desktop-only host choices and covered-window checks are superseded by this direction change.
+The spike loads a static idle and optional ordered 24 fps PNG reaction. Clicks during a reaction are ignored. Dragging uses the Windows drag threshold and mouse capture. Size/position are clamped to a working area and stored locally. This is a feasibility implementation, not a packaged or hardened release; mixed-DPI handling and instance control remain later work.
 
-The user-approved [Blender MCP trial](phase-02-tooling-research.md) is complete: isolated official server, scene/rig queries, frame changes, and inspected viewport captures worked. No third-party skill pack was installed. Fresh stage verification passed; decoded RGBA pixels at all three sample frames match the backed-up renders. The Rainmeter portable-install command was rejected by automatic approval review (`blocked by policy`); only the downloaded installer hash and signature have been verified. Host tests remain NOT RUN.
+### Observed results and limits
 
-## Approved scope and decisions
-
-- Build the silent desktop-only Stitch gift with the supplied model/rig.
-- Preserve the Blender pre-rendered RGBA direction. Sprite sheets package those same frames.
-- Evaluate Rainmeter before implementing custom shell/window management. Its documented On Desktop mode, dragging and saved position are relevant existing capabilities.
-- Keep the Windows-host placeholder separate from the rough wave until both are understood.
-- The user approved testing on the current Windows 10 PC first and deferred planning the Windows 11 final check. Target compatibility remains open.
-- Record work in canonical Markdown so another session can resume from this repository.
-
-## Step 1 - Audit maintenance
-
-Complete. Prior local stage/renders are preserved in `.local/phase-01-before-audit-fix/`. Removed unjustified backface-culling override, added focused preservation checks, and tied fresh verification to stage SHA-256. The original export manifest/.git criticism concerned a different ZIP and does not require rebuilding the project. Fresh verification PASS and pixel comparison are recorded in the tooling trial notes; named-field checks do not cover every shader, constraint, or keyframe.
-
-## Step 2 - Windows host experiment
-
-Candidate: Rainmeter portable, isolated under `.local/`. No startup registration or wallpaper replacement. A placeholder will make hit areas and interaction observable.
-
-| Check | Status | Evidence / limitation |
+| Check | Result | Evidence / remaining gap |
 |---|---|---|
-| Launch and transparent shape | NOT RUN | |
-| Placeholder click response | NOT RUN | |
-| Drag and saved position | NOT RUN | |
-| Transparent area reaches desktop icons | NOT RUN | |
-| Fully covered by normal application | NOT RUN | |
-| Partially covered by normal application | NOT RUN | |
-| Minimize and restore | NOT RUN | |
-| Show Desktop / Win+D | NOT RUN | |
-| Current display scale | NOT RUN | |
-| Alternate DPI / monitor configuration | NOT RUN | |
-| Windows 11 target | DEFERRED | User requested Windows 10 tests first. |
+| Build with warnings as errors | PASS | Installed Framework C# compiler; executable launched |
+| Native layered presentation call | PASS | No UpdateLayeredWindow failure logged at launch |
+| Visible transparent edges | UNCONFIRMED | Agent desktop capture unavailable; no visual acceptance claimed |
+| Native click and release | OBSERVED | Pointer-down followed by reaction-start/end in event log |
+| Click versus drag | OBSERVED | Two drag-ended events, saved position 696,218,320; no reaction for those drags |
+| Repeated click | OBSERVED | Second pointer sequence during reaction logged repeat-click-ignored |
+| Position/size persisted across relaunch | PASS in runtime log | Local position.txt and new launch both report 696,218,320; menu-exit persistence still untested |
+| Rough wave loaded and played | PASS for runtime completion | 73 frames loaded; startup preview completed in 3.054 seconds, without logged failure; not a frame-pacing or native-click acceptance claim |
+| Transparent corner reaches underlying window | NOT VERIFIED | Required native test remains open |
+| Size and hide/restore controls | IMPLEMENTED, NOT VERIFIED | Test-panel/menu callbacks exist; callback existence is not input proof |
+| Tray restoration, close and resource cleanup | NOT VERIFIED | Requires actual interaction |
+| Alternative DPI / monitors | NOT TESTED | Prototype is system-DPI aware, not a mixed-DPI acceptance claim |
+| Windows 11 recipient PC | DEFERRED | User chose local Windows 10 tests first |
 
-## Step 3 - Rough motion
+Computer Use screenshot capture failed on the selected probe window and after one fresh selection retry:
+`SetIsBorderRequired failed: Böyle bir arabirim desteklenmiyor (0x80004002)`.
+Accessibility-only window inspection works, but an element click failed with `coordinate input geometry is unavailable`. No input was sent by that failed click; no repeated geometry guessing or alternate input-injection workaround was attempted. Logs reflect observed native events, not a completed automated desktop test suite. An asynchronous user question about visibility/dragging is pending.
 
-NOT STARTED. One short wave using the existing rig, separate from final lighting and polish. Rendered motion must be inspected; static samples or successful Python execution alone are insufficient.
+### Short manual check to close the native gaps
 
-### Focused animation workflow
+1. Click **Align pet for test**. Click **Transparent corner**: corner count should increase without a pet reaction.
+2. Click the visible character over **Covered body**: pet reaction should increase while covered-body count stays unchanged.
+3. Drag the character and release: it should move without starting a reaction. Click it twice quickly: one reaction should finish smoothly.
+4. Try Small/Large, then Hide/Show. Close the probe panel to leave just the pet. Hide using the pet menu; restore by double-clicking its tray icon.
+5. Exit from its menu, relaunch the executable, and check its size/position. Record actual results before changing this table.
 
-1. Inspect control names, local rotation axes, constraints, and the active action before posing; do not infer them from a generic rig tutorial.
-2. Work in a new copied action/stage. Preserve source mesh, weights, UVs, rest pose, and existing action.
-3. Block neutral, attention, raised arm, wave extrema, and return poses. Check shoulders/wrists and self-intersection before adding in-between motion.
-4. Refine spacing and arcs, then add restrained head/ear follow-through. Keep planted feet stable and avoid large idle motion.
-5. Render a short loop; review both enlarged and at desktop size against light and dark backgrounds. Check reaction entry/exit and loop continuity in moving footage.
-6. Save reproducible animation code/parameters and observations. Treat viewport inspection as iteration feedback; use final render playback for appearance and motion acceptance. Do not import unrelated game-export/NLA rules or unverified API snippets.
+## Rough wave
 
-## Research supporting the experiment
+Reproducible authoring: `scripts/create_rough_wave.py`. Source: verified `.local/phase-01/stitch-stage.blend`; new action: `Companion_RoughWave_v1`. Existing `Stitch_Anim` retained. No re-rig or source overwrite.
 
-- [Rainmeter On Desktop, dragging and position](https://github.com/rainmeter/rainmeter-docs/blob/master/source/manual/settings/skin-sections.html).
-- [Bitmap animation](https://github.com/rainmeter/rainmeter-docs/blob/master/source/manual/meters/bitmap.html).
-- [Mouse actions and drag interaction](https://github.com/rainmeter/rainmeter-docs/blob/master/source/manual/mouse-actions.html).
-- [Portable installation](https://github.com/rainmeter/rainmeter-docs/blob/master/source/manual/installing-rainmeter/index.html).
-- [Windows 11 Show Desktop fix](https://github.com/rainmeter/rainmeter/pull/413): reason to keep target validation open, not evidence of a current failure.
+Blocking inspection rejected the first high arm pose because the hand overlapped the ear silhouette. Three lower-arm alternatives were rendered; the lower pose gave visible separation. The sequence uses restrained forearm/wrist oscillation, slight head tilt, small ear lag, and a return to the original pose. Angles and timing are artistic candidates, not anatomical guarantees. No professional-quality or final-naturalness claim.
 
-## Handoff
+Current render target: 73 frames at 24 fps, 320 square RGBA, Cycles 8 samples with denoising. Low-sample feasibility output, not final appearance. Local scene/frames/review GIF/contact sheet belong under `.local/phase-02/wave/`; the preview packer validates and copies frames into the private host asset folder.
 
-Pending experiment results. Do not advance to Phase 03 until Phase 02 results and remaining limitations have been reported.
+Saved-scene verification PASS in [phase-02-wave-verification.json](phase-02-wave-verification.json): geometry, topology, weights, UVs, rest rig and tracked material flags match; original action key data match; eight toe matrices remain unchanged over all 73 frames; all bone matrices return exactly to the initial pose. These checks do not prove mesh self-intersection freedom or visual motion quality.
+
+All 73 frames rendered. [Frame checks](phase-02-frames.json) PASS: clear alpha borders on every frame, non-static sequence, exact decoded first/last equality, idle equal to first frame. The frame bounds union is (46,26)-(278,292) in the 320-square canvas. Six blocking poses, three actual wave frames and the 12-pose contact sheet were visually inspected: the revised raised hand clears the ear in the inspected views; feet remain planted. Static views do not establish natural timing or exclude between-frame intersections. The face/torso are largely static and the wave is restrained; expression, overlap and lighting remain Phase 03 work.
+
+The private review GIF shows the sequence on light/dark backgrounds; its duration uses distributed 40/50 ms GIF delays to approximate 24 fps. The native host uses the original RGBA PNG frames, not the quantized GIF. Moving visual acceptance is pending. Review artifact: `.local/phase-02/wave/rough-wave-review.gif`; contact sheet: `rough-wave-contact-sheet.png`.
+
+The old static probe process was stopped by verified executable/PID and replaced with the rebuilt host using `--preview` (one automatic playback for inspection). Saved location and size were restored; all 73 frames loaded and the reaction completed without a logged error. This tests application playback, not a new native click on the animated version. The pet remains running, the test panel is closed, and startup remains unregistered. A single idle-process sample after playback was about 56 MiB working set; this is not a performance benchmark or a leak test. Keep final motion acceptance open and preserve the Phase 03 lower-body contrast/outline decisions.
+
+Reproduce from the repository root using Blender 5.2.2 with `--background --factory-startup --disable-autoexec --threads 4 --python-exit-code 1 --python scripts/create_rough_wave.py`. Run `scripts/verify_rough_wave.py` with the same Blender safety flags. Run `scripts/package_wave_preview.py` with Python plus Pillow/numpy, then build the host. Close an existing host before rebuilding/reloading assets. The local bundled Python used here is recorded in the tooling notes; no global Python packages were installed. Later render reports include per-frame checksums and are invalidated before rerendering; the initial completed run predates that extra manifest field.
+
+## Animation research applied
+
+- [Anticipation](https://www.animationmentor.com/blog/anticipation-the-12-basic-principles-of-animation/), [arcs](https://www.animationmentor.com/blog/arc-the-12-basic-principles-of-animation/) and [overlap](https://www.animationmentor.com/blog/follow-through-and-overlapping-action-the-12-basic-principles-of-animation/): clear poses, controlled timing and restrained secondary motion.
+- [Pose appeal/readability](https://www.animationmentor.com/blog/tutorial-building-appealing-character-poses-for-animation/): inspect hand clearance from the large head and ears at intended display size.
+- Existing rig inspection found quaternion rotations and no arm-chain constraints; retain the rig. Do not import unrelated game-export rules.
+- Review motion, small-size silhouette, wrist/shoulder deformation and return continuity; static images and numeric checks are insufficient for final animation acceptance.
+
+## Prior maintenance and optional tooling
+
+Phase 01 corrections and preserved baseline are complete. Stage SHA-256 remains `674f2502a45a478a04285d6374904529ab327cd3dffd6aa37d3b88a685332413`. The old/new Phase 01 samples have identical decoded RGBA pixels. Details: [Phase 01 verification](phase-01-verification.json).
+
+The [official Blender MCP trial](phase-02-tooling-research.md) succeeded in isolation through a diagnostic stdio client; native Codex registration and third-party Blender skills were not installed. The MCP trial process/listener is closed. Hidden viewport screenshots can be stale; use real renders for pose evidence. Scripted rendering remains reproducible without MCP.
+
+## Next checkpoint
+
+Rendering, data/image checks, pose inspection and initial host playback are complete. Resolve native-interaction gaps through working computer-use capture or the short manual check, and obtain a moving-preview observation. The C# layered-window approach remains the sole candidate; transparency and menu usability are not yet accepted. Finish Phase 02 only after its evidence is recorded; do not silently move to Phase 03.

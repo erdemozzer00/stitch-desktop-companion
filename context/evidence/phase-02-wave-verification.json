@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "stage_sha256": "674f2502a45a478a04285d6374904529ab327cd3dffd6aa37d3b88a685332413",
+  "wave_sha256": "4a7622ef28c19955126dd3c2b82a46ee7c23f12a40fc8cecb607c1e948d96010",
+  "preservation_digests_match": true,
+  "original_action_key_data_match": true,
+  "toe_transforms_checked": 8,
+  "max_toe_matrix_delta": 0.0,
+  "end_pose_max_matrix_delta": 0.0,
+  "limits": [
+    "Not mesh self-intersection or motion-quality proof",
+    "Named data checks, not every Blender setting"
+  ]
+}

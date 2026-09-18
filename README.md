@@ -1,8 +1,8 @@
 # Stitch Desktop Companion
 
-A project for a personal Windows 11 desktop companion using a supplied Stitch model. The planned first version is silent, stays on the visible desktop behind application windows, reacts to clicks, and can be dragged into place.
+A project for a personal Windows 11 desktop companion using a supplied Stitch model. The first version is a silent floating character above normal windows, reacts to clicks, and can be dragged into place. The former desktop-only requirement was withdrawn on 2026-09-18.
 
-**Status:** Phase 01 is complete. Phase 02 is next. This repository contains verified preparation and evidence; it does not yet contain a working desktop companion or an approved new animation.
+**Status:** Phase 01 is complete. Phase 02 is active: a native transparent-window prototype loads a new rough-wave sequence. Data/image checks pass; native interaction and moving visual acceptance remain incomplete. This is not a finished companion or an approved animation.
 
 Verified public repository: [erdemozzer00/stitch-desktop-companion](https://github.com/erdemozzer00/stitch-desktop-companion).
 
@@ -31,3 +31,11 @@ if ($LASTEXITCODE -ne 0) { throw 'Stage verification failed.' }
 Preparation output belongs under `.local/phase-01/`. Verification reopens the saved Blender file and checks the staged data and rendered frames. Review the generated evidence under `context/evidence/`. A successful preparation or verification process alone does not prove animation quality or desktop integration.
 
 The recipient's eventual packaged application is intended to run without Blender installed. Packaging and verification on her computer are later roadmap phases.
+
+## Local Windows prototype
+
+`./scripts/build_host_spike.ps1 -Probe` compiles the Phase 02 prototype using the installed .NET Framework compiler and opens an interactive test panel. Omit `-Probe` to build only. The executable and private rendered assets stay under `.local/phase-02/host/`. This is a Windows-only experiment, not an installer. It does not register startup or change the wallpaper. Right-click the character or its tray icon for size, hide, restore and exit; double-click the tray icon to restore.
+
+The local executable accepts `--preview` for a single automatic reaction on launch. Close an existing instance before launching/rebuilding: duplicate-instance prevention is not implemented in this spike. Ordinary idle is still a static pose; an animated idle and final motion polish are later work.
+
+See [Phase 02 evidence](context/evidence/phase-02-review.md) for the distinction between native input observations, callback tests, animation review and deferred recipient acceptance.

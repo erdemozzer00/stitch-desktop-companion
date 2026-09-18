@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "frames": 73,
+  "fps": 24,
+  "rgba_size": [
+    320,
+    320
+  ],
+  "all_alpha_borders_clear": true,
+  "non_static_sequence": true,
+  "first_last_max_channel_difference": 0,
+  "first_last_mean_channel_difference": 0.0,
+  "idle_matches_first_frame": true,
+  "sequence_sha256": "049ec62cacfa467ad24e9a49b86dddc0b0043974a50f5a94f10f7412fa54b50a",
+  "bounds_union": [
+    46,
+    26,
+    278,
+    292
+  ],
+  "limits": "Image/data checks only. Not motion-quality, native interaction or recipient acceptance."
+}
