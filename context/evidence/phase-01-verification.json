@@ -2,25 +2,32 @@
   "status": "PASS",
   "stage_reopened": true,
   "packed_textures_verified": true,
-  "geometry_and_rest_rig_preserved": true,
+  "stage_sha256": "674f2502a45a478a04285d6374904529ab327cd3dffd6aa37d3b88a685332413",
+  "stage_matches_preparation": true,
+  "mesh_vertex_positions_preserved": true,
+  "mesh_topology_preserved": true,
+  "vertex_group_definitions_and_weights_preserved": true,
+  "mesh_uv_data_preserved": true,
+  "bone_names_parents_and_rest_matrices_preserved": true,
+  "material_backface_culling_preserved": true,
   "existing_action_names_and_ranges_preserved": true,
   "local_inputs_unchanged": true,
   "renders": [
     {
       "frame": 1,
-      "sha256": "e5324e353cb820eb32274f4b59e1aa7ff747ccaf2d40fb7e57a622010e1a7ff5",
+      "sha256": "d1ed7de7df8909da1cb7d1e8d52cba9c9e8b3c31fa5a8cf9351035ef3afab560",
       "alpha_border_clear": true
     },
     {
       "frame": 20,
-      "sha256": "63a285dd716139b0572f8d55cbdfb669f8a40c63329e5a01e36c07b9e43a5af6",
+      "sha256": "9bb1dfc0d01cd6663320c6ebc8fe340653c1973c2c48c06f5c09bb11d54afd49",
       "alpha_border_clear": true
     },
     {
       "frame": 40,
-      "sha256": "235cae8421e4e78b77b8ed567bd1d4c85904d96807547abbd20b3b351c322dae",
+      "sha256": "7133d05d71ed6b75b356a10fe83b0c13099142c14a6ba682fc9c7119fd672ed6",
       "alpha_border_clear": true
     }
   ],
-  "limits": "Structural and rendered-frame checks; not animation quality, desktop or target-PC proof."
+  "limits": "Checks cover the named fields, not every constraint, shader or action keyframe property. Rendered frames do not prove animation quality, desktop behavior or target-PC compatibility."
 }

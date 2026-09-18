@@ -14,9 +14,11 @@ Inventory and hash the supplied files; inspect the model, rig, action, texture p
 
 ## Phase 02 — Motion and Windows feasibility spikes
 
-**Status: NEXT — not started**
+**Status: ACTIVE — 2026-09-18**
 
 Produce a rough wave using the existing rig and a separate minimal Windows desktop prototype using a simple visual. Test visibility behind full and partial application windows, minimize/restore, Win+D, click handling, dragging, and access to underlying desktop icons.
+
+Start with the small Phase 01 audit corrections, then evaluate a portable Rainmeter host before writing custom Windows window management. The user approved local Windows 10 testing first; Windows 11 recipient acceptance remains deferred and unproven. Record local test gaps explicitly. See [Phase 02 execution notes](evidence/phase-02-review.md).
 
 **Exit:** inspectable rough motion, observed desktop behavior, a selected implementation approach, and documented failures or tradeoffs. Turning off always-on-top is not sufficient proof of desktop integration. Rough motion is not final animation quality.
 

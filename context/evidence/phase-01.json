@@ -17,6 +17,11 @@
   "unweighted_vertices": 0,
   "mesh_geometry_sha256": "48248757f113922be5fcd2ad40f41ede3d5c9dfca0c133fa25cff3f477064787",
   "rig_rest_sha256": "3150489acb2edeca015195c6c45f59fbb87e3e9fb2bab75a733e2227c421ce3b",
+  "mesh_topology_sha256": "7422d5ab2bde94293228b7a20a0ffec0592f3f5816d7b7dfee3a9ff54c23de34",
+  "vertex_group_definitions_sha256": "af585a61888d140192aaefc4229b02aeb809cbd549f4679197ecaa3d3eb123bd",
+  "vertex_group_weights_sha256": "2419944dfe4377dc9aa27b48c55302a73e1e4ec89de81d9fd443f709450952d0",
+  "mesh_uv_sha256": "08d50a6dca81537f91beaa3678b84e08995c94c3366ee5e37895998e3a67f3df",
+  "material_backface_culling_sha256": "9b09ed9fb5b09b3a07887a3fcaba56faf90c7ac2390b3d29b1fd4ee82fb755a0",
   "shape_keys": [],
   "constraints": {
     "Eye.L": [
@@ -73,6 +78,7 @@
     "alpha": true
   },
   "local_stage": ".local/phase-01/stitch-stage.blend",
+  "stage_sha256": "674f2502a45a478a04285d6374904529ab327cd3dffd6aa37d3b88a685332413",
   "rendered_frames": [
     1,
     20,
@@ -80,6 +86,7 @@
   ],
   "limitations": [
     "No new animation or timing evaluation",
-    "No desktop runtime or target-PC validation"
+    "No desktop runtime or target-PC validation",
+    "Preservation digests do not cover every constraint, shader or action keyframe property"
   ]
 }

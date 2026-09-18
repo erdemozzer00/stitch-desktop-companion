@@ -1,6 +1,6 @@
 # Working instructions
 
-Read `context/PROJECT.md`, `context/ROADMAP.md`, and `context/ACTIVE.md` before implementation. Keep one active phase.
+Read `context/PROJECT.md`, `context/ROADMAP.md`, and `context/ACTIVE.md` before implementation. Keep at most one active phase; a completed handoff may have none.
 
 - Speak Turkish with the user. Write code, comments, and project records in English.
 - Improve decision quality rather than defaulting to agreement. Raise material assumptions, risks, and better alternatives directly; explain the reason, evidence, and proposed alternative. Do not manufacture objections.

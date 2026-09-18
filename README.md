@@ -18,7 +18,7 @@ Source models, textures, renders, and local working files are excluded from Git.
 
 ## Local preparation
 
-Run from the repository root in PowerShell. Use the full path to the installed Blender executable and place copies of `stitch.zip` and `stitch.glb` under `.local/input/` as described in the source notes. Do not modify the original downloads.
+Run from the repository root in PowerShell. The preparation and verification commands below are tested with **Blender 5.2.2 LTS**. Use the full path to that installed Blender executable and place copies of `stitch.zip` and `stitch.glb` under `.local/input/` as described in the source notes. Do not modify the original downloads. Other Blender versions need a fresh verification run.
 
 ```powershell
 $blender = 'C:\path\to\blender.exe'

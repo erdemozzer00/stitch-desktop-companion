@@ -19,6 +19,8 @@ The recipient uses a static downloaded wallpaper. Her display count, resolution,
 
 Prepare the model and animation in Blender, then evaluate pre-rendered transparent animation for the small desktop companion. Choose the application technology after the Windows desktop spike. Do not commit to a framework before the required window behavior has been demonstrated.
 
+The approved first host candidate is Rainmeter's On Desktop mode, tested in an isolated portable installation. Reuse it if it satisfies the interaction and visibility checks; a custom native host is a fallback after a demonstrated limitation. This is not a final host selection yet. The development PC is Windows 10 Pro (build 19045); the user requested local tests now and a later decision about Windows 11 final acceptance. Keep that target validation open.
+
 The motion should fit Stitch's stylized design: readable weight, coordinated shoulder and wrist movement, restrained head and ear follow-through, and smooth transitions. Preserve the character's appearance. Re-rig only if a demonstrated defect requires it.
 
 ## Initial inspection baseline

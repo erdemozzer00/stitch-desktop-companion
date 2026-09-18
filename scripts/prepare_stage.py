@@ -21,6 +21,7 @@ MEMBERS = (
     "textures/Stitch_texture_v2.png",
     "textures/Stitch_texture_v3.png",
 )
+RENDER_FRAMES = (1, 20, 40)
 
 
 def sha256(path):
@@ -45,6 +46,46 @@ def rig_digest(armature):
     data = [(b.name, b.parent.name if b.parent else None,
              [list(row) for row in b.matrix_local]) for b in armature.bones]
     return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
+
+
+def data_digest(data):
+    return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
+
+
+def preservation_digests(mesh, rig):
+    """Describe only the source data that this preparation promises to preserve."""
+    return {
+        "mesh_geometry_sha256": geometry_digest(mesh.data),
+        "rig_rest_sha256": rig_digest(rig.data),
+        "mesh_topology_sha256": data_digest({
+            "edges": [list(edge.vertices) for edge in mesh.data.edges],
+            "loops": [(loop.vertex_index, loop.edge_index) for loop in mesh.data.loops],
+            "polygons": [(polygon.loop_start, polygon.loop_total)
+                         for polygon in mesh.data.polygons],
+        }),
+        "vertex_group_definitions_sha256": data_digest([
+            (group.index, group.name, group.lock_weight) for group in mesh.vertex_groups
+        ]),
+        "vertex_group_weights_sha256": data_digest([
+            sorted((group.group, group.weight) for group in vertex.groups)
+            for vertex in mesh.data.vertices
+        ]),
+        "mesh_uv_sha256": data_digest({
+            "active_index": mesh.data.uv_layers.active_index,
+            "layers": [(layer.name, layer.active_render, [list(loop.uv) for loop in layer.data])
+                       for layer in mesh.data.uv_layers],
+        }),
+        "material_backface_culling_sha256": data_digest([
+            (material.name, material.use_backface_culling)
+            for material in sorted(bpy.data.materials, key=lambda item: item.name)
+        ]),
+    }
+
+
+def require_preservation(actual, expected):
+    changed = [name for name, digest in actual.items() if expected.get(name) != digest]
+    if changed:
+        raise AssertionError("Source preservation check failed: " + ", ".join(changed))
 
 
 def used_images():
@@ -78,7 +119,7 @@ def main():
     original_version = list(bpy.data.version)
     mesh = bpy.data.objects["Stitch_Mesh"]
     rig = bpy.data.objects["Stitch_Armature"]
-    mesh_hash, rig_hash = geometry_digest(mesh.data), rig_digest(rig.data)
+    source_digests = preservation_digests(mesh, rig)
     deform_names = {b.name for b in rig.data.bones if b.use_deform}
     deform_groups = {g.index for g in mesh.vertex_groups if g.name in deform_names}
     unweighted = sum(sum(g.weight for g in v.groups if g.group in deform_groups) <= 1e-6
@@ -94,7 +135,6 @@ def main():
                 image.filepath = str(texture)
                 image.reload()
     for material in bpy.data.materials:
-        material.use_backface_culling = True
         if material.node_tree:
             for node in material.node_tree.nodes:
                 if node.type == "TEX_IMAGE" and node.image:
@@ -165,16 +205,16 @@ def main():
     scene.frame_set(20)
     scene.render.filepath = "//frame_20.png"
     stage = output / "stitch-stage.blend"
+    require_preservation(preservation_digests(mesh, rig), source_digests)
     bpy.ops.wm.save_as_mainfile(filepath=str(stage), compress=True)
-    if geometry_digest(mesh.data) != mesh_hash or rig_digest(rig.data) != rig_hash:
-        raise AssertionError("Source geometry or rest rig changed during staging")
+    stage_hash = sha256(stage)
     report = {
         "phase": "01", "status": "PREPARED", "blender_version": bpy.app.version_string,
         "local_input": inputs.relative_to(ROOT).as_posix(),
         "source_blend_version": original_version, "source_sha256": hashes,
         "vertices": len(mesh.data.vertices), "bones": len(rig.data.bones),
         "unweighted_vertices": unweighted,
-        "mesh_geometry_sha256": mesh_hash, "rig_rest_sha256": rig_hash,
+        **source_digests,
         "shape_keys": [k.name for k in mesh.data.shape_keys.key_blocks] if mesh.data.shape_keys else [],
         "constraints": {b.name: [c.type for c in b.constraints] for b in rig.pose.bones if b.constraints},
         "actions": [{"name": a.name, "range": list(a.frame_range)} for a in bpy.data.actions],
@@ -185,14 +225,21 @@ def main():
         "camera": "Orthographic, slightly off center; candidate, not visual approval",
         "render": {"size": [768, 768], "samples": 32, "engine": "CYCLES", "alpha": True},
         "local_stage": stage.relative_to(ROOT).as_posix(),
+        "stage_sha256": stage_hash,
         "rendered_frames": [],
-        "limitations": ["No new animation or timing evaluation", "No desktop runtime or target-PC validation"],
+        "limitations": ["No new animation or timing evaluation", "No desktop runtime or target-PC validation",
+                        "Preservation digests do not cover every constraint, shader or action keyframe property"],
     }
-    for frame in (1, 20, 40):
+    for frame in RENDER_FRAMES:
         scene.frame_set(frame)
-        scene.render.filepath = str(output / f"frame_{frame:02}.png")
+        frame_path = output / f"frame_{frame:02}.png"
+        scene.render.filepath = str(frame_path)
         bpy.ops.render.render(write_still=True)
+        if not frame_path.is_file() or frame_path.stat().st_size == 0:
+            raise RuntimeError(f"Expected rendered frame is missing or empty: {frame_path.name}")
         report["rendered_frames"].append(frame)
+    if sha256(stage) != stage_hash:
+        raise AssertionError("Saved stage changed after preparation")
     if {name: sha256(inputs / name) for name in EXPECTED} != hashes:
         raise AssertionError("Input assets changed")
     evidence.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
