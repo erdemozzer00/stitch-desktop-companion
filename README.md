@@ -39,3 +39,5 @@ The recipient's eventual packaged application is intended to run without Blender
 The local executable accepts `--preview` for a single automatic reaction on launch. Close an existing instance before launching/rebuilding: duplicate-instance prevention is not implemented in this spike. Ordinary idle is still a static pose; an animated idle and final motion polish are later work.
 
 See [Phase 02 evidence](context/evidence/phase-02-review.md) for the distinction between native input observations, callback tests, animation review and deferred recipient acceptance.
+
+Run `./scripts/check_host_spike.ps1` for the bounded host component checks. These use the real rendering/settings/hidden-state code without visible windows or input injection; they do not prove native click-through, menu/tray usability or animation quality. The manual checklist and current local runtime state are recorded in the Phase 02 evidence and handoff.

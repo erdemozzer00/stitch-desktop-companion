@@ -51,13 +51,13 @@ internal sealed class PetWindow : Form
     private readonly Stopwatch clock = new Stopwatch();
     private readonly NotifyIcon tray;
     private readonly ContextMenuStrip menu;
-    private bool pressed, dragging, reacting;
+    private bool pressed, dragging, reacting, resourcesDisposed;
     private Point pointerStart, windowStart;
     private int side = 320, frame = -1;
     public int Reactions { get; private set; }
     public event Action Changed;
 
-    public PetWindow(string assets, string output)
+    public PetWindow(string assets, string output, bool createTray = true)
     {
         statePath = Path.Combine(output, "position.txt");
         logPath = Path.Combine(output, "events.log");
@@ -78,14 +78,17 @@ internal sealed class PetWindow : Form
         LoadPosition();
         menu = new ContextMenuStrip();
         menu.Items.Add("El salla", null, delegate { React(); });
-        menu.Items.Add("Kucuk", null, delegate { SetSize(240); });
+        menu.Items.Add("Küçük", null, delegate { SetSize(240); });
         menu.Items.Add("Orta", null, delegate { SetSize(320); });
-        menu.Items.Add("Buyuk", null, delegate { SetSize(400); });
+        menu.Items.Add("Büyük", null, delegate { SetSize(400); });
         menu.Items.Add("Gizle", null, delegate { HidePet(); });
-        menu.Items.Add("Goster", null, delegate { ShowPet(); });
-        menu.Items.Add("Cikis", null, delegate { Close(); });
-        tray = new NotifyIcon { Icon = SystemIcons.Information, Text = "Stitch - sag tik: secenekler", ContextMenuStrip = menu, Visible = true };
-        tray.DoubleClick += delegate { ShowPet(); };
+        menu.Items.Add("Göster", null, delegate { ShowPet(); });
+        menu.Items.Add("Çıkış", null, delegate { Close(); });
+        if (createTray)
+        {
+            tray = new NotifyIcon { Icon = SystemIcons.Information, Text = "Stitch - sağ tık: seçenekler", ContextMenuStrip = menu, Visible = true };
+            tray.DoubleClick += delegate { ShowPet(); };
+        }
         timer.Interval = 15;
         timer.Tick += delegate { Advance(); };
         Shown += delegate { Present(idle); Log("launched size=" + side + " frames=" + wave.Length + " location=" + Location); };
@@ -157,6 +160,7 @@ internal sealed class PetWindow : Form
     }
     public void React()
     {
+        if (!Visible) { Log("hidden-reaction-ignored"); return; }
         if (reacting) { Log("repeat-click-ignored"); return; }
         reacting = true; Reactions++; frame = -1;
         clock.Restart(); timer.Start(); Advance(); Log("reaction-start count=" + Reactions);
@@ -217,13 +221,43 @@ internal sealed class PetWindow : Form
     }
     public void Log(string text)
     {
-        File.AppendAllText(logPath, DateTime.UtcNow.ToString("o") + " " + text + Environment.NewLine);
+        // Diagnostic storage must not crash the character or its settings fallback.
+        try { File.AppendAllText(logPath, DateTime.UtcNow.ToString("o") + " " + text + Environment.NewLine); }
+        catch (IOException error) { Debug.WriteLine(error); }
+        catch (UnauthorizedAccessException error) { Debug.WriteLine(error); }
         if (Changed != null) Changed();
     }
     private void Present(Bitmap source, float scale = 1f)
     {
         if (!IsHandleCreated || !Visible) return;
-        using (Bitmap surface = new Bitmap(side, side, PixelFormat.Format32bppPArgb))
+        using (Bitmap surface = SpriteSurface.Create(source, side, scale))
+            Native.Present(Handle, Location, surface);
+    }
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        SavePosition(); Log("closed"); base.OnFormClosed(e);
+    }
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && !resourcesDisposed)
+        {
+            resourcesDisposed = true;
+            timer.Stop(); timer.Dispose();
+            if (tray != null) { tray.Visible = false; tray.Dispose(); }
+            if (menu != null) menu.Dispose();
+            if (idle != null) idle.Dispose();
+            if (wave != null) foreach (Bitmap bitmap in wave) bitmap.Dispose();
+        }
+        base.Dispose(disposing);
+    }
+}
+
+internal static class SpriteSurface
+{
+    internal static Bitmap Create(Bitmap source, int side, float scale = 1f)
+    {
+        Bitmap surface = new Bitmap(side, side, PixelFormat.Format32bppPArgb);
+        try
         {
             using (Graphics graphics = Graphics.FromImage(surface))
             {
@@ -233,14 +267,9 @@ internal sealed class PetWindow : Form
                 float inset = side * (1f - scale) / 2f;
                 graphics.DrawImage(source, inset, inset, side * scale, side * scale);
             }
-            Native.Present(Handle, Location, surface);
+            return surface;
         }
-    }
-    protected override void OnFormClosed(FormClosedEventArgs e)
-    {
-        SavePosition(); timer.Stop(); timer.Dispose(); tray.Visible = false; tray.Dispose(); menu.Dispose();
-        idle.Dispose(); foreach (Bitmap bitmap in wave) bitmap.Dispose();
-        Log("closed"); base.OnFormClosed(e);
+        catch { surface.Dispose(); throw; }
     }
 }
 
@@ -287,19 +316,21 @@ internal sealed class ProbeWindow : Form
     private int cornerClicks, bodyClicks;
     public ProbeWindow(PetWindow value)
     {
-        pet = value; Text = "Stitch host probe"; StartPosition = FormStartPosition.CenterScreen;
+        pet = value; Text = "Stitch - kısa kontrol"; StartPosition = FormStartPosition.CenterScreen;
         AutoScaleMode = AutoScaleMode.None; ClientSize = new Size(740, 510); BackColor = Color.WhiteSmoke;
-        Button corner = Add("Transparent corner", 390, 95, delegate { cornerClicks++; pet.Log("probe-corner-click count=" + cornerClicks); });
+        Button corner = Add("Boş köşe", 390, 95, delegate { cornerClicks++; pet.Log("probe-corner-click count=" + cornerClicks); });
         corner.Size = new Size(90, 30);
-        Button body = Add("Covered body", 485, 240, delegate { bodyClicks++; pet.Log("probe-body-click count=" + bodyClicks); });
+        Button body = Add("Alttaki düğme", 485, 240, delegate { bodyClicks++; pet.Log("probe-body-click count=" + bodyClicks); });
         body.Size = new Size(100, 30);
-        Add("Align pet for test", 20, 20, delegate { Align(); });
-        Add("Show pet", 20, 70, delegate { pet.ShowPet(); });
-        Add("Hide pet", 20, 120, delegate { pet.HidePet(); });
-        Add("Small", 20, 170, delegate { pet.SetSize(240); });
-        Add("Large", 20, 220, delegate { pet.SetSize(400); });
-        Add("Reaction", 20, 270, delegate { pet.React(); });
-        Add("Exit prototype", 20, 320, delegate { pet.Close(); Close(); });
+        Add("Test için hizala", 20, 20, delegate { Align(); });
+        Add("Göster", 20, 70, delegate { pet.ShowPet(); });
+        Add("Gizle", 20, 120, delegate { pet.HidePet(); });
+        Add("Küçük", 20, 170, delegate { pet.SetSize(240); });
+        Add("Büyük", 20, 220, delegate { pet.SetSize(400); });
+        Add("El salla", 20, 270, delegate { pet.React(); });
+        Add("Stitch'i kapat", 20, 320, delegate { pet.Close(); Close(); });
+        Label help = new Label { Text = "1. Boş köşe: sayaç artmalı.\r\n2. Stitch'in gövdesi: yalnız tepki artmalı.\r\n3. Sürükle; boyut ve gizlemeyi dene.", AutoSize = false };
+        help.SetBounds(230, 20, 490, 65); Controls.Add(help);
         status.SetBounds(20, 395, 700, 100); Controls.Add(status);
         pet.Changed += UpdateStatus;
         FormClosed += delegate { pet.Changed -= UpdateStatus; };
@@ -317,8 +348,9 @@ internal sealed class ProbeWindow : Form
     }
     private void UpdateStatus()
     {
-        status.Text = "Corner clicks: " + cornerClicks + " | Covered body clicks: " + bodyClicks + " | Pet reactions: " + pet.Reactions
-            + "\r\nPet visible: " + pet.Visible + " | Position: " + pet.Location + " | Size: " + pet.Width
-            + "\r\nClick pet to react; drag it; right click for menu. Tray double click restores it.";
+        status.Text = "Boş köşe: " + cornerClicks + " | Alttaki düğme: " + bodyClicks + " | Tepki: " + pet.Reactions
+            + "\r\nGörünür: " + (pet.Visible ? "Evet" : "Hayır") + " | Konum: " + pet.Location + " | Boyut: " + pet.Width
+            + "\r\nSağ tık: menü. Saat yanındaki Stitch bilgi simgesine çift tık: geri getir."
+            + "\r\nBu panelin X düğmesi yalnız paneli kapatır; Stitch açık kalır.";
     }
 }

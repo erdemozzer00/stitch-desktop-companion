@@ -25,6 +25,7 @@ The spike loads a static idle and optional ordered 24 fps PNG reaction. Clicks d
 | Check | Result | Evidence / remaining gap |
 |---|---|---|
 | Build with warnings as errors | PASS | Installed Framework C# compiler; executable launched |
+| Host component checks | PASS | Four groups in [phase-02-host-checks.json](phase-02-host-checks.json); no native input injected |
 | Native layered presentation call | PASS | No UpdateLayeredWindow failure logged at launch |
 | Visible transparent edges | UNCONFIRMED | Agent desktop capture unavailable; no visual acceptance claimed |
 | Native click and release | OBSERVED | Pointer-down followed by reaction-start/end in event log |
@@ -32,23 +33,38 @@ The spike loads a static idle and optional ordered 24 fps PNG reaction. Clicks d
 | Repeated click | OBSERVED | Second pointer sequence during reaction logged repeat-click-ignored |
 | Position/size persisted across relaunch | PASS in runtime log | Local position.txt and new launch both report 696,218,320; menu-exit persistence still untested |
 | Rough wave loaded and played | PASS for runtime completion | 73 frames loaded; startup preview completed in 3.054 seconds, without logged failure; not a frame-pacing or native-click acceptance claim |
+| Pointer-triggered animated wave and drag during playback | OBSERVED | Later native event log has several pointer-down/reaction-start/end sequences with 73 frames loaded; a drag spans a reaction end without starting another reaction on release. Visual smoothness is still unconfirmed |
 | Transparent corner reaches underlying window | NOT VERIFIED | Required native test remains open |
-| Size and hide/restore controls | IMPLEMENTED, NOT VERIFIED | Test-panel/menu callbacks exist; callback existence is not input proof |
+| Size and hide/restore controls | COMPONENT CHECKS PASS; PANEL EVENTS OBSERVED | Current session logged hide/show and 240/400 resizing; visual behavior and menu/tray interaction still need observation |
 | Tray restoration, close and resource cleanup | NOT VERIFIED | Requires actual interaction |
 | Alternative DPI / monitors | NOT TESTED | Prototype is system-DPI aware, not a mixed-DPI acceptance claim |
 | Windows 11 recipient PC | DEFERRED | User chose local Windows 10 tests first |
 
 Computer Use screenshot capture failed on the selected probe window and after one fresh selection retry:
 `SetIsBorderRequired failed: Böyle bir arabirim desteklenmiyor (0x80004002)`.
-Accessibility-only window inspection works, but an element click failed with `coordinate input geometry is unavailable`. No input was sent by that failed click; no repeated geometry guessing or alternate input-injection workaround was attempted. Logs reflect observed native events, not a completed automated desktop test suite. An asynchronous user question about visibility/dragging is pending.
+Accessibility-only window inspection works, but an element click failed with `coordinate input geometry is unavailable`. No input was sent by that failed click; no repeated geometry guessing or alternate input-injection workaround was attempted. Logs reflect observed native events, not a completed automated desktop test suite. The user requested self-checks first and questions afterwards; the consolidated checklist below replaces the earlier unanswered visibility-only question.
+
+### Follow-up self-checks and fixes
+
+`scripts/check_host_spike.ps1` compiles `host/HostChecks.cs` together with the real host code, selecting its test entry point. It creates no visible window or tray icon and sends no input. Scratch settings remain under ignored `.local/phase-02/host-checks/`; the running pet's settings/assets are not modified by the checks. The test-only constructor option suppresses tray creation; production still creates it.
+
+Four groups PASS: (1) production surfaces at 240/320/400 retain clear alpha borders and valid premultiplied pixels, with alpha-zero/opaque centers matching the manual probe; (2) hidden reaction suppression, size limits and saved geometry round trip; (3) malformed and far off-screen settings; (4) an unavailable log path does not abort settings changes, and repeated disposal succeeds. Pixel assertions are numerous but are not hundreds of distinct behavioral tests. These tests do not replace OS hit-testing or menu/tray acceptance.
+
+Code inspection found hidden `React()` calls would start invisible playback (for example from the tray menu). Hidden reactions are now ignored. Diagnostic I/O exceptions no longer abort behavior, and owned resources are released in `Dispose`, including paths that never raise `FormClosed`. The shared production rasterizer is directly tested; no substitute renderer is used. Menu and probe labels use Turkish; the compiler is explicitly configured for UTF-8 source.
+
+The previous verified pet process was stopped to rebuild, then the revised host was launched with `--probe --preview`. The interactive panel is intentionally visible for the manual check; the one-time preview exercises initial playback, not mouse delivery. No startup, framework installation or animation polish was added.
+
+Subsequent events in that live session include hide/show, several 240/400 resizes, a reaction, a corner-button click and another drag. This supports that the controls are being exercised; it does not supply a visual report. The recorded corner click happened after resizing to 240 without a fresh 320 alignment, so it is not accepted as the prescribed alpha hit-target test. Ask the user to use **Test için hizala** before that check. Do not reposition the pet remotely while the user is testing it.
 
 ### Short manual check to close the native gaps
 
-1. Click **Align pet for test**. Click **Transparent corner**: corner count should increase without a pet reaction.
-2. Click the visible character over **Covered body**: pet reaction should increase while covered-body count stays unchanged.
-3. Drag the character and release: it should move without starting a reaction. Click it twice quickly: one reaction should finish smoothly.
-4. Try Small/Large, then Hide/Show. Close the probe panel to leave just the pet. Hide using the pet menu; restore by double-clicking its tray icon.
-5. Exit from its menu, relaunch the executable, and check its size/position. Record actual results before changing this table.
+Reply by checklist number with pass/fail and any visible problem. All five remain pending user observation.
+
+1. **Transparency and hit targets:** click **Test için hizala**, wait for the idle pose, then the center of **Boş köşe**. Only its counter should increase. Click Stitch's torso over **Alttaki düğme**: **Tepki** should increase while **Alttaki düğme** stays zero. Report any visible rectangular background around Stitch.
+2. **Reaction and dragging:** click twice quickly, then drag during a wave. Expect one uninterrupted reaction and movement without an extra reaction on release. Report visible pose jumps, sticking or unnatural hand/ear motion; this remains a rough animation, not a polish vote.
+3. **Size:** try **Küçük** and **Büyük**. Expect no clipped head, ears, hand or feet, and usable clicks/dragging at both sizes.
+4. **Hide and restore:** right-click Stitch and select **Gizle**. Restore via the Stitch information icon near the Windows clock (possibly in the overflow area), using a double click or **Göster** in its menu. The panel's **Göster** is a recovery option, not proof that tray restoration worked.
+5. **Exit and saved position:** drag to a recognizable position, choose a size, right-click **Çıkış**, then relaunch `.local/phase-02/host/StitchPet.exe`. Expect the character to disappear on exit and return at the saved position/size. Closing only the test panel's X should leave Stitch running. No need to rebuild; avoid relaunching while an instance is still open.
 
 ## Rough wave
 
