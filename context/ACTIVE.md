@@ -4,6 +4,8 @@
 
 **Status:** Phase 03 ACTIVE. User accepts the idle direction for now and explicitly likes the final 45-frame wave. The user also explicitly requests keeping the desktop app current. Minimal idle/wave/entry integration was brought forward for live Phase 03 review; appearance is still draft, and Phase 04 carry/drag work has not started.
 
+**Latest user steering:** The updated app visibly plays idle/wave and transitions at different idle phases have no conspicuous jump or stutter. Idle should be a little more noticeable. The user then explicitly limited the next step to research and reporting before implementation: improve the existing motion's quality, add no new gestures or silly animations, and disclose confidence. Research findings are recorded in the Phase 03 review; no animation/runtime changes have been made since that instruction. Wait for the user's response to the research recommendation before implementing an idle revision.
+
 **Current cursor:** The native app is updated and launched at `.local/phase-02/host/StitchPet.exe` (historical path retained for existing launch links). It now has 96-frame idle, 16 short entry variants of four frames each, and the accepted 45-frame wave at 24 fps. Await the user's observation of idle and click transitions at different idle phases. Next: contrast/outline/final 400px appearance work, then synchronize selected renders through `scripts/update_host_motion.ps1` again. Do not leave approved motion in previews only.
 
 ## Latest evidence
