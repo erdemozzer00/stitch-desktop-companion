@@ -2,7 +2,9 @@
 
 **Last completed phase:** 02 - Motion and Windows feasibility spikes, 2026-09-19.
 
-**Status:** Feasibility handoff complete. No active implementation phase. Phase 03 is next; it has not started. Animation quality is explicitly not approved.
+**Status:** Phase 03 active for planning. The user approved the sequence and requested project notes followed by a plan. The [execution plan](ANIMATION-PLAN.md) is prepared; animation production has not started. Animation quality is explicitly not approved.
+
+**Current cursor:** Step 03.1 — inspect existing controls and prepare a relaxed stance comparison. The agreed order is relaxed stance/idle, then improved wave, then a bounded drag/carry experiment after the Phase 03 handoff. No repeat direction approval is required to start 03.1. This turn delivers records and the plan only.
 
 ## Latest user feedback
 
@@ -14,7 +16,7 @@ The user also says the wave is much too slow and low quality, and the static idl
 
 Keep the native C# WinForms layered window and Blender-rendered RGBA frames. The observed local behavior is sufficient to choose this approach for the gift. No browser-specific hiding, desktop-shell embedding, alternative host or engine migration.
 
-The user asked whether dragging could have a ragdoll effect and explicitly allows omitting it if too costly. Recommendation under discussion: authored carry/drag poses with restrained motion responding to pointer speed/direction and a short release/settle sequence. This is an optional proposal, not approved scope or implemented physics. Full articulated ragdoll would require runtime body/constraint simulation and a substantial change from the current flat-frame renderer; do not start it silently.
+The user approved trying the recommended authored carry/drag response after idle and wave quality work. The bounded experiment may use pointer direction/speed, restrained secondary motion and a short release/settle sequence. Inclusion remains conditional on its quality and complexity; ordinary dragging is the fallback. Full articulated ragdoll and an engine migration remain excluded. Nothing has been implemented for this effect yet.
 
 ## Evidence and preserved outputs
 
@@ -26,12 +28,12 @@ The user asked whether dragging could have a ragdoll effect and explicitly allow
 - Local executable/assets/settings/logs: `.local/phase-02/host/`.
 - Verified public repository: `erdemozzer00/stitch-desktop-companion`; all character assets/renders remain ignored.
 
-## Next phase priorities
+## Current phase priorities
 
 1. Replace the robotic neutral stance with a relaxed pose and a subtle authored idle loop. Preserve silhouette and foot contact.
 2. Rework the wave's timing, spacing, shoulder/elbow/wrist coordination and secondary head/ear motion. Increasing playback speed alone is not sufficient.
 3. Review the new motion on light/dark backgrounds and at desktop size; get actual visual feedback before calling it polished.
-4. Keep the optional drag-reaction discussion separate from core idle/wave work. Do not add physics or new motions before the core quality checkpoint.
+4. Run the approved bounded drag experiment in Phase 04 after the core-motion checkpoint and Phase 03 handoff. Do not introduce full physics or expand scope if the small experiment disappoints.
 5. Resolve the weak lower-body contrast and undecided legacy outline as part of Phase 03.
 
 ## Runtime and remaining limits

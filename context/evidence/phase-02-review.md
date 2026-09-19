@@ -12,6 +12,8 @@ No application or Blender file was changed at this handoff. The app is currently
 
 ### Optional dragging reaction: research and recommendation
 
+Subsequent decision on 2026-09-19: the user approved the recommended sequence and bounded drag experiment. The discussion below is the reasoning at the Phase 02 handoff; current approved scope and execution order are in [ANIMATION-PLAN.md](../ANIMATION-PLAN.md). Full articulated physics remains excluded.
+
 The user asks for a ragdoll feeling while moving Stitch and permits omitting it if too difficult. Current code loads flat PNG bitmaps and moves the window; it has no runtime skeleton or independent body-part simulation. Full articulated ragdoll requires simulated bodies, joint limits, collision setup and animation/physics transitions. [Godot's official ragdoll documentation](https://docs.godotengine.org/en/stable/tutorials/physics/ragdoll_system.html) provides a concrete example of that workload, including partial-bone simulation; it is evidence about requirements, not a recommendation to change engines.
 
 High confidence: true articulated ragdoll is a substantial scope/renderer change here, though it is technically possible. It need not be 3D in every implementation, but flat whole-character frames cannot independently simulate limbs. Baking ragdoll motion in Blender could supply a preset clip; it would not respond physically to arbitrary mouse input at runtime.

@@ -26,11 +26,13 @@ The user's manual report confirms the sampled transparent-corner click path, sta
 
 ## Phase 03 — Appearance and animation polish
 
-**Status: PLANNED**
+**Status: ACTIVE — planning complete, production not started (2026-09-19)**
+
+Execution order and step gates: [animation plan](ANIMATION-PLAN.md). Current cursor: 03.1, relaxed stance inspection/comparison. The user requested this planning checkpoint before production.
 
 Set the camera, lighting, materials, and intended desktop size. Polish one sequence: idle, notice the user, wave, and return to idle. Review it both enlarged and at intended display size.
 
-User feedback on 2026-09-19: the wave is too slow/low quality and idle is static/robotic. Start with a relaxed neutral pose, subtle idle and revised wave timing/coordination. A drag/carry reaction is an optional proposal under discussion; full ragdoll or engine migration is not authorized. Do not let this optional effect displace the core motion-quality work.
+User feedback on 2026-09-19: the wave is too slow/low quality and idle is static/robotic. The approved order starts with a relaxed neutral pose and subtle idle, then revised wave timing/coordination. The bounded drag/carry experiment follows in Phase 04; full ragdoll and engine migration are excluded. Do not let the optional effect displace core motion-quality work.
 
 Carry forward Phase 01's observed weak lower-body contrast on dark backgrounds. Resolve it through lighting/material and pose review without making the character look like a glowing sticker. The disabled legacy outline is not a settled final style.
 
@@ -41,6 +43,8 @@ Carry forward Phase 01's observed weak lower-body contrast on dark backgrounds. 
 **Status: PLANNED**
 
 Integrate the approved animation with the verified desktop host. Implement click reactions, dragging, saved position, and basic size/hide/exit controls. Handle repeated clicks without abrupt pose jumps or overlapping reactions.
+
+First run the approved, bounded carry/drag reaction experiment described in the animation plan, after Phase 03's core-motion handoff. Keep it only if it adds believable weight without disrupting pointer control, transitions or hit areas. Fall back to ordinary dragging if it fails; do not escalate automatically to full physics. Reuse and extend the existing host rather than rebuilding features already proven in Phase 02.
 
 **Exit:** a working local companion with checked animation transitions, clean transparent edges, usable hit areas, and unobstructed desktop interaction outside the character. An animation preview inside a regular app window is not this phase's acceptance evidence.
 
