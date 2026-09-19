@@ -2,7 +2,7 @@
 
 A project for a personal Windows 11 desktop companion using a supplied Stitch model. The first version is a silent floating character above normal windows, reacts to clicks, and can be dragged into place. The former desktop-only requirement was withdrawn on 2026-09-18.
 
-**Status:** Phase 01 is complete. Phase 02 is active: a native transparent-window prototype loads a new rough-wave sequence. Data/image checks pass; native interaction and moving visual acceptance remain incomplete. This is not a finished companion or an approved animation.
+**Status:** Phases 01–02 are complete as preparation/feasibility work. Local checks and the user's manual observations support the native floating-window approach. Phase 03 is next: the user reports a slow, low-quality wave and a robotic static idle. This is not a finished companion or approved animation; target-PC and release acceptance remain open.
 
 Verified public repository: [erdemozzer00/stitch-desktop-companion](https://github.com/erdemozzer00/stitch-desktop-companion).
 

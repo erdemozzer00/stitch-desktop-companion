@@ -14,11 +14,13 @@ Inventory and hash the supplied files; inspect the model, rig, action, texture p
 
 ## Phase 02 — Motion and Windows feasibility spikes
 
-**Status: ACTIVE — 2026-09-18**
+**Status: COMPLETE (feasibility only) — 2026-09-19**
 
 Produce a rough wave using the existing rig and a minimal floating Windows pet prototype. Following the user's 2026-09-18 direction change, test transparent presentation, click versus drag, position, size, hide/restore/exit, and access outside the visible character. The prior behind-applications/desktop-layer requirement is withdrawn.
 
 Audit corrections and the bounded official Blender MCP trial are complete. The user authorized the simplified floating host; the current candidate is native C# WinForms with per-pixel alpha. Rainmeter On Desktop is superseded. Local Windows 10 testing is authorized; Windows 11 recipient acceptance remains deferred and unproven. Record local test gaps explicitly. See [Phase 02 execution notes](evidence/phase-02-review.md).
+
+The user's manual report confirms the sampled transparent-corner click path, stable reaction/drag behavior, sizing, hide/show and close/relaunch persistence. Select the C# layered-window host with rendered frames. Exact tray restoration and the covered-body counter remain integration checklist items. The user explicitly rejects the current motion's speed/quality and static robotic idle; this completion is a feasibility decision, not animation or release acceptance.
 
 **Exit:** inspectable rough motion, observed floating-pet interaction, a selected implementation approach, and documented failures or tradeoffs. A transparent preview alone does not prove click/drag behavior. Rough motion is not final animation quality.
 
@@ -27,6 +29,8 @@ Audit corrections and the bounded official Blender MCP trial are complete. The u
 **Status: PLANNED**
 
 Set the camera, lighting, materials, and intended desktop size. Polish one sequence: idle, notice the user, wave, and return to idle. Review it both enlarged and at intended display size.
+
+User feedback on 2026-09-19: the wave is too slow/low quality and idle is static/robotic. Start with a relaxed neutral pose, subtle idle and revised wave timing/coordination. A drag/carry reaction is an optional proposal under discussion; full ragdoll or engine migration is not authorized. Do not let this optional effect displace the core motion-quality work.
 
 Carry forward Phase 01's observed weak lower-body contrast on dark backgrounds. Resolve it through lighting/material and pose review without making the character look like a glowing sticker. The disabled legacy outline is not a settled final style.
 

@@ -17,9 +17,11 @@ The recipient uses a static downloaded wallpaper. Her display count, resolution,
 
 ## Working approach
 
-Prepare the model and animation in Blender, then evaluate pre-rendered transparent animation for the small desktop companion. Choose the application technology after the Windows desktop spike. Do not commit to a framework before the required window behavior has been demonstrated.
+Prepare the model and animation in Blender, then use pre-rendered transparent frames in the small desktop companion. The Windows feasibility spike and user observations now support the application technology selection below.
 
-The initial Rainmeter On Desktop investigation is superseded by the user's requested Codex-pet-style floating behavior. The authorized Phase 02 candidate is a small C# WinForms host using the Windows layered-window API; select it only after recording observed behavior and limitations. Do not maintain parallel desktop-embedded and floating implementations. The gift is standalone and offline; direct installation as a custom Codex pet is not the delivery choice. The development PC is Windows 10 Pro (build 19045); the user requested local tests first and a later decision about Windows 11 final acceptance. Keep that target validation open.
+Phase 02 decision (2026-09-19): retain the small native C# WinForms layered-window host and Blender-rendered RGBA frames based on local checks and the user's manual observations. This selects the implementation approach; it does not approve the existing motion quality or certify the recipient's Windows 11 setup.
+
+The initial Rainmeter On Desktop investigation is superseded by the user's requested Codex-pet-style floating behavior. The selected host is C# WinForms using the Windows layered-window API, with the observed behavior and remaining limitations recorded in Phase 02. Do not maintain parallel desktop-embedded and floating implementations. The gift is standalone and offline; direct installation as a custom Codex pet is not the delivery choice. The development PC is Windows 10 Pro (build 19045); the user requested local tests first and a later decision about Windows 11 final acceptance. Keep that target validation open.
 
 The motion should fit Stitch's stylized design: readable weight, coordinated shoulder and wrist movement, restrained head and ear follow-through, and smooth transitions. Preserve the character's appearance. Re-rig only if a demonstrated defect requires it.
 
@@ -40,3 +42,5 @@ These facts do not establish deformation quality, a finished wave, or applicatio
 Keep the original downloads unchanged. Keep model files, textures, renders, and local output outside Git while redistribution remains unverified. The verified public repository is `erdemozzer00/stitch-desktop-companion`.
 
 No roaming behavior, speech, sound, real-time AI, complex settings system, or new rig is part of the first version. The user explicitly requested replacing the old desktop-only requirement with familiar floating-pet behavior. Codex is an interaction reference; do not infer a request for its chat, task-monitoring, or account features.
+
+The user asked about ragdoll-like dragging on 2026-09-19 and allows omitting it if costly. A bounded authored carry/drag reaction is a recommendation under discussion, not an approved feature. Full articulated physics is not part of the agreed scope; do not silently replace the current renderer or adopt a game engine.

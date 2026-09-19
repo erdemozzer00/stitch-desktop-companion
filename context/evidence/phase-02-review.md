@@ -1,6 +1,22 @@
 # Phase 02 execution notes
 
-Status: IN PROGRESS. Updated 2026-09-18. Do not mark accepted or start Phase 03.
+Status: COMPLETE FOR FEASIBILITY — 2026-09-19. Phase 03 implementation has not started. This is not final animation, release or Windows 11 acceptance.
+
+## User observations and decision — 2026-09-19
+
+The user's manual report confirms alignment and six corner-counter increments, uninterrupted motion while dragging and rapidly clicking, both size choices without problems, hide/show, and the same position/size after close/reopen. Local logs corroborate corner counts reaching six, repeated-click suppression, resizing, hide/show, an orderly close and a relaunch at size 240 and position (2033,47). The user explicitly reports the wave is too slow and low quality, and idle is static and robotic. Motion remains unapproved; these are Phase 03 priorities.
+
+Select the current native C# layered-window host and rendered-frame approach. Feasibility exit criteria are met: inspectable rough motion, observed Windows interaction, a selected approach and documented limitations. The reply did not separately confirm the covered-body counter, rectangle/edge appearance, or restoring specifically through the tray. Retain those exact gaps for integration acceptance rather than marking every subcheck passed or repeating the whole questionnaire. The user supplied visual observations; these are not agent-operated desktop tests.
+
+No application or Blender file was changed at this handoff. The app is currently closed according to process inspection and its last event; older running-state statements below describe previous test sessions.
+
+### Optional dragging reaction: research and recommendation
+
+The user asks for a ragdoll feeling while moving Stitch and permits omitting it if too difficult. Current code loads flat PNG bitmaps and moves the window; it has no runtime skeleton or independent body-part simulation. Full articulated ragdoll requires simulated bodies, joint limits, collision setup and animation/physics transitions. [Godot's official ragdoll documentation](https://docs.godotengine.org/en/stable/tutorials/physics/ragdoll_system.html) provides a concrete example of that workload, including partial-bone simulation; it is evidence about requirements, not a recommendation to change engines.
+
+High confidence: true articulated ragdoll is a substantial scope/renderer change here, though it is technically possible. It need not be 3D in every implementation, but flat whole-character frames cannot independently simulate limbs. Baking ragdoll motion in Blender could supply a preset clip; it would not respond physically to arbitrary mouse input at runtime.
+
+Recommended smaller experiment, subject to scope agreement: author carry/drag poses and restrained limb/ear motion in Blender, select/drive them from pointer direction/speed, and add a short release/settle transition. Limited image translation/rotation can supplement the pose but should not be the entire effect, which may look like a rotating sticker. This is controlled animation with a sense of weight, not full ragdoll. Its visual quality remains unproven until prototyped. Preserve direct, predictable pointer tracking and the tested hit areas. Prioritize relaxed idle and a better wave first. No physics engine, new rig, dependency or drag animation was added in this turn.
 
 ## Authorized direction
 
@@ -10,7 +26,7 @@ The former Rainmeter On Desktop investigation is superseded. The installer was d
 
 ## Host experiment
 
-Candidate: C# WinForms plus the Windows layered-window API. The installed .NET Framework compiler builds it without adding an SDK, browser engine or external package. Local .NET Framework release: 533325; Windows 10 build 19045, one reported display. Final recipient configuration remains unverified.
+Selected approach after the manual report: C# WinForms plus the Windows layered-window API. The installed .NET Framework compiler builds it without adding an SDK, browser engine or external package. Local .NET Framework release: 533325; Windows 10 build 19045, one reported display. Final recipient configuration remains unverified.
 
 [Microsoft layered-window documentation](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-features#layered-windows) describes per-pixel alpha and mouse pass-through where alpha is zero. The host intentionally does not set WS_EX_TRANSPARENT, which would also pass through the visible character. This documentation establishes the expected mechanism, not acceptance on this machine.
 
@@ -30,13 +46,14 @@ The spike loads a static idle and optional ordered 24 fps PNG reaction. Clicks d
 | Visible transparent edges | UNCONFIRMED | Agent desktop capture unavailable; no visual acceptance claimed |
 | Native click and release | OBSERVED | Pointer-down followed by reaction-start/end in event log |
 | Click versus drag | OBSERVED | Two drag-ended events, saved position 696,218,320; no reaction for those drags |
-| Repeated click | OBSERVED | Second pointer sequence during reaction logged repeat-click-ignored |
-| Position/size persisted across relaunch | PASS in runtime log | Local position.txt and new launch both report 696,218,320; menu-exit persistence still untested |
+| Repeated click | USER-CONFIRMED + LOGGED | User reports spam clicks do not restart the wave; logs record suppression |
+| Position/size persisted across relaunch | USER-CONFIRMED + LOGGED | User confirms exact restore; final test session closed and relaunched at 2033,47,240 |
 | Rough wave loaded and played | PASS for runtime completion | 73 frames loaded; startup preview completed in 3.054 seconds, without logged failure; not a frame-pacing or native-click acceptance claim |
-| Pointer-triggered animated wave and drag during playback | OBSERVED | Later native event log has several pointer-down/reaction-start/end sequences with 73 frames loaded; a drag spans a reaction end without starting another reaction on release. Visual smoothness is still unconfirmed |
-| Transparent corner reaches underlying window | NOT VERIFIED | Required native test remains open |
-| Size and hide/restore controls | COMPONENT CHECKS PASS; PANEL EVENTS OBSERVED | Current session logged hide/show and 240/400 resizing; visual behavior and menu/tray interaction still need observation |
-| Tray restoration, close and resource cleanup | NOT VERIFIED | Requires actual interaction |
+| Pointer-triggered animated wave and drag during playback | USER-CONFIRMED + LOGGED | No interruption/glitch reported while dragging or spam-clicking; artistic motion is still judged too slow/low quality |
+| Transparent corner reaches underlying window | USER-CONFIRMED for sampled path | User reports six counter increments after alignment; exact covered-body counter check remains unconfirmed |
+| Size and hide/restore controls | USER-CONFIRMED + COMPONENT CHECKS | Both sizes and animation work without reported clipping; hide/show works, but exact restore entry point was not specified |
+| Tray restoration | NOT SEPARATELY CONFIRMED | Do not infer tray acceptance from generic hide/show feedback |
+| Close and resource cleanup | CLOSE/RELAUNCH CONFIRMED; CLEANUP LIMITED | User report and orderly close/relaunch log; component repeated-dispose check, no long-running leak proof |
 | Alternative DPI / monitors | NOT TESTED | Prototype is system-DPI aware, not a mixed-DPI acceptance claim |
 | Windows 11 recipient PC | DEFERRED | User chose local Windows 10 tests first |
 
@@ -58,7 +75,7 @@ Subsequent events in that live session include hide/show, several 240/400 resize
 
 ### Short manual check to close the native gaps
 
-Reply by checklist number with pass/fail and any visible problem. All five remain pending user observation.
+The user answered these five groups on 2026-09-19. Preserve the procedure for later integration checks; accepted observations and narrower unanswered details are recorded above. Do not treat this entire checklist as still pending.
 
 1. **Transparency and hit targets:** click **Test için hizala**, wait for the idle pose, then the center of **Boş köşe**. Only its counter should increase. Click Stitch's torso over **Alttaki düğme**: **Tepki** should increase while **Alttaki düğme** stays zero. Report any visible rectangular background around Stitch.
 2. **Reaction and dragging:** click twice quickly, then drag during a wave. Expect one uninterrupted reaction and movement without an extra reaction on release. Report visible pose jumps, sticking or unnatural hand/ear motion; this remains a rough animation, not a polish vote.
@@ -78,7 +95,7 @@ Saved-scene verification PASS in [phase-02-wave-verification.json](phase-02-wave
 
 All 73 frames rendered. [Frame checks](phase-02-frames.json) PASS: clear alpha borders on every frame, non-static sequence, exact decoded first/last equality, idle equal to first frame. The frame bounds union is (46,26)-(278,292) in the 320-square canvas. Six blocking poses, three actual wave frames and the 12-pose contact sheet were visually inspected: the revised raised hand clears the ear in the inspected views; feet remain planted. Static views do not establish natural timing or exclude between-frame intersections. The face/torso are largely static and the wave is restrained; expression, overlap and lighting remain Phase 03 work.
 
-The private review GIF shows the sequence on light/dark backgrounds; its duration uses distributed 40/50 ms GIF delays to approximate 24 fps. The native host uses the original RGBA PNG frames, not the quantized GIF. Moving visual acceptance is pending. Review artifact: `.local/phase-02/wave/rough-wave-review.gif`; contact sheet: `rough-wave-contact-sheet.png`.
+The private review GIF shows the sequence on light/dark backgrounds; its duration uses distributed 40/50 ms GIF delays to approximate 24 fps. The native host uses the original RGBA PNG frames, not the quantized GIF. The user has now observed moving playback and confirms technical continuity, but rejects its speed/quality. Review artifact: `.local/phase-02/wave/rough-wave-review.gif`; contact sheet: `rough-wave-contact-sheet.png`.
 
 The old static probe process was stopped by verified executable/PID and replaced with the rebuilt host using `--preview` (one automatic playback for inspection). Saved location and size were restored; all 73 frames loaded and the reaction completed without a logged error. This tests application playback, not a new native click on the animated version. The pet remains running, the test panel is closed, and startup remains unregistered. A single idle-process sample after playback was about 56 MiB working set; this is not a performance benchmark or a leak test. Keep final motion acceptance open and preserve the Phase 03 lower-body contrast/outline decisions.
 
@@ -99,4 +116,4 @@ The [official Blender MCP trial](phase-02-tooling-research.md) succeeded in isol
 
 ## Next checkpoint
 
-Rendering, data/image checks, pose inspection and initial host playback are complete. Resolve native-interaction gaps through working computer-use capture or the short manual check, and obtain a moving-preview observation. The C# layered-window approach remains the sole candidate; transparency and menu usability are not yet accepted. Finish Phase 02 only after its evidence is recorded; do not silently move to Phase 03.
+Phase 02 feasibility is complete with the user's manual observations and the explicit remaining subcheck limits above. Next is Phase 03: relaxed idle and a less slow, better coordinated wave, with actual visual review. Stop at this handoff; the optional drag-reaction proposal is not an implementation instruction or an approved engine change.

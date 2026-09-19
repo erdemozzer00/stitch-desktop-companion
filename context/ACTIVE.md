@@ -1,44 +1,41 @@
 # Current handoff
 
-**Last completed phase:** 01 - Source verification and reproducible preparation
+**Last completed phase:** 02 - Motion and Windows feasibility spikes, 2026-09-19.
 
-**Status:** Phase 02 active. The user authorized the simplified floating-pet implementation on 2026-09-18. The old desktop-only requirement is superseded.
+**Status:** Feasibility handoff complete. No active implementation phase. Phase 03 is next; it has not started. Animation quality is explicitly not approved.
 
-**Latest user steering (2026-09-18):** proceed with a standalone floating Stitch and keep Markdown handoffs current. Do not resume Rainmeter On Desktop or introduce two host tracks. Preserve prior model/animation work.
+## Latest user feedback
 
-**Active phase:** 02 - Motion and Windows feasibility spikes. See [execution notes](evidence/phase-02-review.md).
+The user reports alignment and six corner-counter clicks work; rapid/repeated clicks and dragging across the desktop do not interrupt or glitch the wave; both sizes work without clipping and preserve animation; hide/show works; closing/reopening restores the same position and size.
 
-**Current checkpoint (after fe838e9):** the user requested autonomous checks first, then a concise manual questionnaire. Four groups of host component checks PASS in `evidence/phase-02-host-checks.json`: alpha surfaces/probe targets, hidden reactions and size/persistence, malformed/off-screen settings, and nonfatal diagnostic failures/disposal. Fixed invisible reactions while hidden, nonfatal logging, and disposal outside the normal close path. Probe labels/menu are now Turkish. No new animation or later phase work in this checkpoint.
+The user also says the wave is much too slow and low quality, and the static idle looks robotic. Treat these as concrete Phase 03 defects to address, not as approval of the current motion. Existing logs support repeated-click suppression, dragging, hide/show, resizing and close/relaunch. Exact tray restoration and the covered-body counter were not separately confirmed; retain them as explicit integration checklist items rather than inventing full acceptance.
 
-**Latest result:** `host/PetSpike.cs` compiles with warnings as errors and runs a native layered window with a 73-frame rough wave. Saved position/size survived relaunch; a startup-preview reaction completed in about 3.05 seconds without a logged failure. Native pointer events separately recorded dragging, clicking and suppression of a repeated click. Candidate: WinForms plus `UpdateLayeredWindow`; native transparency/menu acceptance remains open. No SDK, web runtime, installer or startup registration added. Computer Use screenshots failed twice with `SetIsBorderRequired ... 0x80004002`; accessibility reads work but clicking fails with `coordinate input geometry is unavailable`.
+## Selected implementation
 
-**Local runtime state:** the rebuilt animated pet and Turkish `Stitch - kısa kontrol` probe panel are open for the user's manual check. PID is recorded in `.local/phase-02/host/process.pid` (always verify executable before acting on it). Right-click the pet or tray icon to exit; double-click the tray icon to restore. Render and verification processes finished; the MCP listener is closed. Private motion artifacts remain under `.local/phase-02/wave/`. The new five-part checklist supersedes the earlier unanswered visibility-only question. No final motion-quality approval.
+Keep the native C# WinForms layered window and Blender-rendered RGBA frames. The observed local behavior is sufficient to choose this approach for the gift. No browser-specific hiding, desktop-shell embedding, alternative host or engine migration.
 
-## Completed evidence
+The user asked whether dragging could have a ragdoll effect and explicitly allows omitting it if too costly. Recommendation under discussion: authored carry/drag poses with restrained motion responding to pointer speed/direction and a short release/settle sequence. This is an optional proposal, not approved scope or implemented physics. Full articulated ragdoll would require runtime body/constraint simulation and a substantial change from the current flat-frame renderer; do not start it silently.
 
-- Public repository owner: `erdemozzer00`; visibility: `public`.
-- Source hashes, inventory and stage settings: `evidence/phase-01.json`.
-- Reopen, packed-texture, geometry/rest-rig and RGBA checks: `evidence/phase-01-verification.json`.
-- Visual observations and limitations: `evidence/phase-01-review.md`.
-- Local outputs: `.local/phase-01/stitch-stage.blend`, `frame_01.png`, `frame_20.png`, `frame_40.png`, `inspection-board.png`.
-- Blender 5.2.2 LTS. The host and new wave are Phase 02 spikes; no installer/startup setting yet.
-- Rough-wave saved-scene checks: `evidence/phase-02-wave-verification.json`.
-- All 73 RGBA frames have clear borders; first and last are pixel-identical; idle equals frame 1: `evidence/phase-02-frames.json`.
-- Runtime copies: `.local/phase-02/host/assets/`; executable `.local/phase-02/host/StitchPet.exe`.
+## Evidence and preserved outputs
 
-## Next execution
+- Phase 02 scope, user results, research and remaining limits: [review](evidence/phase-02-review.md).
+- Source/model/rig/action preservation and stationary toe/return-pose checks: [wave verification](evidence/phase-02-wave-verification.json).
+- All 73 RGBA frames have clear borders; first/last match exactly: [frame checks](evidence/phase-02-frames.json).
+- Four component-check groups pass for alpha, hidden state/settings and diagnostic/disposal behavior: [host checks](evidence/phase-02-host-checks.json). These are not native-input automation.
+- Local wave: `.local/phase-02/wave/stitch-rough-wave.blend`, `rough-wave-review.gif`, `rough-wave-contact-sheet.png`.
+- Local executable/assets/settings/logs: `.local/phase-02/host/`.
+- Verified public repository: `erdemozzer00/stitch-desktop-companion`; all character assets/renders remain ignored.
 
-1. Audit corrections are complete; originals and the prior stage remain preserved in `.local/phase-01-before-audit-fix/`.
-2. Collect the user's five checklist responses from Phase 02 review and compare them with the current session's event log. Key poses/contact sheet were reviewed; moving playback and naturalness are not accepted. No polish yet.
-3. Native animated pointer-triggered reactions and dragging during reaction are now observed in existing logs; alpha-zero click-through, size/menu/tray interaction and orderly exit remain visually unaccepted. Do not ask the user to reinstall anything or restart architectural research. No startup registration yet. Do not retry failed capture indefinitely or substitute guessed input.
-4. Select the host from observed results; avoid browser-specific hiding, Windows desktop embedding, or a generic multi-pet engine.
-5. Record failures and tradeoffs, then stop at the Phase 02 handoff. Reserve polish for Phase 03.
+## Next phase priorities
 
-## Open items
+1. Replace the robotic neutral stance with a relaxed pose and a subtle authored idle loop. Preserve silhouette and foot contact.
+2. Rework the wave's timing, spacing, shoulder/elbow/wrist coordination and secondary head/ear motion. Increasing playback speed alone is not sufficient.
+3. Review the new motion on light/dark backgrounds and at desktop size; get actual visual feedback before calling it polished.
+4. Keep the optional drag-reaction discussion separate from core idle/wave work. Do not add physics or new motions before the core quality checkpoint.
+5. Resolve the weak lower-body contrast and undecided legacy outline as part of Phase 03.
 
-- Weak lower-body contrast on dark backgrounds at small size: observed, to address in Phase 03.
-- Legacy outline is disabled in the candidate stage; final appearance is not approved.
-- Blocking and selected rendered frames were inspected; natural timing and final deformation quality are not accepted.
-- Recipient display count, resolution and DPI are unknown; they do not block a local single-display spike.
-- The user requested local Windows 10 tests first and deferred planning Windows 11 final acceptance. Keep that validation open; local results are not target-PC evidence.
-- Third-party character assets and personal messages remain local, excluded from public Git.
+## Runtime and remaining limits
+
+At this handoff no `StitchPet.exe` process was found. The local log ends with an orderly close; the PID file can be stale. Do not claim the pet is still open or restart it without a task need. Blender render processes and the optional MCP listener are closed.
+
+Computer Use desktop capture previously failed twice with `0x80004002`; accessible-element input failed with unavailable geometry. User reports supply the visual interaction evidence; do not mislabel these as agent-run native tests. No global packages, startup registration or installer were added. Windows 11 recipient acceptance, mixed-DPI/multiple displays, packaging, duplicate-instance prevention and daily-use reliability remain later work.
