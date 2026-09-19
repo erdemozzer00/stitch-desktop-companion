@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "clips": {
+    "idle": {
+      "frames": 96,
+      "size": 320,
+      "fps": 24,
+      "manifest_hashes_match": true,
+      "alpha_borders_clear": true
+    },
+    "wave": {
+      "frames": 49,
+      "size": 320,
+      "fps": 24,
+      "manifest_hashes_match": true,
+      "alpha_borders_clear": true
+    }
+  },
+  "wave_endpoints_pixel_identical": true,
+  "idle_entry_matches_wave_entry": true,
+  "phase_02_host_assets_still_match_baseline": true,
+  "limits": "Timing drafts at 320 pixels, not final 400-pixel assets or visual approval; host untouched."
+}

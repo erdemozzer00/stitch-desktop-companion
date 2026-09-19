@@ -1,7 +1,7 @@
 # Approved animation execution plan
 
 Approved sequence: **relaxed stance and idle -> improved wave -> bounded drag/carry reaction experiment**.
-Recorded 2026-09-19. Phase 03 is active for planning; animation production has not started. The user requested notes and a plan in this turn. The next implementation action is Step 03.1, already within the approved direction; no repeated direction approval is needed.
+Recorded 2026-09-19. Phase 03 implementation is underway after the user's instruction to continue. Step 03.1 selected the soft stance after a rendered comparison; Steps 03.2/03.3 timing drafts are rendered and awaiting moving feedback. See [execution evidence](evidence/phase-03-review.md). No visual motion approval yet.
 
 ## Goal and constraints
 
@@ -15,9 +15,9 @@ Only one phase is active. Complete and report Phase 03 before executing the Phas
 
 | Step | Work | Output and acceptance evidence | Status |
 |---|---|---|---|
-| 03.1 Relaxed stance | Inspect the actual pose controls, then soften the shoulders, elbows and hands and introduce restrained asymmetry. Preserve weight and foot contact. Check head/ear/hand clearance before committing to framing. | Low-cost pose comparison at desktop size; a selected relaxed base with recorded reasons and remaining deformation concerns. | NOT STARTED |
-| 03.2 Subtle idle | Animate gentle breathing with restrained, offset head/ear motion. Avoid uniform whole-body scaling, constant bouncing or every body part moving together. Do not promise blinking before verifying suitable existing controls. | Repeated moving-loop preview: stable feet, no visible loop hitch, no distracting repetition and no robotic freeze. Inspect timing and seam velocity as well as matching endpoint poses. | NOT STARTED |
-| 03.3 Better wave | Re-block attention, lift, greeting and return. Adjust spacing and timing within the motion; simply increasing playback FPS is insufficient. Coordinate shoulder, elbow and wrist, then add limited head/ear follow-through. | Moving comparison against Phase 02 showing a more responsive greeting and a readable hand clear of the face/ears. Return must connect to the new relaxed pose. | NOT STARTED |
+| 03.1 Relaxed stance | Inspect the actual pose controls, then soften the shoulders, elbows and hands and introduce restrained asymmetry. Preserve weight and foot contact. Check head/ear/hand clearance before committing to framing. | Low-cost pose comparison at desktop size; a selected relaxed base with recorded reasons and remaining deformation concerns. | COMPLETE: soft pose selected; not final user approval |
+| 03.2 Subtle idle | Animate gentle breathing with restrained, offset head/ear motion. Avoid uniform whole-body scaling, constant bouncing or every body part moving together. Do not promise blinking before verifying suitable existing controls. | Repeated moving-loop preview: stable feet, no visible loop hitch, no distracting repetition and no robotic freeze. Inspect timing and seam velocity as well as matching endpoint poses. | TIMING DRAFT: visual review pending |
+| 03.3 Better wave | Re-block attention, lift, greeting and return. Adjust spacing and timing within the motion; simply increasing playback FPS is insufficient. Coordinate shoulder, elbow and wrist, then add limited head/ear follow-through. | Moving comparison against Phase 02 showing a more responsive greeting and a readable hand clear of the face/ears. Return must connect to the new relaxed pose. | TIMING DRAFT: visual review pending |
 | 03.4 Appearance and transition review | Refine lower-body contrast on dark backgrounds and settle the outline choice. Keep one consistent camera, framing, scale and foot baseline across clips. Document neutral entry/exit poses and useful idle interruption points. | Idle + wave + return preview on light/dark backgrounds, at the supported 240/320/400 sizes and enlarged for deformation inspection. Frame/preservation checks plus explicit visual observations. | NOT STARTED |
 | 03.5 Core-motion handoff | Present the combined moving preview and ask for targeted feedback on idle, greeting pace and character feel. Resolve reported core defects before an additional motion experiment. | User feedback and its disposition recorded; accepted core assets and known limitations identified. Stop at the Phase 03 handoff. | NOT STARTED |
 
@@ -59,4 +59,4 @@ Later Phase 05 handles startup, duplicate instances, packaging and daily-use rel
 - Reproducible source scripts belong under `scripts/`. Create `context/evidence/phase-03-review.md` when execution begins, recording compared variants, selected parameters, actual checks and unresolved feedback. Do not pre-fill passing results.
 - Keep public Git free of third-party models, textures and rendered character assets. Commit scripts and records at meaningful checkpoints.
 - Existing desktop screenshot automation is unreliable on this PC. Use render artifacts for motion review and clearly attributed user observations for native visual/input checks; do not invent automated evidence.
-- **Resume at 03.1:** inspect controls and prepare a relaxed stance comparison. No asset, code or runtime change has been made by preparing this plan.
+- **Resume using ACTIVE.md:** private timing candidates are in progress. Keep Phase 02 runtime untouched until the motion/transition review is ready.

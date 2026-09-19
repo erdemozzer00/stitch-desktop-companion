@@ -26,9 +26,9 @@ The user's manual report confirms the sampled transparent-corner click path, sta
 
 ## Phase 03 — Appearance and animation polish
 
-**Status: ACTIVE — planning complete, production not started (2026-09-19)**
+**Status: ACTIVE — pose comparison complete; idle/wave drafts in progress (2026-09-19)**
 
-Execution order and step gates: [animation plan](ANIMATION-PLAN.md). Current cursor: 03.1, relaxed stance inspection/comparison. The user requested this planning checkpoint before production.
+Execution order and step gates: [animation plan](ANIMATION-PLAN.md). Pose comparison selected the soft stance; idle/wave timing drafts and their checks are in progress. See [Phase 03 review](evidence/phase-03-review.md). Final motion and appearance remain unapproved.
 
 Set the camera, lighting, materials, and intended desktop size. Polish one sequence: idle, notice the user, wave, and return to idle. Review it both enlarged and at intended display size.
 

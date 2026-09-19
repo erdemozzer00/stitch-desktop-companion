@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "stage_sha256": "674f2502a45a478a04285d6374904529ab327cd3dffd6aa37d3b88a685332413",
+  "clips": {
+    "idle": {
+      "sha256": "80d6a1701fd3cf1b5ad3fe4180937d247a0f877d9375d3c9d29ae56c800f24d1",
+      "preservation_and_source_action_match": true,
+      "max_toe_matrix_delta": 1.1920928955078125e-07,
+      "endpoint_matrix_delta": 0.0,
+      "distinct_motion": 0.08247852325439453,
+      "seam_finite_difference_delta": 6.365776062011719e-05
+    },
+    "wave": {
+      "sha256": "a644ae27451085403ab870a8f245eb2f2e50d0f773386f7e4e9d75e264fa37ef",
+      "preservation_and_source_action_match": true,
+      "max_toe_matrix_delta": 1.1920928955078125e-07,
+      "endpoint_matrix_delta": 0.0,
+      "distinct_motion": 2.789927124977112
+    }
+  },
+  "idle_neutral_matches_wave_entry": true,
+  "limits": [
+    "Toe matrix stability is not full mesh contact/intersection proof",
+    "Idle neutral entry only; arbitrary-phase host interruption not implemented",
+    "No visual naturalness or target-PC acceptance"
+  ]
+}

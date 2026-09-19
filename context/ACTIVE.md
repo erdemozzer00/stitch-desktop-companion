@@ -2,9 +2,11 @@
 
 **Last completed phase:** 02 - Motion and Windows feasibility spikes, 2026-09-19.
 
-**Status:** Phase 03 active for planning. The user approved the sequence and requested project notes followed by a plan. The [execution plan](ANIMATION-PLAN.md) is prepared; animation production has not started. Animation quality is explicitly not approved.
+**Status:** Phase 03 in progress. Step 03.1 pose comparison selected the soft stance; idle/wave timing drafts and their data/image checks are complete for review. See the [execution plan](ANIMATION-PLAN.md) and [live review](evidence/phase-03-review.md). Animation quality is explicitly not approved; no Phase 04 work has started.
 
-**Current cursor:** Step 03.1 — inspect existing controls and prepare a relaxed stance comparison. The agreed order is relaxed stance/idle, then improved wave, then a bounded drag/carry experiment after the Phase 03 handoff. No repeat direction approval is required to start 03.1. This turn delivers records and the plan only.
+**Current cursor:** Collect targeted moving-preview feedback: is the idle too subtle/still robotic, and is the wave pace suitable? Artifact: `.local/phase-03/idle-wave-review.gif` (4-second idle followed by 49-frame wave, 24 fps). React to feedback before spending on final render quality. Next: revise core motion as needed, then Step 03.4 contrast/outline/400-pixel output and interruption-transition review. These 320-pixel low-sample drafts are not final assets. The Phase 02 host/assets remain unchanged; do not tell the user the desktop app already has the new idle.
+
+**Latest checks:** `phase-03-motion-checks.json` verifies preserved source fields/action, near-stationary toes, idle periodic endpoint and wave return. `phase-03-frame-checks.json` verifies all 145 frame hashes/clear alpha boundaries, exact neutral/return image equality, and unchanged Phase 02 host assets. Contact sheets/selected poses inspected; moving naturalness remains for user feedback. Original failed combined run completed idle but failed on a negative quaternion interpolation factor; corrected wave authored/rendered separately with success. Do not restart the entire phase or rerender valid idle just because the older log contains that known error.
 
 ## Latest user feedback
 
@@ -38,6 +40,6 @@ The user approved trying the recommended authored carry/drag response after idle
 
 ## Runtime and remaining limits
 
-At this handoff no `StitchPet.exe` process was found. The local log ends with an orderly close; the PID file can be stale. Do not claim the pet is still open or restart it without a task need. Blender render processes and the optional MCP listener are closed.
+No pet process was launched or changed in this animation turn. The previous handoff found it closed; its old PID file can be stale. Rendering/check processes have finished and the optional MCP listener was not started. Current scripts: `author_companion_motion.py`, `verify_companion_motion.py`, `preview_companion_motion.py`. All outputs stay under `.local/phase-03/`; no runtime asset installation yet.
 
 Computer Use desktop capture previously failed twice with `0x80004002`; accessible-element input failed with unavailable geometry. User reports supply the visual interaction evidence; do not mislabel these as agent-run native tests. No global packages, startup registration or installer were added. Windows 11 recipient acceptance, mixed-DPI/multiple displays, packaging, duplicate-instance prevention and daily-use reliability remain later work.
