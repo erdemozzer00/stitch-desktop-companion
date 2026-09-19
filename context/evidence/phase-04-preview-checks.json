@@ -1,0 +1,29 @@
+{
+  "status": "DRAFT_CHECKS_PASS_NOT_VISUAL_ACCEPTANCE",
+  "rendered_frames": 72,
+  "byte_unique_pngs": 72,
+  "draft_disk_mib": 2.879624366760254,
+  "raw_pixel_mib_at_240": 15.8203125,
+  "same_frame_count_raw_pixel_mib_at_400": 43.9453125,
+  "naive_all_entry_expansion": {
+    "idle_buckets": 24,
+    "wave_frames": 45,
+    "intermediate_frames_per_entry": 8,
+    "shared_held": 1,
+    "settle_intermediates": 10,
+    "added_unique_frames": 563,
+    "added_raw_pixel_mib_400": 343.6279296875,
+    "decision": "Do not adopt this expansion; entry policy and compression/reuse need a bounded design before production."
+  },
+  "max_anchor_drift_400px_by_source": {
+    "idle-01": 0.0,
+    "idle-25": 0.07913691266504645,
+    "idle-73": 0.07950072769853143,
+    "wave-04": 0.0,
+    "wave-18": 0.0,
+    "wave-37": 0.0
+  },
+  "alpha_border_check": "all 240px draft frames PASS",
+  "production_budget": "Not authorized. Counts cover six sampled pickups plus settle, not every runtime interruption.",
+  "limits": "No process-memory delta, full-resolution alpha proof, runtime interruption tests or arbitrary-point grip guarantee."
+}

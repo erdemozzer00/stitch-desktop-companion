@@ -34,7 +34,7 @@ The accepted baseline combines the relaxed soft stance, polished four-second idl
 
 ## Phase 04 — Integrated first version
 
-**Status: PLANNED — research complete, implementation unstarted**
+**Status: ACTIVE — 04A draft preview rendered; moving review pending (2026-09-19)**
 
 See [drag research and skill assessment](evidence/phase-04-drag-research.md).
 

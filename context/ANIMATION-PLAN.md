@@ -46,9 +46,9 @@ Completed refinement: existing chest motion increased by 25% and head motion by 
 
 ## Phase 04 — Bounded drag experiment, then integration
 
-Phase 03 handoff is complete. Research is recorded in [Phase 04 research](evidence/phase-04-drag-research.md); implementation remains unstarted. The first experiment must resolve sampled-frame transition cost before production rendering.
+Phase 03 handoff is complete. Research is recorded in [Phase 04 research](evidence/phase-04-drag-research.md); 04A implementation is now authorized. Godot is excluded. The first experiment must resolve sampled-frame transition cost before production rendering.
 
-1. **Small visual experiment:** author a carry pose, restrained directional responses and a short release/settle action using the existing rig. Whole-image rotation may supplement the authored motion but must not be the entire effect. No limb physics, throws, free flight or collision world.
+1. **04A small visual experiment:** author pickup, held-neutral and release/settle using the existing rig. Review idle interruption and wave beginning/peak/return before adding directional response. Preserve the installed app. **04B follows moving review:** restrained direction/speed response. Whole-image rotation may supplement the authored motion but must not be the entire effect. No limb physics, throws, free flight or collision world.
 2. **Minimal live trial:** drive a small set of authored responses from pointer direction/speed. Keep the pointer's grip predictable, limit visual offsets/rotation, and avoid lagging the entire window behind the pointer. Preserve the tested click-versus-drag threshold, mouse capture and saved position behavior.
 3. **Interruptions:** verify pickup during idle and during a wave, quick direction reversal, stopping while held, release, capture loss and hiding while held. No pose jumps, accidental click-wave on release, endlessly settling motion or character movement after the drag ends beyond the bounded authored settle.
 4. **Go/no-go:** keep the effect only if moving review shows added weight/character without obvious pose popping, rotating-sticker appearance, clipped bounds, difficult grabbing or disproportionate runtime complexity. If the experiment fails, report the reason and retain ordinary dragging; the core gift must remain usable. Do not upgrade to full ragdoll as an automatic fallback.
@@ -63,4 +63,13 @@ Later Phase 05 handles startup, duplicate instances, packaging and daily-use rel
 - Reproducible source scripts belong under `scripts/`. Maintain `context/evidence/phase-03-review.md`, recording compared variants, selected parameters, actual checks and unresolved feedback. Do not pre-fill passing results.
 - Keep public Git free of third-party models, textures and rendered character assets. Commit scripts and records at meaningful checkpoints.
 - Existing desktop screenshot automation is unreliable on this PC. Use render artifacts for motion review and clearly attributed user observations for native visual/input checks; do not invent automated evidence.
-- **Resume using ACTIVE.md:** preserve the accepted installed Phase 03 baseline. Research is complete; carry implementation and visual acceptance remain open.
+- **Resume using ACTIVE.md:** preserve the accepted installed Phase 03 baseline. 04A draft renders and endpoint checks are complete; moving acceptance and native integration remain open. See evidence/phase-04-review.md.
+
+## Phase 04A acceptance and budget clarification
+
+- Movement starts when the existing drag threshold is crossed, without waiting for pickup animation; mouse-down alone remains eligible for click-wave.
+- Review a fixed torso grip and measure projected anchor drift; matching camera/canvas alone is insufficient. Arbitrary ear/limb grip is not promised.
+- Preview idle phases and wave beginning, raised hand and return. Later integration checks all 45 wave-frame entry states, independently of visual acceptance.
+- No single-frame pose reset; settle terminates in idle. Test clipping at all three supported sizes and interruptions before shipping.
+- Before production: report unique added frames, compressed disk estimate, raw decoded memory and render estimate. Measure actual Working Set/Private Bytes and CPU in a controlled before/after host trial; investigate allocations if growth is observed. Do not equate raw pixel storage with process memory.
+- Preview checkpoint precedes 04B. No production assets or runtime integration are claimed from a GIF alone.

@@ -2,9 +2,11 @@
 
 **Last completed phase:** 03 - Appearance and animation polish, 2026-09-19.
 
-**Status:** Phase 03 COMPLETE following explicit user approval on 2026-09-19 ("I really like it. I approve."). Phase 04 research is complete; implementation has not started.
+**Status:** Phase 03 COMPLETE following explicit user approval on 2026-09-19 ("I really like it. I approve."). Phase 04 ACTIVE: 04A pickup/held-neutral/release preview authorized. Godot is excluded.
 
-**Current cursor:** Preserve the accepted installed `phase03-appearance-400` baseline at `.local/phase-02/host/StitchPet.exe`: 96 idle frames, 24 four-frame entries and the 45-frame wave at 24 fps; 237 native 400px PNGs with soft lower fill. Read [Phase 04 research](evidence/phase-04-drag-research.md) before the bounded carry trial. Next implementation step is a small private Blender motion/transition experiment, not a renderer migration. The latest user request was research only; no runtime change or installation was made for it.
+**Current cursor:** 04A low-cost preview is ready for moving review, not installation. See [Phase 04 execution](evidence/phase-04-review.md). Private review: `.local/phase-04/04a/review.html` and `review-light.gif` / `review-dark.gif`. Six sampled idle/wave pickups and a settle are rendered at 240px / six samples; reopened endpoint checks pass. The agent inspected the full frame sheet; browser opening was blocked by URL policy, so live HTML playback is not verified. User moving acceptance is pending.
+
+**Preserve:** installed `phase03-appearance-400` at `.local/phase-02/host/StitchPet.exe`. It remains the accepted version. Do not deploy draft assets. Godot is excluded. Before production, resolve bounded entry selection: naive all-wave/idle expansion would add 563 frames / 343.63 MiB raw at 400px and is not selected. 04B directions follow 04A review. Native memory/input/interruptions and later packaging/Windows 11 gates remain open.
 
 ## Selected appearance and evidence
 
@@ -26,6 +28,6 @@ Use Blender 5.2.2 with auto-execution disabled: `render_appearance.py -- --mode 
 
 Silent offline native C# layered-window host, floating above normal apps; no browser hiding or desktop-shell embedding. Keep the accepted idle/wave and introduce no unrelated gestures. The limited idle polish is accepted: chest +25%, head +20%, same four-second timing. Earlier user observation found no conspicuous jump/stutter when clicking different idle phases. The appearance pass preserves those motion keys; the user subsequently approved its appearance as well.
 
-The approved future Phase 04 experiment is a bounded authored carry/drag response with ordinary dragging as fallback, not full physics or an engine migration. Phase 03 handoff is complete; research findings now constrain the first experiment. Phase 05 handles startup, packaging, duplicate instances and daily-use checks; recipient Windows 11 acceptance is Phase 06. Exact tray restoration and the covered-body counter remain native integration checklist items.
+The active Phase 04 experiment is a bounded authored carry/drag response with ordinary dragging as fallback, not full physics or an engine migration. Phase 03 handoff is complete; research findings now constrain the first experiment. Phase 05 handles startup, packaging, duplicate instances and daily-use checks; recipient Windows 11 acceptance is Phase 06. Exact tray restoration and the covered-body counter remain native integration checklist items.
 
 Official Blender MCP previously worked through the isolated diagnostic stdio client; it is optional for live inspection. Direct scripts/renders are used for repeatability, since hidden viewport capture could be stale. Computer Use desktop capture previously failed; no fresh desktop screenshot proof is claimed. Windows smoke uses app methods and real layered-window calls; physical visual/input acceptance belongs to the user's observations. Keep all model/texture/render assets private under ignored `.local/`.

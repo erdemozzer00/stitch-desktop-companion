@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "endpoints": {
+    "idle-01": {
+      "start_max_matrix_error": 0.0,
+      "end_max_matrix_error": 0.0,
+      "frames": 10
+    },
+    "idle-25": {
+      "start_max_matrix_error": 0.0,
+      "end_max_matrix_error": 0.0,
+      "frames": 10
+    },
+    "idle-73": {
+      "start_max_matrix_error": 0.0,
+      "end_max_matrix_error": 0.0,
+      "frames": 10
+    },
+    "wave-04": {
+      "start_max_matrix_error": 0.0,
+      "end_max_matrix_error": 0.0,
+      "frames": 10
+    },
+    "wave-18": {
+      "start_max_matrix_error": 0.0,
+      "end_max_matrix_error": 0.0,
+      "frames": 10
+    },
+    "wave-37": {
+      "start_max_matrix_error": 0.0,
+      "end_max_matrix_error": 0.0,
+      "frames": 10
+    },
+    "settle": {
+      "start_max_matrix_error": 0.0,
+      "end_max_matrix_error": 0.0,
+      "frames": 12
+    }
+  },
+  "limits": "Evaluated pose endpoints, source fields and camera only; not full deformation or host input acceptance."
+}

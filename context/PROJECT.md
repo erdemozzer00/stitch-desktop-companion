@@ -44,3 +44,5 @@ Keep the original downloads unchanged. Keep model files, textures, renders, and 
 No roaming behavior, speech, sound, real-time AI, complex settings system, or new rig is part of the first version. The user explicitly requested replacing the old desktop-only requirement with familiar floating-pet behavior. Codex is an interaction reference; do not infer a request for its chat, task-monitoring, or account features.
 
 On 2026-09-19 the user approved the order: relaxed stance/idle, improved wave, then a bounded authored carry/drag experiment. The experiment is authorized; shipping the effect depends on visual quality and proportionate complexity. The user allows omitting it if costly or unsuitable. Full articulated physics is excluded; keep the current renderer and ordinary dragging as fallback. See the [animation execution plan](ANIMATION-PLAN.md).
+
+2026-09-19: The user approved splitting the carry trial into 04A (pickup, held-neutral, release/settle) and 04B (direction/speed response after moving review). Godot is cancelled for the current scope. Keep the accepted installed app unchanged during the inexpensive 04A preview experiment.
