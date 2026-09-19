@@ -93,7 +93,7 @@ internal sealed class PetWindow : Form
         }
         timer.Interval = 15;
         timer.Tick += delegate { Advance(); };
-        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-idle-polish idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
+        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-appearance-400 idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
         Log("environment os=" + Environment.OSVersion + " screens=" + Screen.AllScreens.Length);
     }
 

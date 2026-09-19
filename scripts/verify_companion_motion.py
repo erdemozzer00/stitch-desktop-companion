@@ -27,6 +27,10 @@ def delta(a, b):
 
 
 def main():
+    output = ROOT / '.local/phase-03'
+    appearance_pass = '--appearance' in sys.argv
+    if appearance_pass:
+        output /= 'appearance-final'
     stage = ROOT / ".local/phase-01/stitch-stage.blend"
     bpy.ops.wm.open_mainfile(filepath=str(stage), load_ui=False, use_scripts=False)
     rig = bpy.data.objects["Stitch_Armature"]
@@ -36,15 +40,26 @@ def main():
     source_pose = matrices(rig)
     feet = {n: value for n, value in source_pose.items() if n.startswith("Toe_")}
     assert len(feet) == 8
-    report = {"status": "PASS", "stage_sha256": hashlib.sha256(stage.read_bytes()).hexdigest(), "clips": {}}
+    report = {"status": "PASS", "artifact_directory": str(output.relative_to(ROOT)), "stage_sha256": hashlib.sha256(stage.read_bytes()).hexdigest(), "clips": {}}
     idle_start = None
     for clip, count in [("idle", 96), ("wave", 45)]:
-        path = ROOT / f".local/phase-03/{clip}/{clip}.blend"
+        path = output / clip / (clip + '.blend')
+        if appearance_pass:
+            source = ROOT / f'.local/phase-03/{clip}/{clip}.blend'
+            bpy.ops.wm.open_mainfile(filepath=str(source), load_ui=False, use_scripts=False)
+            accepted_motion = action_data(bpy.data.objects['Stitch_Armature'].animation_data.action)
+            accepted_camera = [list(row) for row in bpy.context.scene.camera.matrix_world]
+            accepted_scale = bpy.context.scene.camera.data.ortho_scale
         bpy.ops.wm.open_mainfile(filepath=str(path), load_ui=False, use_scripts=False)
         rig = bpy.data.objects["Stitch_Armature"]
         assert preservation_digests(bpy.data.objects["Stitch_Mesh"], rig) == baseline
         assert action_data(bpy.data.actions["Stitch_Anim"]) == original_action
         scene = bpy.context.scene
+        if appearance_pass:
+            assert action_data(rig.animation_data.action) == accepted_motion
+            assert [list(row) for row in scene.camera.matrix_world] == accepted_camera
+            assert scene.camera.data.ortho_scale == accepted_scale
+            assert scene.render.resolution_x == scene.render.resolution_y == 400
         assert (scene.frame_start, scene.frame_end, scene.render.fps) == (1, count, 24)
         poses = []
         max_foot = 0
@@ -75,14 +90,22 @@ def main():
         if clip == "idle":
             report["clips"][clip]["seam_finite_difference_delta"] = seam_velocity_delta
     report["idle_neutral_matches_wave_entry"] = True
-    entry_folder = ROOT / '.local/phase-03/entries'
+    entry_folder = output / 'entries'
     entry_manifest = json.loads((entry_folder / 'manifest.json').read_text(encoding='utf-8'))
     assert entry_manifest['idle_sha256'] == report['clips']['idle']['sha256'], 'Entries belong to a different idle'
     assert entry_manifest['buckets'] == 24
     max_entry_pose_error = max_entry_foot_error = 0.0
     for bucket in range(24):
+        if appearance_pass:
+            accepted_entry = ROOT / '.local/phase-03/entries' / ('entry_%02d.blend' % bucket)
+            bpy.ops.wm.open_mainfile(filepath=str(accepted_entry), load_ui=False, use_scripts=False)
+            accepted_entry_motion = action_data(bpy.data.objects['Stitch_Armature'].animation_data.action)
         bpy.ops.wm.open_mainfile(filepath=str(entry_folder / ('entry_%02d.blend' % bucket)), load_ui=False, use_scripts=False)
         rig = bpy.data.objects['Stitch_Armature']
+        if appearance_pass:
+            assert action_data(rig.animation_data.action) == accepted_entry_motion
+            assert [list(row) for row in bpy.context.scene.camera.matrix_world] == accepted_camera
+            assert bpy.context.scene.camera.data.ortho_scale == accepted_scale
         assert preservation_digests(bpy.data.objects['Stitch_Mesh'], rig) == baseline
         assert action_data(bpy.data.actions['Stitch_Anim']) == original_action
         for frame in range(1, 5):
@@ -97,6 +120,7 @@ def main():
                               'max_endpoint_matrix_delta': max_entry_pose_error,
                               'max_toe_matrix_delta': max_entry_foot_error,
                               'max_projected_entry_gap_400px': entry_manifest['max_entry_vertex_gap_at_400px']}
+    report['appearance_preserves_accepted_motion_and_camera'] = appearance_pass
     report["limits"] = ["Toe matrix stability is not full mesh contact/intersection proof",
                         "Sampled idle entries are approximate; perceptual transition acceptance is separate",
                         "No visual naturalness or target-PC acceptance"]

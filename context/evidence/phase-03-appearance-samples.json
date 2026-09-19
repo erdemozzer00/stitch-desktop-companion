@@ -1,0 +1,35 @@
+{
+  "samples_compared": [
+    24,
+    64
+  ],
+  "size": 400,
+  "channel_scale": "0-255, composited pixels in union alpha support",
+  "measurements": {
+    "idle": {
+      "light": {
+        "mean_absolute_difference": 1.1561248594017575,
+        "p95_difference": 4.729411764705892,
+        "max_difference": 45.99999999999999
+      },
+      "dark": {
+        "mean_absolute_difference": 0.9218564355223398,
+        "p95_difference": 3.0000000000000036,
+        "max_difference": 45.99999999999999
+      }
+    },
+    "wave": {
+      "light": {
+        "mean_absolute_difference": 1.1592209037573855,
+        "p95_difference": 4.999999999999982,
+        "max_difference": 31.000000000000004
+      },
+      "dark": {
+        "mean_absolute_difference": 0.9029876072815,
+        "p95_difference": 3.0000000000000036,
+        "max_difference": 31.000000000000004
+      }
+    }
+  },
+  "choice": "24 samples with existing denoising; two static poses only, not temporal-noise acceptance"
+}

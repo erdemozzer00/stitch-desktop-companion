@@ -26,9 +26,9 @@ The user's manual report confirms the sampled transparent-corner click path, sta
 
 ## Phase 03 — Appearance and animation polish
 
-**Status: ACTIVE — pose comparison complete; idle/wave drafts in progress (2026-09-19)**
+**Status: ACTIVE — accepted motion and 400px appearance candidate installed; final visual review pending (2026-09-19)**
 
-Latest checkpoint: accepted 45-frame wave and limited idle polish are installed in the desktop app; 24 sampled entry variants preserve short click transitions. The user explicitly prohibited adding unrelated gestures. Next is Step 03.4: dark-background contrast, outline choice and true 400px output. Phase 03 stays active; the Phase 04 carry experiment is unstarted.
+Latest checkpoint: accepted idle/wave plus 24 entry variants now use the installed 400px soft-fill appearance candidate. Source motion/camera, RGBA frames and Windows smoke checks pass. The user explicitly prohibited unrelated gestures. Final appearance/temporal-artifact feedback is pending before the Phase 03 handoff; Phase 04 remains unstarted.
 
 Execution order and step gates: [animation plan](ANIMATION-PLAN.md). Pose comparison selected the soft stance. The user now finds idle alive enough for now and likes the new wave tempo, requesting a slight speed increase (49 to 45 frames at 24 fps). See [Phase 03 review](evidence/phase-03-review.md). Final appearance and transitions remain unapproved.
 

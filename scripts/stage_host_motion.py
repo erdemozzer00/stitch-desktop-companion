@@ -9,9 +9,10 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-phase = ROOT / '.local/phase-03'
+workspace = ROOT / '.local/phase-03'
+phase = workspace / 'appearance-final'
 destination = Path(sys.argv[1]).resolve()
-assert destination.is_relative_to(phase.resolve()), 'Stage inside the private Phase 03 directory'
+assert destination.is_relative_to(workspace.resolve()), 'Stage inside the private Phase 03 directory'
 assert not destination.exists(), 'Use a new staging directory; do not mix revisions'
 sources = {}
 for clip, count in [('idle', 96), ('wave', 45), ('entries', 96)]:
@@ -19,12 +20,13 @@ for clip, count in [('idle', 96), ('wave', 45), ('entries', 96)]:
     manifest = json.loads((folder / 'manifest.json').read_text(encoding='utf-8'))
     hashes = manifest['frame_sha256']
     assert len(hashes) == count and manifest['fps'] == 24
+    assert (manifest['size'], manifest['samples'], manifest['appearance']) == (400, 24, 'soft')
     for name, digest in hashes.items():
         assert Path(name).name == name
         path = folder / name
         assert hashlib.sha256(path.read_bytes()).hexdigest() == digest
         with Image.open(path) as image:
-            assert image.mode == 'RGBA' and image.size == (320, 320)
+            assert image.mode == 'RGBA' and image.size == (400, 400)
             alpha = np.asarray(image)[:, :, 3]
             assert not any(edge.any() for edge in (alpha[0], alpha[-1], alpha[:, 0], alpha[:, -1]))
         sources[name] = path
@@ -45,10 +47,10 @@ destination.mkdir(parents=True)
 for name, source in sources.items():
     shutil.copy2(source, destination / name)
 shutil.copy2(sources['idle_0001.png'], destination / 'idle.png')
-report = {'status': 'PASS', 'revision': 'phase03-idle-polish', 'frames': len(sources),
+report = {'status': 'PASS', 'revision': 'phase03-appearance-400', 'size': 400, 'frames': len(sources),
           'max_entry_vertex_gap_at_400px': gap, 'all_entry_endpoints_pixel_identical_to_wave': True,
           'all_entry_starts_pixel_identical_to_sampled_idle': True, 'alpha_borders_clear': True,
-          'limits': '320px drafts; 400px display is currently scaled. Native input/visual transition acceptance pending.',
+          'limits': '400px appearance candidate. Native input/visual acceptance and target Windows 11 remain separate.',
           'frame_sha256': {name: hashlib.sha256((destination / name).read_bytes()).hexdigest() for name in sources}}
 (destination.parent / 'motion-manifest.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
 summary = {key: value for key, value in report.items() if key != 'frame_sha256'}

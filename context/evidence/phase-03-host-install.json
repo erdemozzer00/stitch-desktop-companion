@@ -1,10 +1,10 @@
 {
   "status": "PASS",
-  "installed_at_utc": "2026-09-19T14:52:57.1086893Z",
-  "revision": "phase03-idle-polish",
-  "executable_sha256": "c37f12b6b20214c17446963dd218f80a9fd2b068cb89c667918a90c479a5161f",
+  "installed_at_utc": "2026-09-19T15:21:17.0959410Z",
+  "revision": "phase03-appearance-400",
+  "executable_sha256": "d0ac9f4d32bc35a8399d0211fba770e4458e9aed7587cdc981ad4a7f03b27771",
   "frames": 237,
-  "original_host_backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion\\.local\\phase-03\\host-backup-20260919-145239-447",
+  "original_host_backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion\\.local\\phase-03\\host-backup-20260919-152055-087",
   "settings_preserved": true,
-  "limits": "Live smoke uses application methods, not physical mouse input. Appearance remains a 320px draft."
+  "limits": "Live smoke uses application methods, not physical mouse input. 400px appearance candidate requires user visual review."
 }

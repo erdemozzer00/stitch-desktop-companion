@@ -1,10 +1,11 @@
 {
   "status": "PASS",
-  "revision": "phase03-idle-polish",
+  "revision": "phase03-appearance-400",
+  "size": 400,
   "frames": 237,
   "max_entry_vertex_gap_at_400px": 0.6689451336860657,
   "all_entry_endpoints_pixel_identical_to_wave": true,
   "all_entry_starts_pixel_identical_to_sampled_idle": true,
   "alpha_borders_clear": true,
-  "limits": "320px drafts; 400px display is currently scaled. Native input/visual transition acceptance pending."
+  "limits": "400px appearance candidate. Native input/visual acceptance and target Windows 11 remain separate."
 }

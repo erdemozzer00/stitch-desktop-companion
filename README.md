@@ -2,7 +2,7 @@
 
 A project for a personal Windows 11 desktop companion using a supplied Stitch model. The first version is a silent floating character above normal windows, reacts to clicks, and can be dragged into place. The former desktop-only requirement was withdrawn on 2026-09-18.
 
-**Status:** Phases 01–02 are complete as preparation/feasibility work. The user accepts Phase 03 idle direction and the revised wave. The native host now supports looping idle, short pose-space entry and the 45-frame wave; `scripts/update_host_motion.ps1` validates, backs up and updates the installed review app. Appearance remains a 320px draft, and native interaction review remains open. The bounded drag-reaction trial follows in Phase 04. Target-PC and release acceptance remain open.
+**Status:** Phases 01–02 are complete as preparation/feasibility work. The user accepts Phase 03 idle direction and the revised wave. The native host now supports looping idle, short pose-space entry and the 45-frame wave; `scripts/update_host_motion.ps1` validates, backs up and updates the installed review app. The current desktop candidate uses soft lower fill and native 400px frames; final user appearance review remains open. The bounded drag-reaction trial follows in Phase 04. Target-PC and release acceptance remain open.
 
 Verified public repository: [erdemozzer00/stitch-desktop-companion](https://github.com/erdemozzer00/stitch-desktop-companion).
 
@@ -35,9 +35,9 @@ The recipient's eventual packaged application is intended to run without Blender
 
 ## Local Windows prototype
 
-`./scripts/update_host_motion.ps1 -Python <python-with-Pillow-and-numpy> -Launch` validates rendered manifests, compiles/tests a candidate, backs up the installed host and synchronizes approved review motion. Render `scripts/author_idle_entries.py` with Blender first when the idle changes. The executable stays at `.local/phase-02/host/StitchPet.exe` so existing launch paths remain valid; the historical directory name does not mean old motion. This is a Windows review build, not an installer. Right-click the character or tray icon for size, hide, restore and exit; double-click the tray icon to restore.
+`./scripts/update_host_motion.ps1 -Python <python-with-Pillow-and-numpy> -Launch` validates rendered manifests, compiles/tests a candidate, backs up the installed host and synchronizes approved review motion. When motion changes, rebuild entries with `scripts/author_idle_entries.py`, then produce matching 400px assets with `scripts/render_appearance.py -- --mode production --variant soft --samples 24`. The updater installs from `.local/phase-03/appearance-final/`. The executable stays at `.local/phase-02/host/StitchPet.exe` so existing launch paths remain valid; the historical directory name does not mean old motion. This is a Windows review build, not an installer. Right-click the character or tray icon for size, hide, restore and exit; double-click the tray icon to restore.
 
-The local executable accepts `--preview` for a single automatic reaction or `--probe` for the interactive test panel. Close an existing instance before launching/rebuilding: duplicate-instance prevention is still pending. Current motion is a four-second idle, a short sampled pose-space entry and the accepted 45-frame wave, all at 24 fps. Current 320px drafts are scaled for the 400px setting; final appearance/rendering remains Phase 03 work.
+The local executable accepts `--preview` for a single automatic reaction or `--probe` for the interactive test panel. Close an existing instance before launching/rebuilding: duplicate-instance prevention is still pending. Current motion is a four-second idle, a short sampled pose-space entry and the accepted 45-frame wave, all at 24 fps. Current assets are rendered at 400px, with 240/320 downsampling and native 400px display. Final appearance feedback remains the Phase 03 exit gate.
 
 See [Phase 02 evidence](context/evidence/phase-02-review.md) for the distinction between native input observations, callback tests, animation review and deferred recipient acceptance.
 

@@ -47,7 +47,7 @@ $record = [ordered]@{
     status = 'PASS'; installed_at_utc = [DateTime]::UtcNow.ToString('o'); revision = $manifest.revision
     executable_sha256 = (Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant()
     frames = $manifest.frames; original_host_backup = $backup; settings_preserved = $true
-    limits = 'Live smoke uses application methods, not physical mouse input. Appearance remains a 320px draft.'
+    limits = 'Live smoke uses application methods, not physical mouse input. 400px appearance candidate requires user visual review.'
 }
 $record | ConvertTo-Json | Set-Content -LiteralPath "$repo/context/evidence/phase-03-host-install.json" -Encoding UTF8
 Write-Output "Installed $exe; preserved old host at $backup"
