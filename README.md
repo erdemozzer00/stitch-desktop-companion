@@ -2,7 +2,7 @@
 
 A project for a personal Windows 11 desktop companion using a supplied Stitch model. The first version is a silent floating character above normal windows, reacts to clicks, and can be dragged into place. The former desktop-only requirement was withdrawn on 2026-09-18.
 
-**Status:** Phases 01–03 are complete. The user approved the installed idle, 45-frame wave and native 400px soft-fill appearance. The updater validates, backs up and synchronizes the local review app. In Phase 04, the user accepted the open-eye carried-toy response and cancelled the later closed-eye experiment. The isolated native integration trial is next. A full desktop fallback was verified before implementation; the accepted desktop app remains unchanged. Packaging and target-PC acceptance remain open.
+**Status:** Phases 01–03 are complete. The user approved the installed idle, 45-frame wave and native 400px soft-fill appearance. In Phase 04, the accepted open-eye carried-toy response now runs in an isolated native trial; physical-input and user visual review are pending. The eye-closure experiment was cancelled. A full desktop fallback was verified before implementation; the accepted desktop app remains unchanged. Packaging and target-PC acceptance remain open.
 
 Verified public repository: [erdemozzer00/stitch-desktop-companion](https://github.com/erdemozzer00/stitch-desktop-companion).
 
@@ -40,5 +40,9 @@ The recipient's eventual packaged application is intended to run without Blender
 The local executable accepts `--preview` for a single automatic reaction or `--probe` for the interactive test panel. Close an existing instance before launching/rebuilding: duplicate-instance prevention is still pending. Current motion is a four-second idle, a short sampled pose-space entry and the accepted 45-frame wave, all at 24 fps. Current assets are rendered at 400px, with 240/320 downsampling and native 400px display. The user approved this installed appearance; Phase 04 integration and later delivery gates remain open.
 
 See [Phase 02 evidence](context/evidence/phase-02-review.md) for the distinction between native input observations, callback tests, animation review and deferred recipient acceptance.
+
+## Isolated carry trial
+
+Phase 04 trial assets live in `.local/phase-04/native-trial`, separate from the accepted installation. Run `scripts/stage_carry_trial.py` with the bundled Pillow Python, `scripts/build_host_spike.ps1 -OutputDirectory .local/phase-04/native-trial`, then `scripts/check_carry_trial.ps1` (add `-Live` for separate baseline/carry direct-method Windows smoke and resource samples). Launch with `scripts/start_carry_trial.ps1 -DesktopShortcut`; it creates a clearly named desktop trial shortcut and opens the control panel. Eye-closure assets are excluded. The current carry bank is a 240px/six-sample draft; idle/wave retain accepted 400px assets. Larger display sizes therefore enlarge draft carry pixels. This is not a production installation or final quality claim.
 
 Run `./scripts/check_host_spike.ps1` for component/pixel/playback checks; add `-Live` for a short visible Windows rendering smoke test using application methods. Neither replaces physical click-through, menu/tray or visual acceptance. Current evidence is recorded under Phase 03 and in `context/ACTIVE.md`.

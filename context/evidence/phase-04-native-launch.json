@@ -1,0 +1,9 @@
+{
+  "status": "RUNNING_AT_CHECK",
+  "checked_at_utc": "2026-09-19T16:49:18.8130094Z",
+  "pid": 15636,
+  "executable_sha256": "89cfcf24496c1819fca7701edad51d2e0a12779cbaad07a0ed2159ee2c78f506",
+  "revision": "phase04-open-eye-native-trial",
+  "installed_baseline_changed": false,
+  "limits": "Process launch verified only. Physical mouse and user visual acceptance are pending."
+}

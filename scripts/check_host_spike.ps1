@@ -6,7 +6,7 @@ New-Item -ItemType Directory -Force -Path $output | Out-Null
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 & $compiler /nologo /target:exe /main:HostChecks /platform:x64 /optimize+ /warnaserror+ /codepage:65001 `
     "/out:$output\HostChecks.exe" "/win32manifest:$repo\host\app.manifest" `
-    /reference:System.Windows.Forms.dll /reference:System.Drawing.dll "$repo\host\PetSpike.cs" "$repo\host\HostChecks.cs"
+    /reference:System.Windows.Forms.dll /reference:System.Drawing.dll "$repo\host\PetSpike.cs" "$repo\host\CarryMotion.cs" "$repo\host\HostChecks.cs"
 if ($LASTEXITCODE -ne 0) { throw 'Host check compilation failed.' }
 $scratch = Join-Path $output ([DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss-fff'))
 $assets = if ($AssetsDirectory) { $AssetsDirectory } else { "$repo\.local\phase-02\host\assets" }

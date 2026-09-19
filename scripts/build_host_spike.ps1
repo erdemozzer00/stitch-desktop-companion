@@ -6,7 +6,7 @@ New-Item -ItemType Directory -Force -Path $output | Out-Null
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
 & $compiler /nologo /target:winexe /platform:x64 /optimize+ /warnaserror+ /codepage:65001 `
     "/out:$output\StitchPet.exe" "/win32manifest:$repo\host\app.manifest" `
-    /reference:System.Windows.Forms.dll /reference:System.Drawing.dll "$repo\host\PetSpike.cs"
+    /reference:System.Windows.Forms.dll /reference:System.Drawing.dll "$repo\host\PetSpike.cs" "$repo\host\CarryMotion.cs"
 if ($LASTEXITCODE -ne 0) { throw 'Host compilation failed.' }
 '<configuration><startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8" /></startup></configuration>' |
     Set-Content -LiteralPath "$output/StitchPet.exe.config" -Encoding UTF8

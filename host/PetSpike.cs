@@ -18,16 +18,18 @@ internal static class Program
         Application.SetCompatibleTextRenderingDefault(false);
         string root = AppDomain.CurrentDomain.BaseDirectory;
         string assets = Path.Combine(root, "assets");
+        string carry = null;
         bool probe = false, preview = false;
         foreach (string arg in args)
         {
             if (arg.StartsWith("--assets=")) assets = Path.GetFullPath(arg.Substring(9));
             if (arg == "--probe") probe = true;
             if (arg == "--preview") preview = true;
+            if (arg.StartsWith("--carry=")) carry = Path.GetFullPath(arg.Substring(8));
         }
         try
         {
-            using (PetWindow pet = new PetWindow(assets, root))
+            using (PetWindow pet = new PetWindow(assets, root, true, carry))
             {
                 if (probe) pet.Shown += delegate { new ProbeWindow(pet).Show(); };
                 if (preview) pet.Shown += delegate { pet.React(); };
@@ -57,16 +59,25 @@ internal sealed class PetWindow : Form
     private Point pointerStart, windowStart;
     private int side = 320;
     private Bitmap presented;
+    private readonly CarryBank carryBank;
+    private readonly CarryResponse carry = new CarryResponse();
+    private PointF lastCarryOffset;
+    private double lastCarryAngle = Double.NaN;
+    internal int CharacterSize { get { return side; } }
+    internal int ContentPadding { get { return carryBank == null ? 0 : CarrySurface.Padding(side); } }
+    internal bool CarryEnabled { get { return carryBank != null; } }
+    internal bool ManualTicks { get; set; } // Direct-method smoke; ordinary launches use the timer.
     public int Reactions { get; private set; }
     public event Action Changed;
 
-    public PetWindow(string assets, string output, bool createTray = true)
+    public PetWindow(string assets, string output, bool createTray = true, string carryDirectory = null)
     {
         statePath = Path.Combine(output, "position.txt");
         logPath = Path.Combine(output, "events.log");
         idle = ReadClip(assets, "idle_", 96);
         wave = ReadClip(assets, "wave_", 45);
         for (int i = 0; i < entries.Length; i++) entries[i] = ReadClip(assets, "entry_" + i.ToString("00") + "_", 4);
+        if (carryDirectory != null) carryBank = new CarryBank(carryDirectory);
         Text = "Stitch floating prototype";
         AccessibleName = "Stitch floating prototype";
         FormBorderStyle = FormBorderStyle.None;
@@ -74,9 +85,9 @@ internal sealed class PetWindow : Form
         StartPosition = FormStartPosition.Manual;
         TopMost = true;
         AutoScaleMode = AutoScaleMode.None;
-        ClientSize = new Size(side, side);
-        Location = new Point(Screen.PrimaryScreen.WorkingArea.Right - side - 40,
-                             Screen.PrimaryScreen.WorkingArea.Bottom - side - 40);
+        UpdateCanvasSize();
+        Location = new Point(Screen.PrimaryScreen.WorkingArea.Right - side - ContentPadding - 40,
+                             Screen.PrimaryScreen.WorkingArea.Bottom - side - ContentPadding - 40);
         LoadPosition();
         menu = new ContextMenuStrip();
         menu.Items.Add("El salla", null, delegate { React(); });
@@ -92,8 +103,8 @@ internal sealed class PetWindow : Form
             tray.DoubleClick += delegate { ShowPet(); };
         }
         timer.Interval = 15;
-        timer.Tick += delegate { Advance(); };
-        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-appearance-400 idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
+        timer.Tick += delegate { if (!ManualTicks) Advance(); };
+        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-appearance-400 carry=" + CarryEnabled + " idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
         Log("environment os=" + Environment.OSVersion + " screens=" + Screen.AllScreens.Length);
     }
 
@@ -128,33 +139,56 @@ internal sealed class PetWindow : Form
     {
         base.OnMouseDown(e);
         if (e.Button != MouseButtons.Left) return;
-        pressed = true;
-        dragging = false;
-        pointerStart = Cursor.Position;
-        windowStart = Location;
+        PointerDownAt(Cursor.Position);
         Capture = true;
         Log("pointer-down foreground=" + Native.GetForegroundWindow());
     }
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
+        PointerMoveAt(Cursor.Position);
+    }
+    // The real event handlers and direct-method checks share these input paths.
+    internal void PointerDownAt(Point pointer)
+    {
+        pressed = true; dragging = false;
+        pointerStart = pointer; windowStart = Location;
+    }
+    internal void PointerMoveAt(Point pointer)
+    {
         if (!pressed) return;
-        Point pointer = Cursor.Position;
         int dx = pointer.X - pointerStart.X, dy = pointer.Y - pointerStart.Y;
         Size threshold = SystemInformation.DragSize;
-        if (Math.Abs(dx) >= threshold.Width / 2 || Math.Abs(dy) >= threshold.Height / 2) dragging = true;
-        if (dragging) Location = new Point(windowStart.X + dx, windowStart.Y + dy);
+        bool starting = !dragging && (Math.Abs(dx) >= threshold.Width / 2 || Math.Abs(dy) >= threshold.Height / 2);
+        if (starting) dragging = true;
+        if (!dragging) return;
+        // Move first. Neither pose transitions nor response smoothing gate location.
+        Location = new Point(windowStart.X + dx, windowStart.Y + dy);
+        if (starting && carryBank != null)
+        {
+            double now = clock.Elapsed.TotalSeconds;
+            PointF grip = new PointF((pointerStart.X-windowStart.X-ContentPadding)/(float)side,
+                                    (pointerStart.Y-windowStart.Y-ContentPadding)/(float)side);
+            carry.Begin(now, pointerStart, grip);
+            playback.BeginCarry(now);
+            Log("carry-start entry=" + (playback.EntryOnly ? "idle-bridge" : playback.Reacting ? "finish-wave" : "regrab"));
+        }
     }
     protected override void OnMouseUp(MouseEventArgs e)
     {
         base.OnMouseUp(e);
         if (e.Button == MouseButtons.Right) { menu.Show(Cursor.Position); return; }
         if (e.Button != MouseButtons.Left || !pressed) return;
+        PointerUp();
+    }
+    internal void PointerUp()
+    {
+        if (!pressed) return;
         bool wasDrag = dragging;
         pressed = false;
         dragging = false;
         Capture = false;
-        if (wasDrag) { ClampPosition(); SavePosition(); Log("drag-ended location=" + Location); }
+        if (wasDrag) { carry.Release(); ClampPosition(); SavePosition(); Log("drag-ended location=" + Location); }
         else React();
     }
     protected override void OnMouseCaptureChanged(EventArgs e)
@@ -162,47 +196,77 @@ internal sealed class PetWindow : Form
         base.OnMouseCaptureChanged(e);
         if (!Capture && pressed)
         {
-            pressed = dragging = false;
-            ClampPosition(); SavePosition(); Log("drag-cancelled");
+            CancelPointer();
         }
+    }
+    internal void CancelPointer()
+    {
+        pressed = dragging = false; carry.Release();
+        Capture = false;
+        ClampPosition(); SavePosition(); Log("drag-cancelled");
     }
     public void React()
     {
         if (!Visible) { Log("hidden-reaction-ignored"); return; }
+        if (carry.Active || dragging) { Log("held-reaction-ignored"); return; }
         if (!playback.React(clock.Elapsed.TotalSeconds)) { Log("repeat-click-ignored"); return; }
         Reactions++; Advance(); Log("reaction-start count=" + Reactions + " entry=" + playback.EntryBucket);
     }
     private void Advance()
     {
+        AdvanceAt(clock.Elapsed.TotalSeconds, Cursor.Position);
+    }
+    internal void AdvanceAt(double now, Point pointer)
+    {
+        bool wasCarrying = carry.Active;
+        if (!(pressed && !dragging)) carry.Update(now, pointer, side);
+        if (wasCarrying && !carry.Active)
+        {
+            // Commit re-grab compensation to window position at rest. Resetting
+            // the offset without this would jump the displayed character.
+            Location = new Point(Left+(int)Math.Round(carry.Offset.X*side), Top+(int)Math.Round(carry.Offset.Y*side));
+            carry.Offset = PointF.Empty;
+            playback.EndCarry(now);
+            ClampPosition(); SavePosition(); Log("carry-settled");
+        }
         bool wasReacting = playback.Reacting;
-        playback.Advance(clock.Elapsed.TotalSeconds);
+        playback.Advance(now);
         Bitmap current = CurrentFrame();
-        if (current != presented) { Present(current); presented = current; }
-        if (wasReacting && !playback.Reacting) Log("reaction-end idle-resumed");
+        if (current != presented || carry.Angle != lastCarryAngle || carry.Offset != lastCarryOffset)
+        {
+            Present(current); presented = current; lastCarryAngle = carry.Angle; lastCarryOffset = carry.Offset;
+        }
+        if (wasReacting && !playback.Reacting) Log(playback.CarryReady ? "entry-end carry-ready" : "reaction-end idle-resumed");
     }
     public void SetSize(int value)
     {
+        if (pressed) CancelPointer();
+        int oldPadding = ContentPadding;
         side = Math.Max(160, Math.Min(480, value));
-        ClientSize = new Size(side, side);
+        UpdateCanvasSize();
+        Location = new Point(Left+oldPadding-ContentPadding, Top+oldPadding-ContentPadding);
         ClampPosition(); Present(CurrentFrame()); SavePosition(); Log("size=" + side);
     }
     public void HidePet()
     {
-        timer.Stop(); clock.Reset(); playback.Reset(); presented = null; pressed = dragging = false;
+        timer.Stop(); clock.Reset(); playback.Reset(); carry.Reset(); presented = null; pressed = dragging = false;
         Capture = false; Hide(); Log("hidden");
     }
     public void ShowPet() { ClampPosition(); Show(); clock.Start(); timer.Start(); Present(CurrentFrame()); Log("shown"); }
     private Bitmap CurrentFrame()
     {
+        if (carryBank != null && playback.CarryReady) return carryBank.Frames[carry.FrameIndex];
         if (!playback.Reacting) return idle[playback.IdleIndex];
         return playback.ReactionIndex < 4 ? entries[playback.EntryBucket][playback.ReactionIndex] : wave[playback.ReactionIndex - 4];
     }
     private void ClampPosition()
     {
-        Rectangle area = Screen.FromRectangle(Bounds).WorkingArea;
-        Location = new Point(Math.Max(area.Left, Math.Min(Left, area.Right - side)),
-                             Math.Max(area.Top, Math.Min(Top, area.Bottom - side)));
+        int pad = ContentPadding;
+        Rectangle area = Screen.FromRectangle(new Rectangle(Left+pad, Top+pad, side, side)).WorkingArea;
+        Location = new Point(Math.Max(area.Left-pad, Math.Min(Left, area.Right-side-pad)),
+                             Math.Max(area.Top-pad, Math.Min(Top, area.Bottom-side-pad)));
     }
+    private void UpdateCanvasSize() { int width = side+2*ContentPadding; ClientSize = new Size(width, width); }
     private void LoadPosition()
     {
         try
@@ -212,7 +276,7 @@ internal sealed class PetWindow : Form
             int x, y, size;
             if (values.Length != 3 || !Int32.TryParse(values[0], out x) || !Int32.TryParse(values[1], out y)
                 || !Int32.TryParse(values[2], out size) || size < 160 || size > 480) return;
-            side = size; ClientSize = new Size(side, side); Location = new Point(x, y);
+            side = size; UpdateCanvasSize(); Location = new Point(x, y);
             ClampPosition();
         }
         catch (IOException) { Log("settings-read-failed"); }
@@ -235,6 +299,18 @@ internal sealed class PetWindow : Form
     private void Present(Bitmap source, float scale = 1f)
     {
         if (!IsHandleCreated || !Visible) return;
+        if (carryBank != null)
+        {
+            PointF correction = PointF.Empty;
+            if (playback.CarryReady)
+            {
+                PointF anchor = carryBank.Anchors[carry.FrameIndex], neutral = carryBank.Anchors[22];
+                correction = new PointF(neutral.X-anchor.X, neutral.Y-anchor.Y);
+            }
+            using (Bitmap surface = CarrySurface.Create(source, side, carry, correction))
+                Native.Present(Handle, Location, surface);
+            return;
+        }
         using (Bitmap surface = SpriteSurface.Create(source, side, scale))
             Native.Present(Handle, Location, surface);
     }
@@ -252,6 +328,7 @@ internal sealed class PetWindow : Form
             if (menu != null) menu.Dispose();
             if (idle != null) foreach (Bitmap bitmap in idle) bitmap.Dispose();
             if (wave != null) foreach (Bitmap bitmap in wave) bitmap.Dispose();
+            if (carryBank != null) carryBank.Dispose();
             foreach (Bitmap[] clip in entries) if (clip != null) foreach (Bitmap bitmap in clip) bitmap.Dispose();
         }
         base.Dispose(disposing);
@@ -265,11 +342,26 @@ internal sealed class MotionPlayback
     public int ReactionIndex { get; private set; }
     public int EntryBucket { get; private set; }
     public bool Reacting { get; private set; }
+    internal bool CarryReady { get; private set; }
+    internal bool EntryOnly { get; private set; }
+    private bool carryRequested;
     private double idleStart, reactionStart;
-    public void Reset() { idleStart = reactionStart = 0; IdleIndex = ReactionIndex = EntryBucket = 0; Reacting = false; }
+    public void Reset() { idleStart = reactionStart = 0; IdleIndex = ReactionIndex = EntryBucket = 0; Reacting = CarryReady = EntryOnly = carryRequested = false; }
+    internal void BeginCarry(double now)
+    {
+        carryRequested = true;
+        if (Reacting || CarryReady) return;
+        EntryBucket = ((IdleIndex+2)/4)%24;
+        reactionStart = now; ReactionIndex = 0; Reacting = EntryOnly = true;
+    }
+    internal void EndCarry(double now)
+    {
+        carryRequested = false;
+        if (CarryReady) { CarryReady = false; IdleIndex = 0; idleStart = now; }
+    }
     public bool React(double now)
     {
-        if (Reacting) return false;
+        if (Reacting || carryRequested || CarryReady) return false;
         // Use the last displayed idle frame, not a future timer sample.
         EntryBucket = ((IdleIndex + 2) / 4) % 24;
         reactionStart = now; ReactionIndex = 0; Reacting = true;
@@ -277,12 +369,16 @@ internal sealed class MotionPlayback
     }
     public void Advance(double now)
     {
+        if (CarryReady) return;
         if (Reacting)
         {
             ReactionIndex = (int)((now - reactionStart) * 24);
-            if (ReactionIndex < 49) return;
+            int length = EntryOnly ? 4 : 49;
+            if (ReactionIndex < length) return;
             Reacting = false;
-            idleStart = reactionStart + 49.0 / 24;
+            EntryOnly = false;
+            idleStart = reactionStart + length / 24.0;
+            if (carryRequested) { CarryReady = true; IdleIndex = 0; return; }
         }
         IdleIndex = (int)((now - idleStart) * 24) % 96;
     }
@@ -352,7 +448,7 @@ internal sealed class ProbeWindow : Form
     private int cornerClicks, bodyClicks;
     public ProbeWindow(PetWindow value)
     {
-        pet = value; Text = "Stitch - kısa kontrol"; StartPosition = FormStartPosition.CenterScreen;
+        pet = value; Text = pet.CarryEnabled ? "Stitch - taşıma denemesi" : "Stitch - kısa kontrol"; StartPosition = FormStartPosition.CenterScreen;
         AutoScaleMode = AutoScaleMode.None; ClientSize = new Size(740, 510); BackColor = Color.WhiteSmoke;
         Button corner = Add("Boş köşe", 390, 95, delegate { cornerClicks++; pet.Log("probe-corner-click count=" + cornerClicks); });
         corner.Size = new Size(90, 30);
@@ -379,7 +475,7 @@ internal sealed class ProbeWindow : Form
     }
     private void Align()
     {
-        pet.SetSize(320); pet.Location = PointToScreen(new Point(385, 95)); pet.ShowPet();
+        pet.SetSize(320); pet.Location = PointToScreen(new Point(385-pet.ContentPadding, 95-pet.ContentPadding)); pet.ShowPet();
         pet.Log("probe-aligned foreground=" + Native.GetForegroundWindow()); UpdateStatus();
     }
     private void UpdateStatus()
