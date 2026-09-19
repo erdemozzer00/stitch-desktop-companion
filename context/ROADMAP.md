@@ -26,23 +26,17 @@ The user's manual report confirms the sampled transparent-corner click path, sta
 
 ## Phase 03 — Appearance and animation polish
 
-**Status: ACTIVE — accepted motion and 400px appearance candidate installed; final visual review pending (2026-09-19)**
+**Status: COMPLETE — user approved installed appearance on 2026-09-19**
 
-Latest checkpoint: accepted idle/wave plus 24 entry variants now use the installed 400px soft-fill appearance candidate. Source motion/camera, RGBA frames and Windows smoke checks pass. The user explicitly prohibited unrelated gestures. Final appearance/temporal-artifact feedback is pending before the Phase 03 handoff; Phase 04 remains unstarted.
-
-Execution order and step gates: [animation plan](ANIMATION-PLAN.md). Pose comparison selected the soft stance. The user now finds idle alive enough for now and likes the new wave tempo, requesting a slight speed increase (49 to 45 frames at 24 fps). See [Phase 03 review](evidence/phase-03-review.md). Final appearance and transitions remain unapproved.
-
-Set the camera, lighting, materials, and intended desktop size. Polish one sequence: idle, notice the user, wave, and return to idle. Review it both enlarged and at intended display size.
-
-User feedback on 2026-09-19: the wave is too slow/low quality and idle is static/robotic. The approved order starts with a relaxed neutral pose and subtle idle, then revised wave timing/coordination. The bounded drag/carry experiment follows in Phase 04; full ragdoll and engine migration are excluded. Do not let the optional effect displace core motion-quality work.
-
-Carry forward Phase 01's observed weak lower-body contrast on dark backgrounds. Resolve it through lighting/material and pose review without making the character look like a glowing sticker. The disabled legacy outline is not a settled final style.
+The accepted baseline combines the relaxed soft stance, polished four-second idle, 45-frame wave, sampled pose-space entries and native 400px soft-fill appearance. Legacy outline remains disabled after comparative renders. User feedback accepted the idle, wave pace, transitions and final installed appearance. Preserve these assets during the optional drag experiment. See [animation plan](ANIMATION-PLAN.md) and [Phase 03 review](evidence/phase-03-review.md). Technical evidence and user observations do not certify every mesh intersection or recipient Windows 11 behavior.
 
 **Exit:** a viewable motion preview and recorded visual review covering foot contact, weight, deformation, self-intersection, timing, head/ear follow-through, loop continuity, and small-size readability. Resolve the user's visual feedback before building additional motions. Static renders do not prove motion quality.
 
 ## Phase 04 — Integrated first version
 
-**Status: PLANNED**
+**Status: PLANNED — research complete, implementation unstarted**
+
+See [drag research and skill assessment](evidence/phase-04-drag-research.md).
 
 Integrate the approved animation with the verified desktop host. Implement click reactions, dragging, saved position, and basic size/hide/exit controls. Handle repeated clicks without abrupt pose jumps or overlapping reactions.
 

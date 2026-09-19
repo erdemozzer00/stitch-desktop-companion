@@ -1,8 +1,8 @@
 # Phase 03 execution review
 
-Status: IN PROGRESS — 2026-09-19. User accepts the idle direction for now and likes the revised wave tempo. Final appearance/transition acceptance and phase completion remain open.
+Status: COMPLETE — 2026-09-19. The user explicitly approved the final installed appearance ("I really like it. I approve.") after accepting idle polish and the 45-frame wave.
 
-**Latest checkpoint:** user accepted the final 45-frame wave and requested keeping the desktop app current. The native review app is now updated with idle/wave/entry playback; see the final section below. Earlier statements that the host is untouched describe the preceding preview checkpoints only.
+**Latest checkpoint:** accepted installed revision `phase03-appearance-400`; preservation, frame and Windows smoke evidence is recorded below. The following execution sections are chronological history; earlier pending-review statements are superseded by this acceptance.
 
 ## Current work
 
@@ -127,3 +127,7 @@ Reproduction: Blender `--python scripts/render_appearance.py -- --mode compare` 
 Completion of this implementation checkpoint: production render exited 0. Reopened idle, wave and all 24 entry scenes preserve accepted action keys/camera and original source fields. Idle seam and planted-toe diagnostics PASS; entry endpoint matrix discrepancy is zero. All 237 400px images pass manifest hashes, clear borders, neutral equality and entry endpoint checks. Fresh Windows host checks PASS (six groups / 1943 assertions). `phase03-appearance-400` was installed/relaunched at the existing executable path, retaining settings by hash; prior app backup is `.local/phase-03/host-backup-20260919-152055-087/`. Launch log and running process were checked. The prior close request is resolved.
 
 Neutral and raised-hand output were visually inspected at 240/320/400 on both backgrounds; feet/lower-body separation improved without adopting the stronger fill or dark outline. The moving review GIF uses these actual final frames. This is an installed appearance candidate, not final user visual acceptance. A targeted appearance/temporal-artifact question is pending. Keep Phase 03 active until that response is recorded; do not start carry effects yet.
+
+## User acceptance and phase handoff — 2026-09-19
+
+The user's explicit approval closes Phase 03. Preserve the installed soft-fill, outline-off 400px appearance and accepted idle/wave/entry motion. No additional render or runtime test was run for this documentation-only acceptance update. This is local visual acceptance, not packaged-app or recipient Windows 11 certification. Phase 04 starts with the bounded carry experiment and remaining native integration checks; Phase 05 owns startup, packaging and duplicate-instance prevention.
