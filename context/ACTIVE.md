@@ -1,47 +1,32 @@
 # Current handoff
 
-**Last completed phase:** 02 - Motion and Windows feasibility spikes, 2026-09-19.
+**Last completed phase:** 02 - Motion and Windows feasibility, 2026-09-19.
 
-**Status:** Phase 03 in progress. The user now finds idle alive enough for now and likes the revised wave tempo, requesting only a small speed increase. This accepts the core direction, not final animation/appearance quality. See the [execution plan](ANIMATION-PLAN.md) and [live review](evidence/phase-03-review.md). No Phase 04 work has started.
+**Status:** Phase 03 ACTIVE. User accepts the idle direction for now and explicitly likes the final 45-frame wave. The user also explicitly requests keeping the desktop app current. Minimal idle/wave/entry integration was brought forward for live Phase 03 review; appearance is still draft, and Phase 04 carry/drag work has not started.
 
-**Current cursor:** Requested small wave retiming is rendered and checked: 49 to 45 frames at 24 fps (2.04 to 1.875 seconds); idle unchanged. Previous wave preserved under `.local/phase-03/wave-v2/`; regenerated preview: `.local/phase-03/idle-wave-review.gif`. Next: Step 03.4 contrast/outline/400-pixel output and interruption-transition review. These 320-pixel low-sample drafts are not final assets. The Phase 02 host/assets remain unchanged; do not tell the user the desktop app already has the new idle.
+**Current cursor:** The native app is updated and launched at `.local/phase-02/host/StitchPet.exe` (historical path retained for existing launch links). It now has 96-frame idle, 16 short entry variants of four frames each, and the accepted 45-frame wave at 24 fps. Await the user's observation of idle and click transitions at different idle phases. Next: contrast/outline/final 400px appearance work, then synchronize selected renders through `scripts/update_host_motion.ps1` again. Do not leave approved motion in previews only.
 
-**Latest checks:** Fresh `phase-03-motion-checks.json` verifies preserved source fields/action, near-stationary toes, idle periodic endpoint and wave return, plus expected 96/45-frame ranges at 24 fps. `phase-03-frame-checks.json` verifies all 141 frame hashes/clear alpha boundaries, exact neutral/return image equality, and unchanged Phase 02 host assets. The new wave contact sheet was inspected; small retiming still needs moving review. Wave-v3 render and checks exited successfully. Original failed combined run completed idle but failed on a negative quaternion interpolation factor; that earlier defect is corrected. Do not rerender valid idle because the old log contains that known error.
+## Latest evidence
 
-## Latest user feedback
+- `phase-03-runtime-frames.json`: 205 frames validated against manifests, clear alpha borders, exact entry starts at sampled idle poses and exact neutral entry endpoints/wave return.
+- Entry sampling measured over all evaluated mesh vertices at all 96 idle phases: maximum projected difference 0.891 pixels at 400px. Eight buckets failed the chosen one-pixel bound (1.682px); sixteen passed. This numerical limit does not prove a perceptually invisible transition.
+- `phase-03-host-checks.json`: six groups / 1943 assertions, including all 96 click phases, repeat suppression, idle return, settings, alpha and direct-method Windows layered-window smoke. It is not 1943 independent tests or physical input acceptance.
+- `phase-03-host-install.json`: installed executable hash, backup location and frame count. Prior host and settings preserved in `.local/phase-03/host-backup-20260919-142436-346/`; prior 49-frame wave remains `.local/phase-03/wave-v2/`.
+- Installed process launched with `motion=phase03-v3 idle=96 wave=45`; its saved 240px size and position were retained. PID file is only a hint; inspect the real process/log before making future claims.
+- Current renders are 320px drafts; the 400px option is currently scaled. Do not claim final full-resolution output or professional animation quality from passing checks.
 
-Latest moving-preview feedback (2026-09-19): idle looks alive for now; the user likes the new wave tempo and asks for a slight speed increase. Preserve this direction. They also asked why Blender MCP was no longer used: the previous isolated MCP trial worked, but hidden viewport captures could be stale. Current authoring/rendering uses reproducible Blender scripts; MCP remains an optional live-inspection aid, not a forgotten requirement or a native Codex registration.
+## User feedback and decisions
 
-The user reports alignment and six corner-counter clicks work; rapid/repeated clicks and dragging across the desktop do not interrupt or glitch the wave; both sizes work without clipping and preserve animation; hide/show works; closing/reopening restores the same position and size.
+The user says idle now looks alive and likes the final faster wave. Previous Phase 02 slow/robotic complaints are superseded for this candidate. Previous physical observations confirmed corner pass-through, repeat-click suppression, dragging, sizes, hide/show and persisted geometry. Native interaction needs a short regression observation after this update; exact tray restoration and covered-body counter remain unconfirmed.
 
-Earlier Phase 02 feedback said the rough wave was much too slow/low quality and the static idle robotic. The latest Phase 03 feedback above supersedes that motion assessment, but the native app still uses Phase 02 assets. Existing logs support repeated-click suppression, dragging, hide/show, resizing and close/relaunch. Exact tray restoration and the covered-body counter were not separately confirmed; retain them as explicit integration checklist items rather than inventing full acceptance.
+Keep the silent offline native C# layered-window host and Blender-rendered frames. Floating above normal apps is the settled scope: no browser hiding or desktop-shell embedding. Position/size/hide/show behavior is retained. Startup, packaging, duplicate-instance protection and recipient Windows 11 acceptance remain later work.
 
-## Selected implementation
+The approved later drag experiment uses authored carry poses, restrained direction/speed response and short settling, only if useful at bounded complexity. Ordinary drag is fallback. No full physics, engine migration or new rig.
 
-Keep the native C# WinForms layered window and Blender-rendered RGBA frames. The observed local behavior is sufficient to choose this approach for the gift. No browser-specific hiding, desktop-shell embedding, alternative host or engine migration.
+## Tooling and continuation
 
-The user approved trying the recommended authored carry/drag response after idle and wave quality work. The bounded experiment may use pointer direction/speed, restrained secondary motion and a short release/settle sequence. Inclusion remains conditional on its quality and complexity; ordinary dragging is the fallback. Full articulated ragdoll and an engine migration remain excluded. Nothing has been implemented for this effect yet.
+The official Blender MCP trial worked via an isolated diagnostic stdio client, not native Codex registration. Hidden viewport captures could be stale; use direct renders as visual evidence and MCP when live inspection is useful. MCP was not forgotten and is not required for repeatable authoring.
 
-## Evidence and preserved outputs
+Current scripts: `author_companion_motion.py`, `author_idle_entries.py`, `verify_companion_motion.py`, `preview_companion_motion.py`, `stage_host_motion.py`, `update_host_motion.ps1`. Update staging validates assets before compilation/deployment and preserves a backup. If the current tool-window process cannot close gracefully, close it through its own menu; do not kill unrelated same-name processes. Keep original downloads and all character assets/renders private under ignored `.local/`.
 
-- Phase 02 scope, user results, research and remaining limits: [review](evidence/phase-02-review.md).
-- Source/model/rig/action preservation and stationary toe/return-pose checks: [wave verification](evidence/phase-02-wave-verification.json).
-- All 73 RGBA frames have clear borders; first/last match exactly: [frame checks](evidence/phase-02-frames.json).
-- Four component-check groups pass for alpha, hidden state/settings and diagnostic/disposal behavior: [host checks](evidence/phase-02-host-checks.json). These are not native-input automation.
-- Local wave: `.local/phase-02/wave/stitch-rough-wave.blend`, `rough-wave-review.gif`, `rough-wave-contact-sheet.png`.
-- Local executable/assets/settings/logs: `.local/phase-02/host/`.
-- Verified public repository: `erdemozzer00/stitch-desktop-companion`; all character assets/renders remain ignored.
-
-## Current phase priorities
-
-1. Replace the robotic neutral stance with a relaxed pose and a subtle authored idle loop. Preserve silhouette and foot contact.
-2. Rework the wave's timing, spacing, shoulder/elbow/wrist coordination and secondary head/ear motion. Increasing playback speed alone is not sufficient.
-3. Review the new motion on light/dark backgrounds and at desktop size; get actual visual feedback before calling it polished.
-4. Run the approved bounded drag experiment in Phase 04 after the core-motion checkpoint and Phase 03 handoff. Do not introduce full physics or expand scope if the small experiment disappoints.
-5. Resolve the weak lower-body contrast and undecided legacy outline as part of Phase 03.
-
-## Runtime and remaining limits
-
-No pet process was launched or changed in this animation turn. The previous handoff found it closed; its old PID file can be stale. Rendering/check processes have finished and the optional MCP listener was not started. Current scripts: `author_companion_motion.py`, `verify_companion_motion.py`, `preview_companion_motion.py`. All outputs stay under `.local/phase-03/`; no runtime asset installation yet.
-
-Computer Use desktop capture previously failed twice with `0x80004002`; accessible-element input failed with unavailable geometry. User reports supply the visual interaction evidence; do not mislabel these as agent-run native tests. No global packages, startup registration or installer were added. Windows 11 recipient acceptance, mixed-DPI/multiple displays, packaging, duplicate-instance prevention and daily-use reliability remain later work.
+Computer Use capture previously failed with `0x80004002`; no fresh desktop screenshot proof is claimed. This turn's live smoke exercised native rendering through app methods; final visual/input observations still belong to the user. See `ANIMATION-PLAN.md` and `evidence/phase-03-review.md` for artistic work and remaining acceptance.

@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "revision": "phase03-v3",
+  "frames": 205,
+  "max_entry_vertex_gap_at_400px": 0.8906859159469604,
+  "all_entry_endpoints_pixel_identical_to_wave": true,
+  "all_entry_starts_pixel_identical_to_sampled_idle": true,
+  "alpha_borders_clear": true,
+  "limits": "320px drafts; 400px display is currently scaled. Native input/visual transition acceptance pending."
+}

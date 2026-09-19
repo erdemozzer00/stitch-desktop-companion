@@ -41,6 +41,31 @@ internal static class HostChecks
             }
             cases.Add("Three output sizes preserve alpha and premultiplied pixels; manual probe targets have the intended alpha");
 
+            for (int phase = 0; phase < 96; phase++)
+            {
+                MotionPlayback player = new MotionPlayback();
+                double now = (phase + .1) / 24;
+                player.Advance(now);
+                Assert(player.IdleIndex == phase, "Idle timeline frame mismatch");
+                Assert(player.React(now), "Idle click must start a reaction");
+                int gap = Math.Abs(player.EntryBucket * 6 - phase);
+                Assert(Math.Min(gap, 96 - gap) <= 3, "Entry must be within three idle frames");
+                Assert(!player.React(now + .05), "Repeated click restarted the reaction");
+                player.Advance(now + 3.1 / 24);
+                Assert(player.Reacting && player.ReactionIndex == 3, "Entry must precede wave");
+                player.Advance(now + 4.1 / 24);
+                Assert(player.ReactionIndex == 4, "Wave must start after entry");
+                player.Advance(now + 48.1 / 24);
+                Assert(player.Reacting && player.ReactionIndex == 48, "Last wave frame must play");
+                player.Advance(now + 49.1 / 24);
+                Assert(!player.Reacting && player.IdleIndex == 0, "Wave must return to neutral idle");
+                player.Advance(now + 145.1 / 24);
+                Assert(player.IdleIndex == 0, "Idle loop duration changed");
+                player.Reset();
+                Assert(!player.Reacting && player.IdleIndex == 0, "Hide reset must restore idle");
+            }
+            cases.Add("All 96 idle click phases choose nearby entry, suppress repeats, play the full wave and resume looping idle; reset clears reaction");
+
             string settings = Path.Combine(scratch, "settings");
             Directory.CreateDirectory(settings);
             Point saved;
@@ -85,6 +110,32 @@ internal static class HostChecks
                 pet.Dispose(); // The outer using also disposes it: cleanup must be idempotent.
             }
             cases.Add("An unavailable diagnostic log does not abort host creation or settings changes; repeated disposal succeeds");
+            if (args.Length > 2 && args[2] == "--live")
+            {
+                string live = Path.Combine(scratch, "live");
+                Directory.CreateDirectory(live);
+                using (PetWindow pet = new PetWindow(assets, live, false))
+                using (Timer steps = new Timer())
+                {
+                    int step = 0;
+                    steps.Interval = 400;
+                    steps.Tick += delegate
+                    {
+                        step++;
+                        if (step == 12) { pet.React(); pet.React(); }
+                        if (step == 20) { pet.HidePet(); pet.React(); pet.SetSize(240); pet.ShowPet(); }
+                        if (step == 21) pet.SetSize(400);
+                        if (step == 22) pet.SetSize(320);
+                        if (step == 24) pet.Close();
+                    };
+                    pet.Shown += delegate { steps.Start(); };
+                    Application.Run(pet);
+                    Assert(pet.Reactions == 1, "Live repeat/hidden guard failed");
+                }
+                string events = File.ReadAllText(Path.Combine(live, "events.log"));
+                Assert(events.Contains("reaction-end idle-resumed") && events.Contains("closed"), "Live playback did not finish cleanly");
+                cases.Add("Windows layered-window smoke: full idle loop, reaction and repeat guard, hide/show, three sizes and clean close; direct methods, not physical mouse input");
+            }
             Console.WriteLine("{\"status\":\"PASS\",\"assertions\":" + assertions + ",\"cases\":["
                 + String.Join(",", cases.ConvertAll(value => "\"" + value + "\""))
                 + "],\"limits\":\"Component and pixel checks only. No native clicks, menu operation, desktop composition, or visual motion acceptance.\"}");

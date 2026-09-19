@@ -11,6 +11,8 @@ Keep the supplied model/rig, Blender-authored RGBA frames and the selected nativ
 
 Only one phase is active. Complete and report Phase 03 before executing the Phase 04 experiment. Do not require user confirmation for routine posing/rendering choices; request visual feedback at the core-motion checkpoint or when a material design choice cannot be resolved from existing direction.
 
+2026-09-19 user update: the 45-frame wave is now liked/accepted. The user explicitly requires keeping the desktop application current. Bring forward only the idle/wave playback and short-entry integration needed for live Phase 03 review; keep one active phase and leave the Phase 04 carry experiment unstarted. Subsequent accepted assets must go through `update_host_motion.ps1`, not remain preview-only. Preserve the prior installed host in a private backup. Appearance remains draft quality.
+
 ## Phase 03 — Core motion and appearance
 
 | Step | Work | Output and acceptance evidence | Status |

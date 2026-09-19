@@ -1,3 +1,4 @@
+param([string]$AssetsDirectory, [string]$EvidenceName = 'phase-03-host-checks.json', [switch]$Live)
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
 $output = Join-Path $repo '.local\phase-02\host-checks'
@@ -8,11 +9,12 @@ $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
     /reference:System.Windows.Forms.dll /reference:System.Drawing.dll "$repo\host\PetSpike.cs" "$repo\host\HostChecks.cs"
 if ($LASTEXITCODE -ne 0) { throw 'Host check compilation failed.' }
 $scratch = Join-Path $output ([DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss-fff'))
-$result = & "$output\HostChecks.exe" "$repo\.local\phase-02\host\assets" $scratch
+$assets = if ($AssetsDirectory) { $AssetsDirectory } else { "$repo\.local\phase-02\host\assets" }
+$result = if ($Live) { & "$output\HostChecks.exe" $assets $scratch --live } else { & "$output\HostChecks.exe" $assets $scratch }
 if ($LASTEXITCODE -ne 0) { throw 'Host component checks failed; see console output. No acceptance evidence updated.' }
 $report = $result | ConvertFrom-Json
 $report | Add-Member -NotePropertyName 'checked_at_utc' -NotePropertyValue ([DateTime]::UtcNow.ToString('o'))
 $report | Add-Member -NotePropertyName 'host_source_sha256' -NotePropertyValue ((Get-FileHash -LiteralPath "$repo\host\PetSpike.cs" -Algorithm SHA256).Hash.ToLowerInvariant())
 $report | Add-Member -NotePropertyName 'checks_source_sha256' -NotePropertyValue ((Get-FileHash -LiteralPath "$repo\host\HostChecks.cs" -Algorithm SHA256).Hash.ToLowerInvariant())
-$report | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath "$repo\context\evidence\phase-02-host-checks.json" -Encoding UTF8
+$report | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath "$repo\context\evidence\$EvidenceName" -Encoding UTF8
 $result

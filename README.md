@@ -2,7 +2,7 @@
 
 A project for a personal Windows 11 desktop companion using a supplied Stitch model. The first version is a silent floating character above normal windows, reacts to clicks, and can be dragged into place. The former desktop-only requirement was withdrawn on 2026-09-18.
 
-**Status:** Phases 01–02 are complete as preparation/feasibility work. Phase 03 is producing a relaxed stance and idle/wave timing drafts; these private previews have not replaced the working prototype. A bounded drag-reaction trial follows in Phase 04. This is not a finished companion or approved animation; target-PC and release acceptance remain open.
+**Status:** Phases 01–02 are complete as preparation/feasibility work. The user accepts Phase 03 idle direction and the revised wave. The native host now supports looping idle, short pose-space entry and the 45-frame wave; `scripts/update_host_motion.ps1` validates, backs up and updates the installed review app. Appearance remains a 320px draft, and native interaction review remains open. The bounded drag-reaction trial follows in Phase 04. Target-PC and release acceptance remain open.
 
 Verified public repository: [erdemozzer00/stitch-desktop-companion](https://github.com/erdemozzer00/stitch-desktop-companion).
 
@@ -35,10 +35,10 @@ The recipient's eventual packaged application is intended to run without Blender
 
 ## Local Windows prototype
 
-`./scripts/build_host_spike.ps1 -Probe` compiles the Phase 02 prototype using the installed .NET Framework compiler and opens an interactive test panel. Omit `-Probe` to build only. The executable and private rendered assets stay under `.local/phase-02/host/`. This is a Windows-only experiment, not an installer. It does not register startup or change the wallpaper. Right-click the character or its tray icon for size, hide, restore and exit; double-click the tray icon to restore.
+`./scripts/update_host_motion.ps1 -Python <python-with-Pillow-and-numpy> -Launch` validates rendered manifests, compiles/tests a candidate, backs up the installed host and synchronizes approved review motion. Render `scripts/author_idle_entries.py` with Blender first when the idle changes. The executable stays at `.local/phase-02/host/StitchPet.exe` so existing launch paths remain valid; the historical directory name does not mean old motion. This is a Windows review build, not an installer. Right-click the character or tray icon for size, hide, restore and exit; double-click the tray icon to restore.
 
-The local executable accepts `--preview` for a single automatic reaction on launch. Close an existing instance before launching/rebuilding: duplicate-instance prevention is not implemented in this spike. Ordinary idle is still a static pose; an animated idle and final motion polish are later work.
+The local executable accepts `--preview` for a single automatic reaction or `--probe` for the interactive test panel. Close an existing instance before launching/rebuilding: duplicate-instance prevention is still pending. Current motion is a four-second idle, a short sampled pose-space entry and the accepted 45-frame wave, all at 24 fps. Current 320px drafts are scaled for the 400px setting; final appearance/rendering remains Phase 03 work.
 
 See [Phase 02 evidence](context/evidence/phase-02-review.md) for the distinction between native input observations, callback tests, animation review and deferred recipient acceptance.
 
-Run `./scripts/check_host_spike.ps1` for the bounded host component checks. These use the real rendering/settings/hidden-state code without visible windows or input injection; they do not prove native click-through, menu/tray usability or animation quality. The manual checklist and current local runtime state are recorded in the Phase 02 evidence and handoff.
+Run `./scripts/check_host_spike.ps1` for component/pixel/playback checks; add `-Live` for a short visible Windows rendering smoke test using application methods. Neither replaces physical click-through, menu/tray or visual acceptance. Current evidence is recorded under Phase 03 and in `context/ACTIVE.md`.

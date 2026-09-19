@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "assertions": 1943,
+  "cases": [
+    "Three output sizes preserve alpha and premultiplied pixels; manual probe targets have the intended alpha",
+    "All 96 idle click phases choose nearby entry, suppress repeats, play the full wave and resume looping idle; reset clears reaction",
+    "Hidden reaction guard, size bounds and saved geometry round trip through the real host",
+    "Malformed and off-screen settings fall back to usable geometry",
+    "An unavailable diagnostic log does not abort host creation or settings changes; repeated disposal succeeds",
+    "Windows layered-window smoke: full idle loop, reaction and repeat guard, hide/show, three sizes and clean close; direct methods, not physical mouse input"
+  ],
+  "limits": "Component and pixel checks only. No native clicks, menu operation, desktop composition, or visual motion acceptance.",
+  "checked_at_utc": "2026-09-19T14:24:51.3492924Z",
+  "host_source_sha256": "803ade0a16aeb0caa81fcd191afaa80871f5d46751ea37bc2d590158c7cb4a87",
+  "checks_source_sha256": "766a321d56f011631c78a89988a48c75f881062e4bf73608286b549f60a1ee05"
+}

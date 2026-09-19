@@ -1,4 +1,4 @@
-// Phase 02 feasibility prototype. No startup registration or shell embedding.
+// Local motion-review host. No startup registration or shell embedding.
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -45,15 +45,18 @@ internal static class Program
 internal sealed class PetWindow : Form
 {
     private readonly string statePath, logPath;
-    private readonly Bitmap idle;
+    private readonly Bitmap[] idle;
     private readonly Bitmap[] wave;
+    private readonly Bitmap[][] entries = new Bitmap[16][];
+    private readonly MotionPlayback playback = new MotionPlayback();
     private readonly Timer timer = new Timer();
     private readonly Stopwatch clock = new Stopwatch();
     private readonly NotifyIcon tray;
     private readonly ContextMenuStrip menu;
-    private bool pressed, dragging, reacting, resourcesDisposed;
+    private bool pressed, dragging, resourcesDisposed;
     private Point pointerStart, windowStart;
-    private int side = 320, frame = -1;
+    private int side = 320;
+    private Bitmap presented;
     public int Reactions { get; private set; }
     public event Action Changed;
 
@@ -61,10 +64,9 @@ internal sealed class PetWindow : Form
     {
         statePath = Path.Combine(output, "position.txt");
         logPath = Path.Combine(output, "events.log");
-        idle = ReadBitmap(Path.Combine(assets, "idle.png"));
-        string[] paths = Directory.GetFiles(assets, "wave_*.png");
-        Array.Sort(paths, StringComparer.Ordinal);
-        wave = Array.ConvertAll(paths, ReadBitmap);
+        idle = ReadClip(assets, "idle_", 96);
+        wave = ReadClip(assets, "wave_", 45);
+        for (int i = 0; i < entries.Length; i++) entries[i] = ReadClip(assets, "entry_" + i.ToString("00") + "_", 4);
         Text = "Stitch floating prototype";
         AccessibleName = "Stitch floating prototype";
         FormBorderStyle = FormBorderStyle.None;
@@ -91,13 +93,19 @@ internal sealed class PetWindow : Form
         }
         timer.Interval = 15;
         timer.Tick += delegate { Advance(); };
-        Shown += delegate { Present(idle); Log("launched size=" + side + " frames=" + wave.Length + " location=" + Location); };
+        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-v3 idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
         Log("environment os=" + Environment.OSVersion + " screens=" + Screen.AllScreens.Length);
     }
 
     private static Bitmap ReadBitmap(string path)
     {
         using (Image source = Image.FromFile(path)) return new Bitmap(source);
+    }
+    private static Bitmap[] ReadClip(string assets, string prefix, int count)
+    {
+        Bitmap[] result = new Bitmap[count];
+        for (int i = 0; i < count; i++) result[i] = ReadBitmap(Path.Combine(assets, prefix + (i + 1).ToString("0000") + ".png"));
+        return result;
     }
     protected override bool ShowWithoutActivation { get { return true; } }
     protected override CreateParams CreateParams
@@ -161,23 +169,16 @@ internal sealed class PetWindow : Form
     public void React()
     {
         if (!Visible) { Log("hidden-reaction-ignored"); return; }
-        if (reacting) { Log("repeat-click-ignored"); return; }
-        reacting = true; Reactions++; frame = -1;
-        clock.Restart(); timer.Start(); Advance(); Log("reaction-start count=" + Reactions);
+        if (!playback.React(clock.Elapsed.TotalSeconds)) { Log("repeat-click-ignored"); return; }
+        Reactions++; Advance(); Log("reaction-start count=" + Reactions + " entry=" + playback.EntryBucket);
     }
     private void Advance()
     {
-        int index = (int)(clock.Elapsed.TotalSeconds * 24);
-        int count = wave.Length == 0 ? 18 : wave.Length;
-        if (index >= count)
-        {
-            reacting = false; timer.Stop(); clock.Stop(); frame = -1;
-            Present(idle); Log("reaction-end"); return;
-        }
-        if (index == frame) return;
-        frame = index;
-        // Initial static-asset spike uses a small visual response, not a claimed wave.
-        Present(wave.Length == 0 ? idle : wave[index], wave.Length == 0 ? 0.97f : 1f);
+        bool wasReacting = playback.Reacting;
+        playback.Advance(clock.Elapsed.TotalSeconds);
+        Bitmap current = CurrentFrame();
+        if (current != presented) { Present(current); presented = current; }
+        if (wasReacting && !playback.Reacting) Log("reaction-end idle-resumed");
     }
     public void SetSize(int value)
     {
@@ -187,11 +188,15 @@ internal sealed class PetWindow : Form
     }
     public void HidePet()
     {
-        timer.Stop(); clock.Reset(); reacting = false; frame = -1; pressed = dragging = false;
+        timer.Stop(); clock.Reset(); playback.Reset(); presented = null; pressed = dragging = false;
         Capture = false; Hide(); Log("hidden");
     }
-    public void ShowPet() { ClampPosition(); Show(); Present(CurrentFrame()); Log("shown"); }
-    private Bitmap CurrentFrame() { return reacting && wave.Length > 0 && frame >= 0 ? wave[frame] : idle; }
+    public void ShowPet() { ClampPosition(); Show(); clock.Start(); timer.Start(); Present(CurrentFrame()); Log("shown"); }
+    private Bitmap CurrentFrame()
+    {
+        if (!playback.Reacting) return idle[playback.IdleIndex];
+        return playback.ReactionIndex < 4 ? entries[playback.EntryBucket][playback.ReactionIndex] : wave[playback.ReactionIndex - 4];
+    }
     private void ClampPosition()
     {
         Rectangle area = Screen.FromRectangle(Bounds).WorkingArea;
@@ -245,10 +250,41 @@ internal sealed class PetWindow : Form
             timer.Stop(); timer.Dispose();
             if (tray != null) { tray.Visible = false; tray.Dispose(); }
             if (menu != null) menu.Dispose();
-            if (idle != null) idle.Dispose();
+            if (idle != null) foreach (Bitmap bitmap in idle) bitmap.Dispose();
             if (wave != null) foreach (Bitmap bitmap in wave) bitmap.Dispose();
+            foreach (Bitmap[] clip in entries) if (clip != null) foreach (Bitmap bitmap in clip) bitmap.Dispose();
         }
         base.Dispose(disposing);
+    }
+}
+
+// Time is supplied by the host's monotonic clock; checks exercise the exact same player.
+internal sealed class MotionPlayback
+{
+    public int IdleIndex { get; private set; }
+    public int ReactionIndex { get; private set; }
+    public int EntryBucket { get; private set; }
+    public bool Reacting { get; private set; }
+    private double idleStart, reactionStart;
+    public void Reset() { idleStart = reactionStart = 0; IdleIndex = ReactionIndex = EntryBucket = 0; Reacting = false; }
+    public bool React(double now)
+    {
+        if (Reacting) return false;
+        // Use the last displayed idle frame, not a future timer sample.
+        EntryBucket = ((IdleIndex + 3) / 6) % 16;
+        reactionStart = now; ReactionIndex = 0; Reacting = true;
+        return true;
+    }
+    public void Advance(double now)
+    {
+        if (Reacting)
+        {
+            ReactionIndex = (int)((now - reactionStart) * 24);
+            if (ReactionIndex < 49) return;
+            Reacting = false;
+            idleStart = reactionStart + 49.0 / 24;
+        }
+        IdleIndex = (int)((now - idleStart) * 24) % 96;
     }
 }
 

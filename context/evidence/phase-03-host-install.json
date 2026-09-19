@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "installed_at_utc": "2026-09-19T14:24:51.8904525Z",
+  "revision": "phase03-v3",
+  "executable_sha256": "9524fa9cfc1f6ffae5cb0b7cf276f05a58305698878e8c4f1634debbaa27fda9",
+  "frames": 205,
+  "original_host_backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion\\.local\\phase-03\\host-backup-20260919-142436-346",
+  "settings_preserved": true,
+  "limits": "Live smoke uses application methods, not physical mouse input. Appearance remains a 320px draft."
+}

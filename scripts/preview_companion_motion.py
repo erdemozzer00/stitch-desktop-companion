@@ -8,6 +8,8 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / ".local/phase-03"
+host_assets = ROOT / ".local/phase-02/host/assets"
+host_before = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in host_assets.glob('*.png')}
 pose_board = Image.new("RGB", (960, 354), "#eef0f2")
 pose_draw = ImageDraw.Draw(pose_board)
 for i, name in enumerate(("original", "soft", "tucked")):
@@ -64,13 +66,8 @@ for clip in frames:
     sheet.save(OUTPUT / (clip + "-sheet.png"))
 report["wave_endpoints_pixel_identical"] = True
 report["idle_entry_matches_wave_entry"] = True
-baseline = json.loads((ROOT / "context/evidence/phase-02-frames.json").read_text(encoding="utf-8"))
-host_assets = ROOT / ".local/phase-02/host/assets"
-host_frames = sorted(host_assets.glob("wave_*.png"))
-assert len(host_frames) == baseline["frames"]
-assert hashlib.sha256(b"".join(p.read_bytes() for p in host_frames)).hexdigest() == baseline["sequence_sha256"]
-assert (host_assets / "idle.png").read_bytes() == host_frames[0].read_bytes()
-report["phase_02_host_assets_still_match_baseline"] = True
+assert host_before == {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in host_assets.glob('*.png')}
+report["host_assets_unchanged_by_preview"] = True
 report["limits"] = "Timing drafts at 320 pixels, not final 400-pixel assets or visual approval; host untouched."
 (ROOT / "context/evidence/phase-03-frame-checks.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 print(json.dumps(report))

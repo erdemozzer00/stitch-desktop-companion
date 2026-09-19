@@ -18,6 +18,6 @@
   },
   "wave_endpoints_pixel_identical": true,
   "idle_entry_matches_wave_entry": true,
-  "phase_02_host_assets_still_match_baseline": true,
+  "host_assets_unchanged_by_preview": true,
   "limits": "Timing drafts at 320 pixels, not final 400-pixel assets or visual approval; host untouched."
 }

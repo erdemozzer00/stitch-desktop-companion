@@ -2,6 +2,8 @@
 
 Status: IN PROGRESS — 2026-09-19. User accepts the idle direction for now and likes the revised wave tempo. Final appearance/transition acceptance and phase completion remain open.
 
+**Latest checkpoint:** user accepted the final 45-frame wave and requested keeping the desktop app current. The native review app is now updated with idle/wave/entry playback; see the final section below. Earlier statements that the host is untouched describe the preceding preview checkpoints only.
+
 ## Current work
 
 Step 03.1 pose comparison is complete; Steps 03.2/03.3 timing candidates are rendered and ready for moving feedback. New authoring code: `scripts/author_companion_motion.py`; private outputs: `.local/phase-03/`. All work starts from the verified Phase 01 stage and leaves Phase 02 runtime assets unchanged.
@@ -65,3 +67,17 @@ Retiming choice: resample the same authored 49-frame wave timeline onto 45 frame
 The user also asked whether Blender MCP had been forgotten. It has not: the isolated official MCP trial worked through the diagnostic stdio client, without native Codex tool registration. Hidden viewport capture had returned stale imagery, as recorded in the Phase 02 handoff. Repeatable Blender authoring scripts and direct renders currently supply scene and image evidence. MCP remains available for useful live inspection; there is no need to run it solely to produce this timing adjustment.
 
 Retiming verification completed: the 45-frame render exited 0. Fresh saved-scene checks PASS, with idle scene hash unchanged, source data/action preserved, toe delta about 1.2e-7 and zero endpoint matrix delta. All 141 current PNG frames match their manifests and have clear alpha borders; wave endpoints and neutral idle entry remain pixel-identical. Phase 02 host assets remain unchanged. Regenerated the review GIF and inspected the new eight-frame wave contact sheet: sampled hand/ear clearance remains visible. This is not full moving-quality acceptance. Python syntax and Git whitespace checks also passed. Next: appearance and transition work.
+
+## Accepted motion synchronized to desktop
+
+The user now likes the final wave and explicitly asks that the desktop app stay current. Minimal playback integration was brought forward for Phase 03 live review; Phase 04 carry/drag experimentation remains unstarted. No new approval gate was added.
+
+Idle now loops continuously. Click selects the closest of sixteen sampled idle entry poses, plays a four-frame pose-space bridge to neutral, then the accepted 45-frame wave and resumes idle. All clips use 24 fps, so the bridge adds about 0.167 seconds. Repeat clicks during bridge/wave are ignored; hide stops/resets playback and show resumes idle. No image crossfade or waiting for an entire idle cycle. Normal dragging keeps playing animation.
+
+`author_idle_entries.py` measures screen-space displacement across all evaluated mesh vertices at all 96 idle phases. An eight-bucket experiment failed the chosen one-pixel bound at 400px (1.682px); sixteen buckets reduced the maximum to 0.891px. This is a bounded pose approximation, not exact continuity from every phase or proof that no perceptible hitch exists. The actual rendered entry starts match their sampled idle frames exactly, and all sixteen ends match wave neutral pixels exactly.
+
+`stage_host_motion.py` validates and stages 205 hashed frames with clear alpha boundaries. `update_host_motion.ps1` compiles a separate candidate, runs component plus visible direct-method Windows checks, preserves the old installation and installs the checked candidate at the same historical executable path. Original host backup: `.local/phase-03/host-backup-20260919-142436-346/`. Position/size files were retained; launch log confirms the previous 240px setting and position. Subsequent actual drag events changed the position, so a later position-file hash is correctly different from the backup.
+
+Fresh host evidence: six groups / 1943 assertions PASS, including all 96 click phases, complete wave/idle return, repeat suppression, alpha/resizing, settings and hide/show. The live smoke called app methods and exercised `UpdateLayeredWindow` on Windows 10 through a full idle cycle and wave; it did not inject physical mouse events or visually inspect desktop composition. The updated user app launched with `motion=phase03-v3 idle=96 wave=45` and remains available for user testing. Logs subsequently show real pointer/drag events and five completed reactions from different entry buckets; visual acceptance is still requested from the user.
+
+Limits: render resolution remains 320px, scaled at the 400px setting. Contrast/outline/final rendering and perceptual transition acceptance remain open. Do not claim Phase 03 complete. Every later selected asset revision must be synchronized to the app through the update pipeline, not left only in a preview.
