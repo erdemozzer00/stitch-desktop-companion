@@ -10,6 +10,8 @@
 
 ## Selected appearance and evidence
 
+Latest prototype refinement: remove El salla from the remote, preserve waving by clicking Stitch. Static panel now measures 312 x 220 logical pixels and contains size, hide/show and exit. Revised images are ready; integration still awaits visual approval.
+
 - Four neutral/wave variants were rendered: baseline, soft lower fill, stronger lower fill and legacy outline. Soft fill improves lower-body separation while retaining shaping. Stronger fill was unnecessarily bright/flat. Legacy outline rendered markedly dark and remains disabled; no root-cause repair is claimed.
 - `phase-03-appearance-samples.json`: 24/64-sample static comparisons at 400px, composited on light/dark backgrounds. Mean absolute channel difference around 0.90-1.16/255, p95 around 3-5; outliers remain. This supports a bounded sample choice, not proof of temporal quality.
 - `phase-03-motion-checks.json`: reopened appearance scenes preserve original source/action fields, every accepted idle/wave/entry action key and the camera. Feet remain stable; idle periodic endpoint matches; all entry endpoints match expected matrices exactly. Maximum entry toe difference about 2.4e-7.

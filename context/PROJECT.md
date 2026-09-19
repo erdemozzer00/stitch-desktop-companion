@@ -27,6 +27,8 @@ The motion should fit Stitch's stylized design: readable weight, coordinated sho
 
 ## Initial inspection baseline
 
+Tray remote refinement (2026-09-19): the user removed the El salla command from the panel; the recipient will wave by clicking Stitch. The remote contains size, hide/show and exit only at this stage. Preserve click-to-wave unchanged. This refines the visual prototype; it is not yet approval to integrate it.
+
 These observations were reconciled with the generated Phase 01 evidence:
 
 - Source Blender file version: 2.78.
