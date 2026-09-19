@@ -58,6 +58,7 @@ def main():
         assert boundary < 1e-5, "Endpoint poses differ"
         if clip == "idle":
             idle_start = poses[0]
+            idle_poses = poses
             # Compare sampled finite differences across the periodic seam.
             left = {n: poses[-1][n] - poses[-2][n] for n in poses[0]}
             right = {n: poses[1][n] - poses[0][n] for n in poses[0]}
@@ -74,8 +75,30 @@ def main():
         if clip == "idle":
             report["clips"][clip]["seam_finite_difference_delta"] = seam_velocity_delta
     report["idle_neutral_matches_wave_entry"] = True
+    entry_folder = ROOT / '.local/phase-03/entries'
+    entry_manifest = json.loads((entry_folder / 'manifest.json').read_text(encoding='utf-8'))
+    assert entry_manifest['idle_sha256'] == report['clips']['idle']['sha256'], 'Entries belong to a different idle'
+    assert entry_manifest['buckets'] == 24
+    max_entry_pose_error = max_entry_foot_error = 0.0
+    for bucket in range(24):
+        bpy.ops.wm.open_mainfile(filepath=str(entry_folder / ('entry_%02d.blend' % bucket)), load_ui=False, use_scripts=False)
+        rig = bpy.data.objects['Stitch_Armature']
+        assert preservation_digests(bpy.data.objects['Stitch_Mesh'], rig) == baseline
+        assert action_data(bpy.data.actions['Stitch_Anim']) == original_action
+        for frame in range(1, 5):
+            bpy.context.scene.frame_set(frame)
+            current = matrices(rig)
+            max_entry_foot_error = max(max_entry_foot_error, delta(feet, current))
+            if frame in (1, 4):
+                expected = idle_poses[bucket * 4] if frame == 1 else idle_start
+                max_entry_pose_error = max(max_entry_pose_error, delta(expected, current))
+    assert max_entry_pose_error < 1e-5 and max_entry_foot_error < 1e-5
+    report['entry_checks'] = {'clips': 24, 'source_and_action_preserved': True,
+                              'max_endpoint_matrix_delta': max_entry_pose_error,
+                              'max_toe_matrix_delta': max_entry_foot_error,
+                              'max_projected_entry_gap_400px': entry_manifest['max_entry_vertex_gap_at_400px']}
     report["limits"] = ["Toe matrix stability is not full mesh contact/intersection proof",
-                        "Idle neutral entry only; arbitrary-phase host interruption not implemented",
+                        "Sampled idle entries are approximate; perceptual transition acceptance is separate",
                         "No visual naturalness or target-PC acceptance"]
     (ROOT / "context/evidence/phase-03-motion-checks.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report))

@@ -47,7 +47,7 @@ internal sealed class PetWindow : Form
     private readonly string statePath, logPath;
     private readonly Bitmap[] idle;
     private readonly Bitmap[] wave;
-    private readonly Bitmap[][] entries = new Bitmap[16][];
+    private readonly Bitmap[][] entries = new Bitmap[24][];
     private readonly MotionPlayback playback = new MotionPlayback();
     private readonly Timer timer = new Timer();
     private readonly Stopwatch clock = new Stopwatch();
@@ -93,7 +93,7 @@ internal sealed class PetWindow : Form
         }
         timer.Interval = 15;
         timer.Tick += delegate { Advance(); };
-        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-v3 idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
+        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-idle-polish idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
         Log("environment os=" + Environment.OSVersion + " screens=" + Screen.AllScreens.Length);
     }
 
@@ -271,7 +271,7 @@ internal sealed class MotionPlayback
     {
         if (Reacting) return false;
         // Use the last displayed idle frame, not a future timer sample.
-        EntryBucket = ((IdleIndex + 3) / 6) % 16;
+        EntryBucket = ((IdleIndex + 2) / 4) % 24;
         reactionStart = now; ReactionIndex = 0; Reacting = true;
         return true;
     }

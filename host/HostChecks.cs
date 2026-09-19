@@ -48,8 +48,8 @@ internal static class HostChecks
                 player.Advance(now);
                 Assert(player.IdleIndex == phase, "Idle timeline frame mismatch");
                 Assert(player.React(now), "Idle click must start a reaction");
-                int gap = Math.Abs(player.EntryBucket * 6 - phase);
-                Assert(Math.Min(gap, 96 - gap) <= 3, "Entry must be within three idle frames");
+                int gap = Math.Abs(player.EntryBucket * 4 - phase);
+                Assert(Math.Min(gap, 96 - gap) <= 2, "Entry must be within two idle frames");
                 Assert(!player.React(now + .05), "Repeated click restarted the reaction");
                 player.Advance(now + 3.1 / 24);
                 Assert(player.Reacting && player.ReactionIndex == 3, "Entry must precede wave");
@@ -117,6 +117,8 @@ internal static class HostChecks
                 using (PetWindow pet = new PetWindow(assets, live, false))
                 using (Timer steps = new Timer())
                 {
+                    // This smoke uses direct methods; physical clicks must not alter its expected counts.
+                    pet.Enabled = false;
                     int step = 0;
                     steps.Interval = 400;
                     steps.Tick += delegate

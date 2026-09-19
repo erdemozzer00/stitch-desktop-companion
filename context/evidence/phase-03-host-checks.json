@@ -10,7 +10,7 @@
     "Windows layered-window smoke: full idle loop, reaction and repeat guard, hide/show, three sizes and clean close; direct methods, not physical mouse input"
   ],
   "limits": "Component and pixel checks only. No native clicks, menu operation, desktop composition, or visual motion acceptance.",
-  "checked_at_utc": "2026-09-19T14:24:51.3492924Z",
-  "host_source_sha256": "803ade0a16aeb0caa81fcd191afaa80871f5d46751ea37bc2d590158c7cb4a87",
-  "checks_source_sha256": "766a321d56f011631c78a89988a48c75f881062e4bf73608286b549f60a1ee05"
+  "checked_at_utc": "2026-09-19T14:52:56.0358295Z",
+  "host_source_sha256": "d4387ca60c13c99d8d33b7de5c6684e825e6b0487fb126aec426da2fa93be7db",
+  "checks_source_sha256": "44590b03cc89c5517c9d0aa30dc99923fdcda492c5ed09472af2503e0a1c996d"
 }

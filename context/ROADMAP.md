@@ -28,7 +28,7 @@ The user's manual report confirms the sampled transparent-corner click path, sta
 
 **Status: ACTIVE — pose comparison complete; idle/wave drafts in progress (2026-09-19)**
 
-Latest user direction: the final 45-frame wave is accepted; keep the desktop app synchronized. Minimal idle/wave/entry playback integration is brought forward into Phase 03 for live review. This does not complete appearance work or start the Phase 04 carry experiment.
+Latest checkpoint: accepted 45-frame wave and limited idle polish are installed in the desktop app; 24 sampled entry variants preserve short click transitions. The user explicitly prohibited adding unrelated gestures. Next is Step 03.4: dark-background contrast, outline choice and true 400px output. Phase 03 stays active; the Phase 04 carry experiment is unstarted.
 
 Execution order and step gates: [animation plan](ANIMATION-PLAN.md). Pose comparison selected the soft stance. The user now finds idle alive enough for now and likes the new wave tempo, requesting a slight speed increase (49 to 45 frames at 24 fps). See [Phase 03 review](evidence/phase-03-review.md). Final appearance and transitions remain unapproved.
 

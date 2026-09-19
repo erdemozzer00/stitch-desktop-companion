@@ -62,11 +62,13 @@ class Character:
         angle = phase * math.tau
         # Local ribcage motion, not uniform scaling of the entire character.
         breath = math.sin(angle)
-        self.rig.pose.bones["Spine.003"].scale.x *= 1 + .009 * breath
-        self.rig.pose.bones["Spine.003"].scale.z *= 1 + .006 * breath
-        self.rotate("Spine.002", (1, 0, 0), .45 * breath)
-        self.rotate("Head", (1, 0, 0), -.6 * math.sin(angle - .25))
-        self.rotate("Head", (0, 1, 0), .55 * math.sin(angle))
+        self.rig.pose.bones["Spine.003"].scale.x *= 1 + .01125 * breath
+        self.rig.pose.bones["Spine.003"].scale.z *= 1 + .0075 * breath
+        self.rotate("Spine.002", (1, 0, 0), .5625 * breath)
+        # Increase readability while preserving the accepted phase-zero wave neutral.
+        head_breath = math.sin(angle - .25)
+        self.rotate("Head", (1, 0, 0), -.6 * head_breath - .12 * (head_breath - math.sin(-.25)))
+        self.rotate("Head", (0, 1, 0), .66 * math.sin(angle))
         for side, sign in [("L", 1), ("R", -1)]:
             lag = math.sin(angle - .5) - math.sin(-.5)
             self.rotate("Ear_A." + side, (0, 1, 0), sign * .65 * lag)
@@ -153,7 +155,7 @@ def main():
             folder = output / clip
             folder.mkdir(parents=True, exist_ok=True)
             (folder / "manifest.json").unlink(missing_ok=True)
-            revision = "v3" if clip == "wave" else "v2"
+            revision = "v3"
             action = bpy.data.actions.new("Companion_" + clip.title() + "_" + revision)
             character.rig.animation_data.action = action
             action.use_fake_user = True
