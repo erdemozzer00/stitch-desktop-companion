@@ -34,7 +34,9 @@ The accepted baseline combines the relaxed soft stance, polished four-second idl
 
 ## Phase 04 — Integrated first version
 
-**Status: ACTIVE — native carry accepted; 400px release polish and dark-purple controls installed to trial; new visual/UI review pending (2026-09-19)**
+**Status: ACTIVE — native carry accepted; installed release polish awaits feedback; detached tray remote static prototype awaits approval BEFORE integration (2026-09-19)**
+
+The character-attached control bar is superseded. See [tray remote visual checkpoint](evidence/phase-04-tray-visual-prototype.md). Keep current host/motion unchanged during visual review; after approval, replace controls with a compact tray-click panel. No extra desktop launcher surface. Phase 05 and 06 remain separate.
 
 See [revised execution plan](ANIMATION-PLAN.md) and [drag research and skill assessment](evidence/phase-04-drag-research.md). The former pickup-only first checkpoint is superseded by a visible pointer-driven directional preview.
 
