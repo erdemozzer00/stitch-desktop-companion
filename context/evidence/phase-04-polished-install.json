@@ -1,9 +1,9 @@
 {
   "status": "PASS",
-  "updated_at_utc": "2026-09-19T17:57:05.0834468Z",
-  "backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion\\.local\\phase-04\\native-backup-20260919-175703-839",
+  "updated_at_utc": "2026-09-19T18:55:41.1627943Z",
+  "backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion\\.local\\phase-04\\native-backup-20260919-185539-888",
   "revision": "phase04-tray-remote",
-  "executable_sha256": "dce15670a9c0bf1e0e3201c0dcb166ce4e21d77b46cab173b75e3e7bbdf75acd",
+  "executable_sha256": "9e1a716735dd5b50c444352a2dacf833992b0537ff2f9a02b36a6cf66dffcd84",
   "carry_frames": 45,
   "carry_size": 400,
   "settings_preserved": true,

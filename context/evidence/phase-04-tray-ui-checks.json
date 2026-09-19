@@ -1,27 +1,27 @@
 {
   "status": "PASS",
-  "assertions": 143,
+  "assertions": 149,
   "min_text_contrast": 6.23,
   "release_idle_at_240_seconds": 0.425,
   "removed_near_static_tail_seconds": 0.292,
   "limits": "Real control renders and direct-method UI tests. Tray handler and native deactivate tested; physical shell input, keyboard navigation, other DPI and user acceptance remain separate.",
-  "checked_at_utc": "2026-09-19T17:56:57.8042886Z",
+  "checked_at_utc": "2026-09-19T18:54:12.9242845Z",
   "sources": [
     {
-      "sha256": "4a781beafbbd0355986c93dbdd3d75b578dd75ce8082ca63027b054f397fb7c6",
-      "name": "PetSpike.cs"
+      "name": "PetSpike.cs",
+      "sha256": "4a781beafbbd0355986c93dbdd3d75b578dd75ce8082ca63027b054f397fb7c6"
     },
     {
-      "sha256": "bc0f111c73d40e2ee5e767bb7c72bf43b842519ac3b86ac9006592d8870fa36a",
-      "name": "CarryMotion.cs"
+      "name": "CarryMotion.cs",
+      "sha256": "bc0f111c73d40e2ee5e767bb7c72bf43b842519ac3b86ac9006592d8870fa36a"
     },
     {
-      "sha256": "43e9ba09e755e4479287357430d1cd704fe38bbb75bd10529ef7a3029814f560",
-      "name": "CompanionUi.cs"
+      "name": "CompanionUi.cs",
+      "sha256": "c2ddaf86053e2af446f739f9c3a7872f699f213ebf58d36a02b83994e6fba35f"
     },
     {
-      "sha256": "8da65cf71b1953ac1452d033f92609d2330ea3ae274ec2b825ad278d23812858",
-      "name": "PolishChecks.cs"
+      "name": "PolishChecks.cs",
+      "sha256": "0ec0f1d8ee23f8591492f5ef3320ed6c6a043fc339e00320a6728f08852e210f"
     }
   ]
 }

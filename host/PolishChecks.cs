@@ -79,6 +79,7 @@ internal static class PolishChecks
                         else if(stage==1)
                         {
                             Check(panel.Visible,"Tray left-click handler did not show remote");
+                            CheckTranslatedPaint(panel,outDir);
                             Check(panel.Owner==null && !panel.ShowInTaskbar,"Remote depends on pet visibility or has taskbar button");
                             Capture(panel,Path.Combine(outDir,"tray-remote-visible.png"));
                             for(int i=0;i<3;i++)
@@ -151,5 +152,24 @@ internal static class PolishChecks
     {
         using(Bitmap bitmap=new Bitmap(control.Width,control.Height))
         {control.DrawToBitmap(bitmap,control.ClientRectangle);bitmap.Save(path);}
+    }
+    // Repainting a transparent child supplies an offset/clipped Graphics. Drawing
+    // must stay within that target, including GDI text (not just GDI+ geometry).
+    private static void CheckTranslatedPaint(RemotePanel panel,string directory)
+    {
+        foreach(Control control in panel.Controls)
+        using(Bitmap bitmap=new Bitmap(control.Width+180,control.Height+100))
+        using(Graphics g=Graphics.FromImage(bitmap))
+        {
+            Color sentinel=Color.Magenta;g.Clear(sentinel);
+            g.TranslateTransform(160,80);g.SetClip(control.ClientRectangle);
+            var paint=control.GetType().GetMethod("OnPaint",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
+            paint.Invoke(control,new object[]{new PaintEventArgs(g,control.ClientRectangle)});
+            int escaped=0;
+            for(int y=0;y<bitmap.Height;y++)for(int x=0;x<bitmap.Width;x++)
+                if(!new Rectangle(160,80,control.Width,control.Height).Contains(x,y) && bitmap.GetPixel(x,y).ToArgb()!=sentinel.ToArgb())escaped++;
+            bitmap.Save(Path.Combine(directory,"translated-"+control.TabIndex+".png"));
+            Check(escaped==0,"Button repaint escaped translated clip: "+control.AccessibleName+" pixels="+escaped);
+        }
     }
 }

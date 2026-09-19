@@ -103,7 +103,7 @@ internal sealed class RemoteButton : Button
             }
             g.Restore(state);text.X=(int)(34*s);text.Width-=text.X;
         }
-        TextRenderer.DrawText(g,Text,Font,text,ink,TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|
+        TextRenderer.DrawText(g,Text,Font,text,ink,TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|TextFormatFlags.PreserveGraphicsClipping|TextFormatFlags.PreserveGraphicsTranslateTransform|
             (Symbol==null?TextFormatFlags.HorizontalCenter:TextFormatFlags.Left));
         if(Focused && ShowFocusCues)
             using(GraphicsPath p=PetPalette.Round(new RectangleF(2,2,Width-5,Height-5),5*s))
@@ -186,9 +186,9 @@ internal sealed class RemotePanel : Form
         Graphics g=e.Graphics;PetPalette.Panel(g,ClientRectangle,16*scale);
         g.InterpolationMode=InterpolationMode.HighQualityBicubic;
         StitchIcon.DrawFace(g,face,new RectangleF(Px(20),Px(18),Px(38),Px(38)));
-        TextRenderer.DrawText(g,"Stitch",titleFont,new Point(Px(70),Px(18)),PetPalette.Text,TextFormatFlags.NoPadding);
-        TextRenderer.DrawText(g,pet.Visible?"Masaüstünde":"Gizli",labelFont,new Point(Px(70),Px(45)),PetPalette.Muted,TextFormatFlags.NoPadding);
-        TextRenderer.DrawText(g,"Boyut",labelFont,new Point(Px(20),Px(80)),PetPalette.Muted,TextFormatFlags.NoPadding);
+        TextRenderer.DrawText(g,"Stitch",titleFont,new Point(Px(70),Px(18)),PetPalette.Text,TextFormatFlags.NoPadding|TextFormatFlags.PreserveGraphicsClipping|TextFormatFlags.PreserveGraphicsTranslateTransform);
+        TextRenderer.DrawText(g,pet.Visible?"Masaüstünde":"Gizli",labelFont,new Point(Px(70),Px(45)),PetPalette.Muted,TextFormatFlags.NoPadding|TextFormatFlags.PreserveGraphicsClipping|TextFormatFlags.PreserveGraphicsTranslateTransform);
+        TextRenderer.DrawText(g,"Boyut",labelFont,new Point(Px(20),Px(80)),PetPalette.Muted,TextFormatFlags.NoPadding|TextFormatFlags.PreserveGraphicsClipping|TextFormatFlags.PreserveGraphicsTranslateTransform);
         using(GraphicsPath p=PetPalette.Round(new RectangleF(Px(16),Px(102),Px(280),Px(38)),8*scale))
         using(Brush b=new SolidBrush(Color.FromArgb(20,17,26)))g.FillPath(b,p);
         using(Pen p=new Pen(PetPalette.Border))g.DrawLine(p,Px(20),Px(160),Px(292),Px(160));

@@ -18,8 +18,12 @@ if ($DesktopShortcut) {
     $shortcut.TargetPath = $exe
     $shortcut.Arguments = $arguments
     $shortcut.WorkingDirectory = $trial
+    $iconPath=Join-Path $trial 'stitch.ico'
+    if(Test-Path -LiteralPath $iconPath){$shortcut.IconLocation=$iconPath+',0'}
     $shortcut.Description = 'Isolated open-eye carry trial; accepted Stitch installation remains separate.'
     $shortcut.Save()
+    $savedShortcut=$shell.CreateShortcut($shortcutPath)
+    if((Test-Path -LiteralPath $iconPath) -and $savedShortcut.IconLocation -ne ($iconPath+',0')){throw 'Shortcut icon assignment did not persist.'}
 }
 # Avoid starting a second copy of this trial through this helper. Full app-wide
 # duplicate-instance handling remains Phase 05 work.

@@ -45,7 +45,7 @@ Copy-Item -LiteralPath $installed -Destination $backup -Recurse
 $settings=Join-Path $installed 'position.txt'
 $settingsBefore=if(Test-Path -LiteralPath $settings){(Get-FileHash -LiteralPath $settings).Hash}else{$null}
 try{
-    foreach($name in @('StitchPet.exe','StitchPet.exe.config','trial-assets.json')){
+    foreach($name in @('StitchPet.exe','StitchPet.exe.config','trial-assets.json','stitch.ico')){
         Copy-Item -LiteralPath (Join-Path $candidate $name) -Destination (Join-Path $installed $name) -Force
     }
     foreach($folder in @('assets','carry')){Copy-Item -Path "$candidate/$folder/*" -Destination "$installed/$folder" -Force}

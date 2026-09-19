@@ -34,7 +34,7 @@ The accepted baseline combines the relaxed soft stance, polished four-second idl
 
 ## Phase 04 — Integrated first version
 
-**Status: ACTIVE — native carry accepted; approved detached tray remote integrated and installed; physical tray/UI and release-polish feedback pending (2026-09-19)**
+**Status: ACTIVE — native carry accepted; approved detached tray remote integrated and installed; tray flows user-confirmed; repaint fix, shortcut icon and release-polish visual feedback pending (2026-09-19)**
 
 The character-attached control bar has been removed after visual approval. See [tray integration evidence](evidence/phase-04-tray-integration.md). The compact tray-click panel starts closed and contains size, hide/show and exit; character click still waves. No extra desktop launcher surface. Phase 05 and 06 remain separate.
 
