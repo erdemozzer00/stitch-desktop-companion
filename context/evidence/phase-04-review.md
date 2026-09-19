@@ -79,4 +79,10 @@ Checks and limits:
 - The replay closes and opens near neutral. Its seven neutral samples do NOT solve arbitrary moving eye transitions, interrupted wave entry, capture loss or re-grab. Resolve those in the isolated native trial without delaying window movement or silently multiplying the bank. Keep the 96-frame proposed production cap unless a concrete cost review changes it.
 - Python syntax and Git whitespace checks pass. Main and frozen-backup executable SHA-256 remain `d0ac9f4d32bc35a8399d0211fba770e4458e9aed7587cdc981ad4a7f03b27771`. No desktop install, launch or backup modification occurred.
 
-Next: user review of the requested facial refinement, then Step 04.2 isolated actual-pointer integration. Preserve accepted directional strength and Phase 03 idle/wave. Phase 04 remains active; Godot remains excluded.
+At that checkpoint, facial review preceded Step 04.2. This was superseded by the cancellation below.
+
+## Eye-closure cancellation — 2026-09-19
+
+The user explicitly withdrew the closed-eye request after seeing the preview. The accepted direction is the original open-eye directional-v1 response, at its already approved strength. Do not integrate the eyelid geometry, closure samples or eye-state logic. The scripts, private previews and numeric evidence remain historical experiments, not accepted production inputs. No eye review is pending.
+
+Only canonical scope/handoff records changed for this cancellation. The eye prototype was never installed, so no runtime rollback or new render is needed. Next remains Step 04.2: isolated actual-pointer integration using the original 45-pose open-eye bank, followed by grip/interruption/cost checks. Phase 04 is active; the installed Phase 03 app, frozen fallback and Godot exclusion remain intact.

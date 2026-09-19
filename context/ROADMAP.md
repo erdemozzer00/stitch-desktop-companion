@@ -34,7 +34,7 @@ The accepted baseline combines the relaxed soft stance, polished four-second idl
 
 ## Phase 04 — Integrated first version
 
-**Status: ACTIVE — directional reaction accepted; requested carried-eye closure preview ready; full fallback copy verified (2026-09-19)**
+**Status: ACTIVE — open-eye directional reaction accepted; eye closure cancelled; isolated native trial next; full fallback copy verified (2026-09-19)**
 
 See [revised execution plan](ANIMATION-PLAN.md) and [drag research and skill assessment](evidence/phase-04-drag-research.md). The former pickup-only first checkpoint is superseded by a visible pointer-driven directional preview.
 

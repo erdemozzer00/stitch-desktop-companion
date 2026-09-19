@@ -56,7 +56,7 @@ The old `.local/phase-04/04a/` outputs are a diagnostic pose-transition study. T
 - The held body gives slightly behind the movement, with restrained head/ear follow-through. On reversal it catches up smoothly; after a stop it briefly settles. This is a stylized weight illusion, not a physics-accuracy claim or an automatic turn toward the travel direction.
 - Vertical movement gets a small authored response, not uniform whole-image stretching. Diagonal movement must not trigger abrupt horizontal/vertical mode switches.
 - Faster movement produces a stronger but capped response. Small pointer jitter should not shake the character. When held still it returns to a quiet held pose. Release keeps the chosen window position and returns to accepted idle.
-- Preserve original click-versus-drag, repeat-click and position-saving behavior. No sound, unrelated gestures, camera orbit or renderer migration. The user subsequently accepted the directional strength and explicitly requested closed eyes while carried: this restrained facial addition is now authorized.
+- Preserve original click-versus-drag, repeat-click and position-saving behavior. No sound, unrelated gestures, camera orbit or renderer migration. Keep eyes open: the user cancelled the closed-eye experiment after preview.
 
 ### Step 04.1 — Causal motion preview (first authorized implementation deliverable)
 
@@ -70,7 +70,7 @@ Prefer a small authored pose/frame bank with bounded transforms as a supplement.
 
 **Review checkpoint:** ask whether the observed motion conveys a carried toy, whether the strength feels right and whether stopping/reversing feels natural. A second pickup-only preview does not meet this checkpoint. No production render or desktop deployment yet.
 
-The user has now accepted directional-v1 strength ("tepkisi ideal"). Preserve its controller and route exactly. A private geometric eyelid refinement adds a short close while held and reopening after release. No lid controls or shape keys exist in the supplied rig. Use additive geometry following the original Head bone and the source material; do not flatten or rescale the character's eyes. The closed-eye 45-pose bank replaces the planned open-eye carry bank, rather than multiplying every direction by seven eye states. Seven neutral closure samples support this specific preview only; arbitrary moving pickup/release and interruption behavior must be resolved in Step 04.2 before production. The installed baseline and frozen backup remain unchanged.
+The user has accepted directional-v1 strength ("tepkisi ideal"). Preserve its controller and route exactly. The later requested closed-eye refinement was previewed and then explicitly cancelled. Use the original open-eye 45-pose bank from directional-v1; do not carry eyelid geometry, blink frames or eye-state logic into Step 04.2. Eye artifacts are historical evidence only. No additional facial review gate remains. The installed baseline and frozen backup remain unchanged.
 
 ### Step 04.2 — Small pointer-controlled native trial
 
