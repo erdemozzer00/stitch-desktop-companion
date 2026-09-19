@@ -2,11 +2,11 @@
 
 **Last completed phase:** 03 - Appearance and animation polish, 2026-09-19.
 
-**Status:** Phase 03 COMPLETE following explicit user approval on 2026-09-19 ("I really like it. I approve."). Phase 04 ACTIVE: 04A pickup/held-neutral/release preview authorized. Godot is excluded.
+**Status:** Phase 03 COMPLETE; Phase 04 ACTIVE in planning. The user selected carried-toy direction A and explicitly requested the revised plan plus a start-approval question. Implementation is waiting for that approval. Godot remains excluded.
 
-**Current cursor:** 04A low-cost preview is ready for moving review, not installation. See [Phase 04 execution](evidence/phase-04-review.md). Private review: `.local/phase-04/04a/review.html` and `review-light.gif` / `review-dark.gif`. Six sampled idle/wave pickups and a settle are rendered at 240px / six samples; reopened endpoint checks pass. The agent inspected the full frame sheet; browser opening was blocked by URL policy, so live HTML playback is not verified. User moving acceptance is pending.
+**Current cursor:** Read [revised Phase 04 plan](ANIMATION-PLAN.md). First deliverable after approval: visible pointer trajectory plus synchronized directional body/ear lag, stops, reversal, vertical/diagonal motion and release. The old pickup-only `.local/phase-04/04a/` study did not communicate the requested effect; it is diagnostic evidence, not pending product acceptance. Do not ask the user to approve that old study or repeat it as the primary preview. The old 04A-then-04B ordering is superseded.
 
-**Preserve:** installed `phase03-appearance-400` at `.local/phase-02/host/StitchPet.exe`. It remains the accepted version. Do not deploy draft assets. Godot is excluded. Before production, resolve bounded entry selection: naive all-wave/idle expansion would add 563 frames / 343.63 MiB raw at 400px and is not selected. 04B directions follow 04A review. Native memory/input/interruptions and later packaging/Windows 11 gates remain open.
+**Preserve:** accepted installed `phase03-appearance-400` at `.local/phase-02/host/StitchPet.exe`, including idle, wave and appearance. No source/runtime/render edits or app launch in the planning turn. The revised plan defines provisional frame budgets, grip limits, early native trial and interruption checks. Naive 563-frame expansion remains rejected. Target Windows 11 and packaging remain later gates.
 
 ## Selected appearance and evidence
 

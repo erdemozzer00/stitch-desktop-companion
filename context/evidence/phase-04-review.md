@@ -28,6 +28,10 @@ A naive expansion to 24 idle entry buckets and all 45 wave frames, with eight in
 
 One early observation of the existing process (PID 41000) reported Working Set 188,280,832 bytes, Private Bytes 185,057,280 and 261 handles. Later sampling found no StitchPet process, so no controlled multi-sample baseline or CPU comparison was obtained; the cause of process exit was not established. Do not invent a performance delta. The current draft is not loaded in the host. Actual idle/drag/repeated-cycle Working Set, Private Bytes, CPU and native-resource observations belong to a later controlled integration trial.
 
-## Next cursor
+## Historical next cursor (superseded below)
 
 Obtain moving feedback on this bounded 04A study, particularly raised-hand pickup and the held pose. Do not call it final or install it as the desktop app. If accepted, refine the bounded entry policy/cost and proceed to 04B directional response. Release during pickup, capture loss, re-grab during settle, all 45 wave entry states, arbitrary grip limitations and actual 240/320/400 production alpha checks remain open for integration. Startup, packaging and Windows 11 acceptance remain later phases.
+
+## User correction and replanning — 2026-09-19
+
+The user clarified that the goal is directional carried-toy lag during actual mouse movement, not a new wave or a held-neutral transition study. The user selected direction A and requested a researched plan plus explicit approval before implementation. The old study remains technical evidence only; it did not satisfy the requested visual demonstration. The current cursor is the revised Phase 04 plan in ANIMATION-PLAN.md. No new render or runtime change was made during replanning.

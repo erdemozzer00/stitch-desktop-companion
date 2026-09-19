@@ -34,9 +34,9 @@ The accepted baseline combines the relaxed soft stance, polished four-second idl
 
 ## Phase 04 — Integrated first version
 
-**Status: ACTIVE — 04A draft preview rendered; moving review pending (2026-09-19)**
+**Status: ACTIVE — carried-toy plan prepared; explicit start approval pending (2026-09-19)**
 
-See [drag research and skill assessment](evidence/phase-04-drag-research.md).
+See [revised execution plan](ANIMATION-PLAN.md) and [drag research and skill assessment](evidence/phase-04-drag-research.md). The former pickup-only first checkpoint is superseded by a visible pointer-driven directional preview.
 
 Integrate the approved animation with the verified desktop host. Implement click reactions, dragging, saved position, and basic size/hide/exit controls. Handle repeated clicks without abrupt pose jumps or overlapping reactions.
 
