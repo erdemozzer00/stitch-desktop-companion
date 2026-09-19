@@ -1,9 +1,9 @@
 {
   "status": "RUNNING_AT_CHECK",
-  "checked_at_utc": "2026-09-19T16:49:18.8130094Z",
-  "pid": 15636,
-  "executable_sha256": "89cfcf24496c1819fca7701edad51d2e0a12779cbaad07a0ed2159ee2c78f506",
-  "revision": "phase04-open-eye-native-trial",
+  "checked_at_utc": "2026-09-19T17:20:37.0297921Z",
+  "pid": 27368,
+  "executable_sha256": "d2e0230381aba8d2c58c30fefec094d49e6c8307cd99e87599594e0dd9e5c881",
+  "revision": "phase04-open-eye-400-controls",
   "installed_baseline_changed": false,
   "limits": "Process launch verified only. Physical mouse and user visual acceptance are pending."
 }

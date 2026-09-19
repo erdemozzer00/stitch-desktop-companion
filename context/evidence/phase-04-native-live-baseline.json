@@ -4,55 +4,59 @@
   "samples": [
     {
       "phase": "idle",
-      "elapsed_seconds": 2.002,
-      "cpu_seconds": 0.031,
-      "working_set": 183566336,
-      "private_bytes": 180826112,
-      "managed_bytes": 1510336,
-      "gdi_objects": 28
+      "elapsed_seconds": 2.004,
+      "cpu_seconds": 0.234,
+      "working_set": 184184832,
+      "private_bytes": 181350400,
+      "managed_bytes": 1551712,
+      "gdi_objects": 29
     },
     {
       "phase": "drag_round_0",
-      "elapsed_seconds": 14.888,
-      "cpu_seconds": 1.531,
-      "working_set": 184233984,
-      "private_bytes": 181223424,
-      "managed_bytes": 1887168,
-      "gdi_objects": 28
+      "elapsed_seconds": 14.801,
+      "cpu_seconds": 1.188,
+      "working_set": 184860672,
+      "private_bytes": 181383168,
+      "managed_bytes": 1928544,
+      "gdi_objects": 29
     },
     {
       "phase": "drag_round_1",
-      "elapsed_seconds": 27.807,
-      "cpu_seconds": 2.984,
-      "working_set": 184606720,
-      "private_bytes": 181620736,
-      "managed_bytes": 2255808,
-      "gdi_objects": 28
+      "elapsed_seconds": 27.634,
+      "cpu_seconds": 2.109,
+      "working_set": 185253888,
+      "private_bytes": 182087680,
+      "managed_bytes": 2297184,
+      "gdi_objects": 29
     },
     {
       "phase": "after_hide_resize_show",
-      "elapsed_seconds": 27.838,
-      "cpu_seconds": 3.016,
-      "working_set": 185110528,
-      "private_bytes": 182030336,
-      "managed_bytes": 2395072,
-      "gdi_objects": 28
+      "elapsed_seconds": 27.663,
+      "cpu_seconds": 2.141,
+      "working_set": 185651200,
+      "private_bytes": 182280192,
+      "managed_bytes": 2436448,
+      "gdi_objects": 29
     }
   ],
   "limits": "Visible Windows layered-window direct-method replay. No physical input, menu/tray acceptance or desktop screenshots. CPU samples are cumulative, not percentages.",
-  "checked_at_utc": "2026-09-19T16:48:32.6939178Z",
+  "checked_at_utc": "2026-09-19T17:20:00.1162162Z",
   "sources": [
     {
-      "sha256": "e55c1912dce560cb493294cbf353c78e2eaaed2040d7c6937e67fa2763989b46",
-      "name": "PetSpike.cs"
+      "name": "PetSpike.cs",
+      "sha256": "90c7a8b7b69218b2311d14306947b4445bd07c95f307a16bd645278c0502e07a"
     },
     {
-      "sha256": "12ef6dad659908bc2b81d9ab2eeda8b2e1fcc2e53248d3a08b4f5e1146386a94",
-      "name": "CarryMotion.cs"
+      "name": "CarryMotion.cs",
+      "sha256": "bc0f111c73d40e2ee5e767bb7c72bf43b842519ac3b86ac9006592d8870fa36a"
     },
     {
-      "sha256": "f75309289686159abaf820a98d82ce0aa5efa1c05d558ceff10475102f810a24",
-      "name": "CarryChecks.cs"
+      "name": "CompanionUi.cs",
+      "sha256": "0d57144ea61de96cbd8d8468f1d753b9dbda300870a34df6b78fc74111f4ae94"
+    },
+    {
+      "name": "CarryChecks.cs",
+      "sha256": "f75309289686159abaf820a98d82ce0aa5efa1c05d558ceff10475102f810a24"
     }
   ]
 }

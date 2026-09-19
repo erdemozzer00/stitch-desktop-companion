@@ -1,0 +1,15 @@
+{
+  "size": 400,
+  "samples": 24,
+  "accepted_bank_sha256": "e29987fd0837bcfa9e0567a39d41d6571c44d3d6c4438ec17e0a5eea5c3e7598",
+  "preservation": "PASS: accepted action, mesh/rig fields, camera and source bytes",
+  "bank_frames": 45,
+  "rendered_frames": 44,
+  "reused_neutral_frames": 1,
+  "neutral_matches_idle": true,
+  "bank_png_mib": 4.038402557373047,
+  "bank_decoded_mib": 27.4658203125,
+  "total_loaded_frames": 282,
+  "total_decoded_mib": 172.119140625,
+  "limits": "Private production-resolution carry candidate. Physical release and UI review pending."
+}

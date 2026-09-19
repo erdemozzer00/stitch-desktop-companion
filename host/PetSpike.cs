@@ -55,6 +55,9 @@ internal sealed class PetWindow : Form
     private readonly Stopwatch clock = new Stopwatch();
     private readonly NotifyIcon tray;
     private readonly ContextMenuStrip menu;
+    private readonly CompanionUi controls;
+    private ToolStripMenuItem waveCommand, hideCommand, showCommand;
+    private readonly ToolStripMenuItem[] sizeCommands = new ToolStripMenuItem[3];
     private bool pressed, dragging, resourcesDisposed;
     private Point pointerStart, windowStart;
     private int side = 320;
@@ -66,6 +69,11 @@ internal sealed class PetWindow : Form
     internal int CharacterSize { get { return side; } }
     internal int ContentPadding { get { return carryBank == null ? 0 : CarrySurface.Padding(side); } }
     internal bool CarryEnabled { get { return carryBank != null; } }
+    internal bool PointerBusy { get { return pressed || dragging; } }
+    internal bool CanReact { get { return Visible && !dragging && !carry.Held && !playback.CarryReady && !playback.Reacting; } }
+    internal Rectangle CharacterBounds { get { return new Rectangle(Left+ContentPadding,Top+ContentPadding,side,side); } }
+    internal CommandBar ControlBar { get { return controls==null?null:controls.Bar; } }
+    internal ContextMenuStrip OptionsMenu { get { return menu; } }
     internal bool ManualTicks { get; set; } // Direct-method smoke; ordinary launches use the timer.
     public int Reactions { get; private set; }
     public event Action Changed;
@@ -78,8 +86,8 @@ internal sealed class PetWindow : Form
         wave = ReadClip(assets, "wave_", 45);
         for (int i = 0; i < entries.Length; i++) entries[i] = ReadClip(assets, "entry_" + i.ToString("00") + "_", 4);
         if (carryDirectory != null) carryBank = new CarryBank(carryDirectory);
-        Text = "Stitch floating prototype";
-        AccessibleName = "Stitch floating prototype";
+        Text = "Stitch";
+        AccessibleName = "Stitch masaüstü arkadaşı";
         FormBorderStyle = FormBorderStyle.None;
         ShowInTaskbar = false;
         StartPosition = FormStartPosition.Manual;
@@ -90,21 +98,36 @@ internal sealed class PetWindow : Form
                              Screen.PrimaryScreen.WorkingArea.Bottom - side - ContentPadding - 40);
         LoadPosition();
         menu = new ContextMenuStrip();
-        menu.Items.Add("El salla", null, delegate { React(); });
-        menu.Items.Add("Küçük", null, delegate { SetSize(240); });
-        menu.Items.Add("Orta", null, delegate { SetSize(320); });
-        menu.Items.Add("Büyük", null, delegate { SetSize(400); });
-        menu.Items.Add("Gizle", null, delegate { HidePet(); });
-        menu.Items.Add("Göster", null, delegate { ShowPet(); });
+        menu.Renderer=new PetMenuRenderer(); menu.Font=new Font("Segoe UI",10f);
+        menu.BackColor=PetPalette.Top; menu.ForeColor=PetPalette.Text; menu.Padding=new Padding(5);
+        menu.MinimumSize=new Size(188,0); menu.AccessibleName="Stitch seçenekleri";
+        waveCommand=(ToolStripMenuItem)menu.Items.Add("El salla", null, delegate { React(); });
+        menu.Items.Add(new ToolStripSeparator());
+        ToolStripMenuItem sizes=new ToolStripMenuItem("Boyut");
+        string[] labels={"Küçük","Orta","Büyük"}; int[] values={240,320,400};
+        for(int i=0;i<3;i++)
+        {
+            int selectedSize=values[i];
+            sizeCommands[i]=new ToolStripMenuItem(labels[i],null,delegate{SetSize(selectedSize);});
+            sizeCommands[i].Padding=new Padding(6,5,6,5); sizes.DropDownItems.Add(sizeCommands[i]);
+        }
+        sizes.DropDown.Renderer=menu.Renderer; sizes.DropDown.Font=menu.Font;
+        sizes.DropDown.Padding=new Padding(5); menu.Items.Add(sizes);
+        hideCommand=(ToolStripMenuItem)menu.Items.Add("Gizle", null, delegate { HidePet(); });
+        showCommand=(ToolStripMenuItem)menu.Items.Add("Göster", null, delegate { ShowPet(); });
+        menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add("Çıkış", null, delegate { Close(); });
+        foreach(ToolStripItem item in menu.Items)if(!(item is ToolStripSeparator))item.Padding=new Padding(6,6,12,6);
+        menu.Opening+=delegate{PrepareMenu();};
         if (createTray)
         {
             tray = new NotifyIcon { Icon = SystemIcons.Information, Text = "Stitch - sağ tık: seçenekler", ContextMenuStrip = menu, Visible = true };
             tray.DoubleClick += delegate { ShowPet(); };
+            controls=new CompanionUi(this,menu);
         }
         timer.Interval = 15;
         timer.Tick += delegate { if (!ManualTicks) Advance(); };
-        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-appearance-400 carry=" + CarryEnabled + " idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
+        Shown += delegate { clock.Restart(); timer.Start(); Advance(); if(controls!=null)controls.Welcome(); Log("launched motion=phase03-appearance-400 carry=" + CarryEnabled + " idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
         Log("environment os=" + Environment.OSVersion + " screens=" + Screen.AllScreens.Length);
     }
 
@@ -146,12 +169,15 @@ internal sealed class PetWindow : Form
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
+        if(!pressed && controls!=null)controls.Reveal();
         PointerMoveAt(Cursor.Position);
     }
+    protected override void OnMouseEnter(EventArgs e) { base.OnMouseEnter(e);if(controls!=null)controls.Reveal(); }
     // The real event handlers and direct-method checks share these input paths.
     internal void PointerDownAt(Point pointer)
     {
         pressed = true; dragging = false;
+        if(controls!=null)controls.Hide();
         pointerStart = pointer; windowStart = Location;
     }
     internal void PointerMoveAt(Point pointer)
@@ -177,7 +203,7 @@ internal sealed class PetWindow : Form
     protected override void OnMouseUp(MouseEventArgs e)
     {
         base.OnMouseUp(e);
-        if (e.Button == MouseButtons.Right) { menu.Show(Cursor.Position); return; }
+        if (e.Button == MouseButtons.Right) { ShowOptions(Cursor.Position); return; }
         if (e.Button != MouseButtons.Left || !pressed) return;
         PointerUp();
     }
@@ -208,7 +234,7 @@ internal sealed class PetWindow : Form
     public void React()
     {
         if (!Visible) { Log("hidden-reaction-ignored"); return; }
-        if (carry.Active || dragging) { Log("held-reaction-ignored"); return; }
+        if (carry.Held || playback.CarryReady || dragging) { Log("held-reaction-ignored"); return; }
         if (!playback.React(clock.Elapsed.TotalSeconds)) { Log("repeat-click-ignored"); return; }
         Reactions++; Advance(); Log("reaction-start count=" + Reactions + " entry=" + playback.EntryBucket);
     }
@@ -220,6 +246,11 @@ internal sealed class PetWindow : Form
     {
         bool wasCarrying = carry.Active;
         if (!(pressed && !dragging)) carry.Update(now, pointer, side);
+        if (playback.CarryReady && carry.CanResumeIdle(side))
+        {
+            playback.EndCarry(now);
+            Log("carry-visual-end idle-resumed");
+        }
         if (wasCarrying && !carry.Active)
         {
             // Commit re-grab compensation to window position at rest. Resetting
@@ -249,10 +280,24 @@ internal sealed class PetWindow : Form
     }
     public void HidePet()
     {
+        if(controls!=null)controls.Hide();
         timer.Stop(); clock.Reset(); playback.Reset(); carry.Reset(); presented = null; pressed = dragging = false;
         Capture = false; Hide(); Log("hidden");
     }
-    public void ShowPet() { ClampPosition(); Show(); clock.Start(); timer.Start(); Present(CurrentFrame()); Log("shown"); }
+    public void ShowPet() { ClampPosition(); Show(); clock.Start(); timer.Start(); Present(CurrentFrame()); if(controls!=null)controls.Welcome(); Log("shown"); }
+    private void PrepareMenu()
+    {
+        waveCommand.Enabled=CanReact; hideCommand.Visible=Visible; showCommand.Visible=!Visible;
+        int[] sizes={240,320,400};for(int i=0;i<3;i++)sizeCommands[i].Checked=side==sizes[i];
+    }
+    internal void ShowOptions(Point position)
+    {
+        PrepareMenu();
+        Rectangle area=Screen.FromPoint(position).WorkingArea;Size wanted=menu.GetPreferredSize(Size.Empty);
+        position.X=Math.Max(area.Left,Math.Min(position.X,area.Right-wanted.Width));
+        position.Y=Math.Max(area.Top,Math.Min(position.Y,area.Bottom-wanted.Height));
+        menu.Show(position);
+    }
     private Bitmap CurrentFrame()
     {
         if (carryBank != null && playback.CarryReady) return carryBank.Frames[carry.FrameIndex];
@@ -324,8 +369,9 @@ internal sealed class PetWindow : Form
         {
             resourcesDisposed = true;
             timer.Stop(); timer.Dispose();
+            if(controls!=null)controls.Dispose();
             if (tray != null) { tray.Visible = false; tray.Dispose(); }
-            if (menu != null) menu.Dispose();
+            if (menu != null) { menu.Font.Dispose(); menu.Dispose(); }
             if (idle != null) foreach (Bitmap bitmap in idle) bitmap.Dispose();
             if (wave != null) foreach (Bitmap bitmap in wave) bitmap.Dispose();
             if (carryBank != null) carryBank.Dispose();

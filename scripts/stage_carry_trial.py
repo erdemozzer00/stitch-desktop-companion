@@ -3,6 +3,8 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import argparse
+from PIL import Image
 from preview_directional_drag import pointer, trace
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,6 +22,13 @@ def copy_verified(source, target, digest):
 
 
 def main():
+    global OUT,BANK
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--final',action='store_true')
+    args=parser.parse_args()
+    if args.final:
+        OUT=ROOT/'.local/phase-04/polished-trial'
+        BANK=ROOT/'.local/phase-04/carry-final'
     assets = OUT/'assets'
     carry = OUT/'carry'
     assets.mkdir(parents=True, exist_ok=True)
@@ -33,14 +42,22 @@ def main():
             count += 1
     shutil.copy2(assets/'idle_0001.png', assets/'idle.png')
     manifest = json.loads((BANK/'bank-manifest.json').read_text())
-    assert manifest['size'] == 240 and len(manifest['frames']) == 45
+    size=400 if args.final else 240
+    assert manifest['size'] == size and len(manifest['frames']) == 45
+    if args.final:
+        assert manifest['samples']==24
+        assert (BANK/'bank_4_2.png').read_bytes()==(assets/'idle_0001.png').read_bytes()
     lines = []
     for y in range(5):
         for x in range(9):
             name = f'bank_{x}_{y}.png'
             record = manifest['frames'][name]
             copy_verified(BANK/name, carry/name, record['sha256'])
-            lines.append(f"{name},{record['anchor'][0]/240:.12f},{record['anchor'][1]/240:.12f}")
+            with Image.open(carry/name) as image:
+                assert image.mode=='RGBA' and image.size==(size,size)
+                bounds=image.getchannel('A').getbbox()
+                assert bounds and bounds[0]>0 and bounds[1]>0 and bounds[2]<size and bounds[3]<size
+            lines.append(f"{name},{record['anchor'][0]/size:.12f},{record['anchor'][1]/size:.12f}")
     (carry/'anchors.csv').write_text('\n'.join(lines)+'\n')
     # Python reference output is independent of the C# controller and supplied
     # as CSV to the native checks (no JSON library dependency in the pet).
@@ -50,9 +67,9 @@ def main():
     (OUT/'reference.csv').write_text('\n'.join(rows)+'\n')
     (OUT/'inputs.csv').write_text('\n'.join(','.join(str(v) for v in (i/120,*pointer(i/120))) for i in range(1021))+'\n')
     (OUT/'trial-assets.json').write_text(json.dumps({'baseline_frames':count,'carry_frames':45,
-        'carry_source':'directional-v1 (open eyes)', 'bank_manifest_sha256':hashlib.sha256((BANK/'bank-manifest.json').read_bytes()).hexdigest(),
-        'limits':'240px carry drafts, accepted 400px idle/wave. Isolated trial only.'},indent=2))
-    print(f'Staged {count} accepted frames and 45 open-eye carry drafts at {OUT}')
+        'carry_source':BANK.name+' (open eyes)', 'size':size,'bank_manifest_sha256':hashlib.sha256((BANK/'bank-manifest.json').read_bytes()).hexdigest(),
+        'limits':'Local candidate; physical input and visual acceptance remain separate.'},indent=2))
+    print(f'Staged {count} accepted frames and 45 open-eye carry frames ({size}px) at {OUT}')
 
 
 if __name__ == '__main__':

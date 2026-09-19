@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "assertions": 96,
+  "min_text_contrast": 6.0,
+  "release_idle_at_240_seconds": 0.425,
+  "removed_near_static_tail_seconds": 0.292,
+  "limits": "Real control renders and direct-method UI tests. Physical hover/keyboard, different DPI and user visual acceptance remain separate.",
+  "checked_at_utc": "2026-09-19T17:18:53.3415116Z"
+}

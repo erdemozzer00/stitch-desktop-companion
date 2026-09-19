@@ -28,7 +28,8 @@ internal sealed class CarryBank : IDisposable
                 Anchors[i] = new PointF(ax, ay);
                 using (Image image = Image.FromFile(Path.Combine(directory, name)))
                 {
-                    if (image.Width != 240 || image.Height != 240) throw new InvalidDataException("Trial bank must be 240px.");
+                    if ((image.Width != 240 && image.Width != 400) || image.Height != image.Width)
+                        throw new InvalidDataException("Carry bank must be square 240px or 400px.");
                     Frames[i] = new Bitmap(image);
                 }
             }
@@ -48,6 +49,15 @@ internal sealed class CarryResponse
     internal bool Active { get; private set; }
     internal PointF Pivot = new PointF(.5f, .6f), Offset;
     internal double Horizontal { get { return Clamp((ear-Angle)/.07 + .2*Angle/.18); } }
+    internal bool CanResumeIdle(int size)
+    {
+        // Resume breathing once the authored bank is neutral and the remaining
+        // global turn is subpixel. Keep integrating that turn independently.
+        double horizontalSpeed=(earVelocity-bodyVelocity)/.07+.2*bodyVelocity/.18;
+        return !Held && FrameIndex == 22 && Math.Abs(Angle)*size < .25
+            && Math.Abs(bodyVelocity)*size < 3 && Math.Abs(horizontalSpeed)<1
+            && Math.Abs(verticalVelocity)<1;
+    }
     internal int FrameIndex { get { return (int)Math.Floor((Clamp(Vertical)+1)*2+.5)*9 + (int)Math.Floor((Horizontal+1)*4+.5); } }
 
     internal static double Clamp(double value) { return Math.Max(-1, Math.Min(1, value)); }

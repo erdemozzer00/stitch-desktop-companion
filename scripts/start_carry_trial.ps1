@@ -1,4 +1,4 @@
-param([switch]$DesktopShortcut)
+param([switch]$DesktopShortcut,[switch]$Probe)
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
 $trial = [IO.Path]::GetFullPath((Join-Path $repo '.local/phase-04/native-trial'))
@@ -6,7 +6,8 @@ $exe = Join-Path $trial 'StitchPet.exe'
 foreach ($path in @($exe, "$trial/trial-assets.json", "$trial/assets/idle_0001.png", "$trial/carry/anchors.csv")) {
     if (-not (Test-Path -LiteralPath $path)) { throw "Build and stage the isolated trial first: $path" }
 }
-$arguments = '"--carry=' + (Join-Path $trial 'carry') + '" --probe'
+$arguments = '"--carry=' + (Join-Path $trial 'carry') + '"'
+if($Probe){$arguments+=' --probe'}
 if ($DesktopShortcut) {
     $shortcutPath = Join-Path ([Environment]::GetFolderPath('Desktop')) 'Stitch - Tasima Denemesi.lnk'
     $shell = New-Object -ComObject WScript.Shell
@@ -31,7 +32,7 @@ if ($process.HasExited) { throw 'Trial exited during launch; inspect its failure
 $record = [ordered]@{
     status = 'RUNNING_AT_CHECK'; checked_at_utc = [DateTime]::UtcNow.ToString('o'); pid = $process.Id
     executable_sha256 = (Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant()
-    revision = 'phase04-open-eye-native-trial'; installed_baseline_changed = $false
+    revision = 'phase04-open-eye-400-controls'; installed_baseline_changed = $false
     limits = 'Process launch verified only. Physical mouse and user visual acceptance are pending.'
 }
 $record | ConvertTo-Json | Set-Content -Encoding UTF8 "$repo/context/evidence/phase-04-native-launch.json"

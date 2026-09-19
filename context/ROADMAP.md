@@ -34,7 +34,7 @@ The accepted baseline combines the relaxed soft stance, polished four-second idl
 
 ## Phase 04 — Integrated first version
 
-**Status: ACTIVE — open-eye isolated native trial implemented; physical-input/user review pending; eye closure cancelled; full fallback copy verified (2026-09-19)**
+**Status: ACTIVE — native carry accepted; 400px release polish and dark-purple controls installed to trial; new visual/UI review pending (2026-09-19)**
 
 See [revised execution plan](ANIMATION-PLAN.md) and [drag research and skill assessment](evidence/phase-04-drag-research.md). The former pickup-only first checkpoint is superseded by a visible pointer-driven directional preview.
 
