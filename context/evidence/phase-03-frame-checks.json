@@ -9,7 +9,7 @@
       "alpha_borders_clear": true
     },
     "wave": {
-      "frames": 49,
+      "frames": 45,
       "size": 320,
       "fps": 24,
       "manifest_hashes_match": true,

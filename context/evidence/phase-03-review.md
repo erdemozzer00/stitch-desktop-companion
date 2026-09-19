@@ -1,6 +1,6 @@
 # Phase 03 execution review
 
-Status: IN PROGRESS — 2026-09-19. No visual acceptance or phase completion claim.
+Status: IN PROGRESS — 2026-09-19. User accepts the idle direction for now and likes the revised wave tempo. Final appearance/transition acceptance and phase completion remain open.
 
 ## Current work
 
@@ -51,7 +51,17 @@ Targeted user feedback requested at this checkpoint: (1) whether idle reads as s
 
 ## Pending evidence
 
-- Moving idle and improved-wave review.
+- Review of the small requested wave retiming; idle direction already accepted for now.
 - Appearance and transition review at supported sizes.
 - Fresh preservation, frame-boundary and motion continuity checks for the selected output.
 - User observation of moving output before completion.
+
+## User feedback and tempo adjustment
+
+The user reviewed the moving draft and reports: idle looks alive for now; the new wave tempo is liked, with a request to make it slightly faster. This supersedes the earlier static/slow Phase 02 assessment for these private candidates. Keep idle unchanged. It is not approval of final lighting, supported-size rendering, arbitrary-idle transitions or native integration.
+
+Retiming choice: resample the same authored 49-frame wave timeline onto 45 frames at 24 fps, preserving relative shoulder/wrist/head/ear timing and entry/exit poses. Playback duration decreases from 2.0417 to 1.875 seconds (8.2% shorter). This is a small refinement of the reviewed gesture, not a substitute for the earlier re-authoring. The original candidate is preserved at `.local/phase-03/wave-v2/`; current output remains `.local/phase-03/wave/`. Only wave is rerendered.
+
+The user also asked whether Blender MCP had been forgotten. It has not: the isolated official MCP trial worked through the diagnostic stdio client, without native Codex tool registration. Hidden viewport capture had returned stale imagery, as recorded in the Phase 02 handoff. Repeatable Blender authoring scripts and direct renders currently supply scene and image evidence. MCP remains available for useful live inspection; there is no need to run it solely to produce this timing adjustment.
+
+Retiming verification completed: the 45-frame render exited 0. Fresh saved-scene checks PASS, with idle scene hash unchanged, source data/action preserved, toe delta about 1.2e-7 and zero endpoint matrix delta. All 141 current PNG frames match their manifests and have clear alpha borders; wave endpoints and neutral idle entry remain pixel-identical. Phase 02 host assets remain unchanged. Regenerated the review GIF and inspected the new eight-frame wave contact sheet: sampled hand/ear clearance remains visible. This is not full moving-quality acceptance. Python syntax and Git whitespace checks also passed. Next: appearance and transition work.

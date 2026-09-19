@@ -147,13 +147,14 @@ def main():
         bpy.ops.wm.save_as_mainfile(filepath=str(output / "pose-study.blend"), compress=True)
     else:
         scene.render.fps = 24
-        for clip, count in [("idle", 96), ("wave", 49)]:
+        for clip, count in [("idle", 96), ("wave", 45)]:
             if args.clip not in ("both", clip):
                 continue
             folder = output / clip
             folder.mkdir(parents=True, exist_ok=True)
             (folder / "manifest.json").unlink(missing_ok=True)
-            action = bpy.data.actions.new("Companion_" + clip.title() + "_v2")
+            revision = "v3" if clip == "wave" else "v2"
+            action = bpy.data.actions.new("Companion_" + clip.title() + "_" + revision)
             character.rig.animation_data.action = action
             action.use_fake_user = True
             for frame in range(1, (count + 2) if clip == "idle" else (count + 1)):
@@ -161,7 +162,8 @@ def main():
                 if clip == "idle":
                     character.idle((frame - 1) / count)
                 else:
-                    character.wave(frame)
+                    # Preserve the reviewed gesture's relative timing on its 49-frame authoring timeline.
+                    character.wave(1 + (frame - 1) * 48 / (count - 1))
                 for bone in character.rig.pose.bones:
                     for prop in ("location", "rotation_quaternion", "scale"):
                         bone.keyframe_insert(data_path=prop, frame=frame, group=bone.name)

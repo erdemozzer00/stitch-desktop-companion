@@ -28,7 +28,7 @@ The user's manual report confirms the sampled transparent-corner click path, sta
 
 **Status: ACTIVE — pose comparison complete; idle/wave drafts in progress (2026-09-19)**
 
-Execution order and step gates: [animation plan](ANIMATION-PLAN.md). Pose comparison selected the soft stance; idle/wave timing drafts and their checks are in progress. See [Phase 03 review](evidence/phase-03-review.md). Final motion and appearance remain unapproved.
+Execution order and step gates: [animation plan](ANIMATION-PLAN.md). Pose comparison selected the soft stance. The user now finds idle alive enough for now and likes the new wave tempo, requesting a slight speed increase (49 to 45 frames at 24 fps). See [Phase 03 review](evidence/phase-03-review.md). Final appearance and transitions remain unapproved.
 
 Set the camera, lighting, materials, and intended desktop size. Polish one sequence: idle, notice the user, wave, and return to idle. Review it both enlarged and at intended display size.
 

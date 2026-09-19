@@ -4,6 +4,8 @@
   "clips": {
     "idle": {
       "sha256": "80d6a1701fd3cf1b5ad3fe4180937d247a0f877d9375d3c9d29ae56c800f24d1",
+      "frames": 96,
+      "fps": 24,
       "preservation_and_source_action_match": true,
       "max_toe_matrix_delta": 1.1920928955078125e-07,
       "endpoint_matrix_delta": 0.0,
@@ -11,11 +13,13 @@
       "seam_finite_difference_delta": 6.365776062011719e-05
     },
     "wave": {
-      "sha256": "a644ae27451085403ab870a8f245eb2f2e50d0f773386f7e4e9d75e264fa37ef",
+      "sha256": "b3454e160a3ef281845a6cc895f1e9abae8bf8458399b87fa66ccabb0355e65f",
+      "frames": 45,
+      "fps": 24,
       "preservation_and_source_action_match": true,
       "max_toe_matrix_delta": 1.1920928955078125e-07,
       "endpoint_matrix_delta": 0.0,
-      "distinct_motion": 2.789927124977112
+      "distinct_motion": 2.7805105447769165
     }
   },
   "idle_neutral_matches_wave_entry": true,

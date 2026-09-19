@@ -38,13 +38,14 @@ def main():
     assert len(feet) == 8
     report = {"status": "PASS", "stage_sha256": hashlib.sha256(stage.read_bytes()).hexdigest(), "clips": {}}
     idle_start = None
-    for clip, count in [("idle", 96), ("wave", 49)]:
+    for clip, count in [("idle", 96), ("wave", 45)]:
         path = ROOT / f".local/phase-03/{clip}/{clip}.blend"
         bpy.ops.wm.open_mainfile(filepath=str(path), load_ui=False, use_scripts=False)
         rig = bpy.data.objects["Stitch_Armature"]
         assert preservation_digests(bpy.data.objects["Stitch_Mesh"], rig) == baseline
         assert action_data(bpy.data.actions["Stitch_Anim"]) == original_action
         scene = bpy.context.scene
+        assert (scene.frame_start, scene.frame_end, scene.render.fps) == (1, count, 24)
         poses = []
         max_foot = 0
         for frame in range(1, count + 2 if clip == "idle" else count + 1):
@@ -65,6 +66,7 @@ def main():
         else:
             assert delta(idle_start, poses[0]) < 1e-5, "Idle neutral and wave entry differ"
         report["clips"][clip] = {"sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                                  "frames": count, "fps": 24,
                                   "preservation_and_source_action_match": True,
                                   "max_toe_matrix_delta": max_foot, "endpoint_matrix_delta": boundary,
                                   "distinct_motion": delta(poses[0], poses[count // 3])}
