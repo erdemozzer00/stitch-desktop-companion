@@ -18,7 +18,7 @@ internal static class Program
         Application.SetCompatibleTextRenderingDefault(false);
         string root = AppDomain.CurrentDomain.BaseDirectory;
         string assets = Path.Combine(root, "assets");
-        string carry = null;
+        string carry = Directory.Exists(Path.Combine(root,"carry"))?Path.Combine(root,"carry"):null;
         bool probe = false, preview = false;
         foreach (string arg in args)
         {
@@ -29,11 +29,27 @@ internal static class Program
         }
         try
         {
-            using (PetWindow pet = new PetWindow(assets, root, true, carry))
+            string identity="Local\\StitchCompanion-"+System.Security.Principal.WindowsIdentity.GetCurrent().User.Value;
+            using(var request=new System.Threading.EventWaitHandle(false,System.Threading.EventResetMode.AutoReset,identity+"-show"))
+            using(var singleton=new System.Threading.Mutex(false,identity))
             {
+                bool acquired;
+                try{acquired=singleton.WaitOne(0);}catch(System.Threading.AbandonedMutexException){acquired=true;}
+                if(!acquired){request.Set();return;}
+                try
+                {
+            using (PetWindow pet = new PetWindow(assets, root, true, carry))
+            using (Timer activation=new Timer())
+            {
+                activation.Interval=200;
+                activation.Tick+=delegate{if(request.WaitOne(0)){pet.ShowPet();}};
+                activation.Start();
                 if (probe) pet.Shown += delegate { new ProbeWindow(pet).Show(); };
                 if (preview) pet.Shown += delegate { pet.React(); };
                 Application.Run(pet);
+            }
+                }
+                finally{singleton.ReleaseMutex();}
             }
         }
         catch (Exception error)

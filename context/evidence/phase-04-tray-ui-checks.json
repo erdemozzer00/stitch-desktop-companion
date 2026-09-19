@@ -5,11 +5,11 @@
   "release_idle_at_240_seconds": 0.425,
   "removed_near_static_tail_seconds": 0.292,
   "limits": "Real control renders and direct-method UI tests. Tray handler and native deactivate tested; physical shell input, keyboard navigation, other DPI and user acceptance remain separate.",
-  "checked_at_utc": "2026-09-19T19:01:22.0415248Z",
+  "checked_at_utc": "2026-09-19T19:07:17.1846638Z",
   "sources": [
     {
       "name": "PetSpike.cs",
-      "sha256": "4a781beafbbd0355986c93dbdd3d75b578dd75ce8082ca63027b054f397fb7c6"
+      "sha256": "21db53f366c85381763fe8ec033f44faa383dfb56070b28c5e94138795e89afc"
     },
     {
       "name": "CarryMotion.cs",

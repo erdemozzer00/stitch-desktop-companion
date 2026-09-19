@@ -66,3 +66,5 @@ That visual approval and implementation authorization have now been received. Th
 User confirmation: tray opening, dismissal and hide/show work on Windows 10. A reported repaint defect was reproduced and fixed; awaiting visual recheck. Desktop shortcut now uses a Stitch model-face ICO. No new behavior or animation requested.
 
 Latest user decisions: prior release/pixelation issue is resolved; tray flows work. First UI paint fix failed in real use; superseded by opaque full repaint correction. For Phase 05 enable Windows sign-in startup directly, prevent duplicate instances and keep distribution a simple personal package; no elaborate installer/settings system.
+
+Phase 05 minimal implementation is installed in Desktop/Stitch - Hediye. Startup enabled through the current-user Startup shortcut; repeat launch signals the running pet. User requested no extra settings/installer machinery. Actual logon and recipient Windows 11 acceptance remain open. The active delivery path now differs from the retained development trial.

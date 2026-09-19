@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "assertions": 1941,
+  "cases": [
+    "Three output sizes preserve alpha and premultiplied pixels; manual probe targets have the intended alpha",
+    "All 96 idle click phases choose nearby entry, suppress repeats, play the full wave and resume looping idle; reset clears reaction",
+    "Hidden reaction guard, size bounds and saved geometry round trip through the real host",
+    "Malformed and off-screen settings fall back to usable geometry",
+    "An unavailable diagnostic log does not abort host creation or settings changes; repeated disposal succeeds"
+  ],
+  "limits": "Component and pixel checks only. No native clicks, menu operation, desktop composition, or visual motion acceptance.",
+  "checked_at_utc": "2026-09-19T19:07:18.2315991Z",
+  "host_source_sha256": "21db53f366c85381763fe8ec033f44faa383dfb56070b28c5e94138795e89afc",
+  "checks_source_sha256": "44590b03cc89c5517c9d0aa30dc99923fdcda492c5ed09472af2503e0a1c996d"
+}

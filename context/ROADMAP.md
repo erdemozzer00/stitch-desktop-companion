@@ -48,7 +48,7 @@ First run the approved, bounded carry/drag reaction experiment described in the 
 
 ## Phase 05 — Daily use and packaging
 
-**Status: PLANNED**
+**Status: ACTIVE — minimal package, automatic startup and duplicate prevention installed; actual sign-in and daily-use observation pending**
 
 Enable startup at sign-in by default as explicitly requested and prevent duplicate running instances. Keep removal/disable instructions simple using Windows; do not add a settings system or elaborate installer for this one-recipient gift. Check sleep/resume, Explorer restart, settings persistence, and recovery from missing or invalid local settings. Produce a package that does not depend on Blender or development tools.
 

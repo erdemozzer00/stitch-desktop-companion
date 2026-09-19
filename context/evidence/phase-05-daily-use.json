@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checked_at_utc": "2026-09-19T19:07:53.7304197Z",
+  "package_asset_files_verified": 284,
+  "pid": 29440,
+  "exe_sha256": "32050b363a250286895109d091905a622ee9012b7992a82fdf6f34f393e656d1",
+  "shortcuts": [
+    {
+      "path": "C:\\Users\\Erdem\\Desktop\\Stitch.lnk",
+      "target": "C:\\Users\\Erdem\\Desktop\\Stitch - Hediye\\StitchPet.exe",
+      "arguments": "",
+      "icon": "C:\\Users\\Erdem\\Desktop\\Stitch - Hediye\\stitch.ico,0"
+    },
+    {
+      "path": "C:\\Users\\Erdem\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\Stitch.lnk",
+      "target": "C:\\Users\\Erdem\\Desktop\\Stitch - Hediye\\StitchPet.exe",
+      "arguments": "",
+      "icon": "C:\\Users\\Erdem\\Desktop\\Stitch - Hediye\\stitch.ico,0"
+    }
+  ],
+  "setup_repeated_without_duplicates": true,
+  "startup_shortcut_invoked_without_second_instance": true,
+  "process_check": "Second process and four concurrent launches exited; hidden primary restored",
+  "limits": "Actual sign-out/reboot, sleep/resume, Explorer restart and recipient Windows 11 not performed."
+}

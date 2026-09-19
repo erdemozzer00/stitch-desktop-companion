@@ -3,10 +3,10 @@
   "assertions": 179452,
   "python_replay_max_angle_error": 3.7183734292764774E-08,
   "limits": "Controller/state/pixel/direct-method checks; not physical mouse or visual acceptance.",
-  "checked_at_utc": "2026-09-19T19:01:42.5155642Z",
+  "checked_at_utc": "2026-09-19T19:07:25.1546440Z",
   "sources": [
     {
-      "sha256": "4a781beafbbd0355986c93dbdd3d75b578dd75ce8082ca63027b054f397fb7c6",
+      "sha256": "21db53f366c85381763fe8ec033f44faa383dfb56070b28c5e94138795e89afc",
       "name": "PetSpike.cs"
     },
     {
