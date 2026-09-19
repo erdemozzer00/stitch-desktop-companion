@@ -80,6 +80,8 @@ internal static class PolishChecks
                         {
                             Check(panel.Visible,"Tray left-click handler did not show remote");
                             CheckTranslatedPaint(panel,outDir);
+                            CheckRepaintClearsPreviousContent(panel,outDir);
+                            CaptureNativeRepaints(panel,outDir);
                             Check(panel.Owner==null && !panel.ShowInTaskbar,"Remote depends on pet visibility or has taskbar button");
                             Capture(panel,Path.Combine(outDir,"tray-remote-visible.png"));
                             for(int i=0;i<3;i++)
@@ -170,6 +172,45 @@ internal static class PolishChecks
                 if(!new Rectangle(160,80,control.Width,control.Height).Contains(x,y) && bitmap.GetPixel(x,y).ToArgb()!=sentinel.ToArgb())escaped++;
             bitmap.Save(Path.Combine(directory,"translated-"+control.TabIndex+".png"));
             Check(escaped==0,"Button repaint escaped translated clip: "+control.AccessibleName+" pixels="+escaped);
+        }
+    }
+    private static void CheckRepaintClearsPreviousContent(RemotePanel panel,string directory)
+    {
+        // A partial/native foreground repaint must replace old pixels completely.
+        var foreground=typeof(RemoteButton).GetMethod("OnPaint",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
+        foreach(RemoteButton button in panel.Controls)
+        using(Bitmap clean=new Bitmap(button.Width,button.Height))
+        using(Bitmap dirty=new Bitmap(button.Width,button.Height))
+        {
+            using(Graphics g=Graphics.FromImage(clean))
+            {g.Clear(Color.Black);foreground.Invoke(button,new object[]{new PaintEventArgs(g,button.ClientRectangle)});}
+            using(Graphics g=Graphics.FromImage(dirty))
+            {
+                g.Clear(Color.Magenta);
+                foreach(RemoteButton other in panel.Controls)foreground.Invoke(other,new object[]{new PaintEventArgs(g,button.ClientRectangle)});
+                foreground.Invoke(button,new object[]{new PaintEventArgs(g,button.ClientRectangle)});
+            }
+            int differences=0;
+            for(int y=0;y<button.Height;y++)for(int x=0;x<button.Width;x++)if(clean.GetPixel(x,y)!=dirty.GetPixel(x,y))differences++;
+            dirty.Save(Path.Combine(directory,"repaint-"+button.TabIndex+".png"));
+            Check(differences==0,"Button retains previous buffer content: "+button.AccessibleName+" pixels="+differences);
+        }
+    }
+    [System.Runtime.InteropServices.DllImport("user32.dll")]private static extern IntPtr GetDC(IntPtr window);
+    [System.Runtime.InteropServices.DllImport("user32.dll")]private static extern int ReleaseDC(IntPtr window,IntPtr dc);
+    [System.Runtime.InteropServices.DllImport("gdi32.dll")]private static extern bool BitBlt(IntPtr dst,int x,int y,int w,int h,IntPtr src,int sx,int sy,int mode);
+    private static void CaptureNativeRepaints(RemotePanel panel,string directory)
+    {
+        var enter=typeof(RemoteButton).GetMethod("OnMouseEnter",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
+        var leave=typeof(RemoteButton).GetMethod("OnMouseLeave",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
+        for(int i=0;i<10;i++)foreach(RemoteButton b in panel.Controls)
+        {enter.Invoke(b,new object[]{EventArgs.Empty});b.Refresh();leave.Invoke(b,new object[]{EventArgs.Empty});b.Refresh();}
+        using(Bitmap bitmap=new Bitmap(panel.Width,panel.Height))using(Graphics g=Graphics.FromImage(bitmap))
+        {
+            IntPtr source=GetDC(panel.Handle),dest=g.GetHdc();
+            try{Check(BitBlt(dest,0,0,bitmap.Width,bitmap.Height,source,0,0,0x00CC0020),"Native panel capture failed");}
+            finally{g.ReleaseHdc(dest);ReleaseDC(panel.Handle,source);}
+            bitmap.Save(Path.Combine(directory,"native-repaint.png"));
         }
     }
 }

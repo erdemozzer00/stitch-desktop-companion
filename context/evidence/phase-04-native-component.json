@@ -3,23 +3,23 @@
   "assertions": 179452,
   "python_replay_max_angle_error": 3.7183734292764774E-08,
   "limits": "Controller/state/pixel/direct-method checks; not physical mouse or visual acceptance.",
-  "checked_at_utc": "2026-09-19T18:55:29.0508148Z",
+  "checked_at_utc": "2026-09-19T19:01:42.5155642Z",
   "sources": [
     {
-      "name": "PetSpike.cs",
-      "sha256": "4a781beafbbd0355986c93dbdd3d75b578dd75ce8082ca63027b054f397fb7c6"
+      "sha256": "4a781beafbbd0355986c93dbdd3d75b578dd75ce8082ca63027b054f397fb7c6",
+      "name": "PetSpike.cs"
     },
     {
-      "name": "CarryMotion.cs",
-      "sha256": "bc0f111c73d40e2ee5e767bb7c72bf43b842519ac3b86ac9006592d8870fa36a"
+      "sha256": "bc0f111c73d40e2ee5e767bb7c72bf43b842519ac3b86ac9006592d8870fa36a",
+      "name": "CarryMotion.cs"
     },
     {
-      "name": "CompanionUi.cs",
-      "sha256": "c2ddaf86053e2af446f739f9c3a7872f699f213ebf58d36a02b83994e6fba35f"
+      "sha256": "a79f3bcab66244fcea1c18ed06a5cd7da645b4f05c10dc493065fc639beaaa47",
+      "name": "CompanionUi.cs"
     },
     {
-      "name": "CarryChecks.cs",
-      "sha256": "f75309289686159abaf820a98d82ce0aa5efa1c05d558ceff10475102f810a24"
+      "sha256": "f75309289686159abaf820a98d82ce0aa5efa1c05d558ceff10475102f810a24",
+      "name": "CarryChecks.cs"
     }
   ]
 }

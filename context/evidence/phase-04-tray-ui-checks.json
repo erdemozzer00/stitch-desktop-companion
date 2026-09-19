@@ -1,11 +1,11 @@
 {
   "status": "PASS",
-  "assertions": 149,
+  "assertions": 156,
   "min_text_contrast": 6.23,
   "release_idle_at_240_seconds": 0.425,
   "removed_near_static_tail_seconds": 0.292,
   "limits": "Real control renders and direct-method UI tests. Tray handler and native deactivate tested; physical shell input, keyboard navigation, other DPI and user acceptance remain separate.",
-  "checked_at_utc": "2026-09-19T18:54:12.9242845Z",
+  "checked_at_utc": "2026-09-19T19:01:22.0415248Z",
   "sources": [
     {
       "name": "PetSpike.cs",
@@ -17,11 +17,11 @@
     },
     {
       "name": "CompanionUi.cs",
-      "sha256": "c2ddaf86053e2af446f739f9c3a7872f699f213ebf58d36a02b83994e6fba35f"
+      "sha256": "a79f3bcab66244fcea1c18ed06a5cd7da645b4f05c10dc493065fc639beaaa47"
     },
     {
       "name": "PolishChecks.cs",
-      "sha256": "0ec0f1d8ee23f8591492f5ef3320ed6c6a043fc339e00320a6728f08852e210f"
+      "sha256": "b708381bc1bbe0ebb10c3296b769b372f088e4ab4c7a9ca0fa55884cdcea96e7"
     }
   ]
 }

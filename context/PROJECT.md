@@ -64,3 +64,5 @@ Latest UI decision (2026-09-19): keep the independent floating character and all
 That visual approval and implementation authorization have now been received. The detached remote is integrated and installed; see [integration result](evidence/phase-04-tray-integration.md). The earlier prototype-only restriction is satisfied. Continue with actual trial feedback; do not re-request design approval.
 
 User confirmation: tray opening, dismissal and hide/show work on Windows 10. A reported repaint defect was reproduced and fixed; awaiting visual recheck. Desktop shortcut now uses a Stitch model-face ICO. No new behavior or animation requested.
+
+Latest user decisions: prior release/pixelation issue is resolved; tray flows work. First UI paint fix failed in real use; superseded by opaque full repaint correction. For Phase 05 enable Windows sign-in startup directly, prevent duplicate instances and keep distribution a simple personal package; no elaborate installer/settings system.

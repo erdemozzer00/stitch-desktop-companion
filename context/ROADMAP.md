@@ -34,7 +34,7 @@ The accepted baseline combines the relaxed soft stance, polished four-second idl
 
 ## Phase 04 — Integrated first version
 
-**Status: ACTIVE — native carry accepted; approved detached tray remote integrated and installed; tray flows user-confirmed; repaint fix, shortcut icon and release-polish visual feedback pending (2026-09-19)**
+**Status: ACTIVE — native carry accepted; approved detached tray remote integrated and installed; tray flows and release polish user-confirmed; corrected native repaint awaits visual confirmation (2026-09-19)**
 
 The character-attached control bar has been removed after visual approval. See [tray integration evidence](evidence/phase-04-tray-integration.md). The compact tray-click panel starts closed and contains size, hide/show and exit; character click still waves. No extra desktop launcher surface. Phase 05 and 06 remain separate.
 
@@ -50,7 +50,7 @@ First run the approved, bounded carry/drag reaction experiment described in the 
 
 **Status: PLANNED**
 
-Add startup at sign-in with an off switch and prevent duplicate running instances. Check sleep/resume, Explorer restart, settings persistence, and recovery from missing or invalid local settings. Produce a package that does not depend on Blender or development tools.
+Enable startup at sign-in by default as explicitly requested and prevent duplicate running instances. Keep removal/disable instructions simple using Windows; do not add a settings system or elaborate installer for this one-recipient gift. Check sleep/resume, Explorer restart, settings persistence, and recovery from missing or invalid local settings. Produce a package that does not depend on Blender or development tools.
 
 **Exit:** documented checks using the packaged application, verified startup enable/disable behavior, and short installation/removal instructions. Running a development script does not prove the package works independently.
 

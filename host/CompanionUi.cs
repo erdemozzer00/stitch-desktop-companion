@@ -74,15 +74,26 @@ internal sealed class RemoteButton : Button
     internal string Symbol;
     internal RemoteButton()
     {
-        SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.SupportsTransparentBackColor,true);
-        BackColor=Color.Transparent;ForeColor=PetPalette.Text;FlatStyle=FlatStyle.Flat;
+        SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.Opaque,true);
+        BackColor=PetPalette.Top;ForeColor=PetPalette.Text;FlatStyle=FlatStyle.Flat;
         FlatAppearance.BorderSize=0;Cursor=Cursors.Hand;TabStop=true;AccessibleRole=AccessibleRole.PushButton;
     }
     protected override void OnMouseEnter(EventArgs e){hover=true;Invalidate();base.OnMouseEnter(e);}
     protected override void OnMouseLeave(EventArgs e){hover=false;Invalidate();base.OnMouseLeave(e);}
+    protected override void OnPaintBackground(PaintEventArgs e) { }
     protected override void OnPaint(PaintEventArgs e)
     {
-        Graphics g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;float s=Height/32f;
+        Graphics g=e.Graphics;g.SmoothingMode=SmoothingMode.None;float s=Height/32f;
+        // ButtonBase does not reliably erase a custom transparent button on each
+        // native hover repaint. Own every pixel instead of reusing that buffer.
+        if(Symbol==null)
+        {using(Brush b=new SolidBrush(Color.FromArgb(20,17,26)))g.FillRectangle(b,ClientRectangle);}
+        else
+        {
+            Rectangle surface=Parent==null?ClientRectangle:new Rectangle(-Left,-Top,Parent.Width,Parent.Height);
+            using(LinearGradientBrush b=new LinearGradientBrush(surface,PetPalette.Top,PetPalette.Bottom,70f))g.FillRectangle(b,ClientRectangle);
+        }
+        g.SmoothingMode=SmoothingMode.AntiAlias;
         if(Selected || hover)
             using(GraphicsPath p=PetPalette.Round(new RectangleF(1,1,Width-2,Height-2),6*s))
             using(Brush b=new SolidBrush(Selected?Color.FromArgb(66,54,79):PetPalette.Hover))g.FillPath(b,p);

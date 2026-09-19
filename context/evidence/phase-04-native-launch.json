@@ -1,8 +1,8 @@
 {
   "status": "RUNNING_AT_CHECK",
-  "checked_at_utc": "2026-09-19T18:55:42.3193873Z",
-  "pid": 40412,
-  "executable_sha256": "9e1a716735dd5b50c444352a2dacf833992b0537ff2f9a02b36a6cf66dffcd84",
+  "checked_at_utc": "2026-09-19T19:01:46.9980345Z",
+  "pid": 35348,
+  "executable_sha256": "c3166569eddf556911bfadefa3ce45105a5e4db32b8b6c3402f701a83ba012d4",
   "revision": "phase04-tray-remote",
   "installed_baseline_changed": false,
   "limits": "Process launch verified only. Physical mouse and user visual acceptance are pending."
