@@ -1,0 +1,17 @@
+{
+  "status": "PRIVATE_PREVIEW_CHECKS_PASS_NOT_NATIVE_ACCEPTANCE",
+  "accepted_pointer_trace_exactly_preserved": true,
+  "accepted_directional_action_preserved": "PASS: accepted source bytes, mesh/rig fields, directional action and camera",
+  "closed_bank_frames": 45,
+  "neutral_transition_frames": 7,
+  "actual_new_render_files": 52,
+  "size": 240,
+  "samples": 6,
+  "closure_seconds": 0.25,
+  "reopen_start_after_release_seconds": 0.25,
+  "reopen_seconds": 0.33,
+  "preview_raw_pixels_mib": 11.42578125,
+  "projected_replacement_bank_400_mib": 31.73828125,
+  "asset_strategy": "Closed bank replaces planned open carry bank; no 45x7 eye-state product. Arbitrary moving blink entry is not solved by neutral transition frames.",
+  "limits": "Native capture/release, wave entry, arbitrary grips and process memory remain unproven. No installed-app update."
+}

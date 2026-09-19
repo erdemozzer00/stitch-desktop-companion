@@ -61,3 +61,22 @@ The neutral bank pose returns to accepted neutral. This first experiment deliber
 ### Current handoff
 
 Review directional-light.gif or directional-dark.gif: assess whether the right panel conveys the intended carried-toy effect and whether strength/settling feel natural. Preserve the verified backup. After motion-direction acceptance, proceed to the isolated actual-pointer host trial, accounting for redraw invalidation, frame-selection stepping, transformed bounds, off-center grip and interruption policy. Do not treat this preview as integrated or as Phase 04 completion.
+
+## Accepted response and requested closed eyes — 2026-09-19
+
+The user said the response is ideal and requested closing the eyes while carried. This accepts the directional strength; it does not accept a native implementation that has not yet been built. Keep controller values, bank articulation and pointer trajectory unchanged.
+
+Inspection found no shape keys or lid controls. The source mesh contains two disconnected 1,986-vertex eye components; Eye.L/R provide tracking, not closure. `author_carry_eyes.py` adds four spherical lid-cap surfaces weighted to the existing Head bone. They use UV samples from the source material's pale eye surround and dark-blue crease. The original mesh, eyeballs, materials, rig, camera and directional action remain unchanged. This is authored 3D geometry, not a flattened-eye scale effect. A slight curved seam avoids an entirely straight closed-eye line.
+
+Private moving comparison: `.local/phase-04/directional-eyes-v1/carry-eyes-light.gif` and `carry-eyes-dark.gif`. Both columns have identical accepted carry motion; only the right column closes its eyes. The close lasts 0.25 seconds, stays closed while held, and reopens over 0.33 seconds beginning 0.25 seconds after release. These are preview timing choices. Source geometry study renders exposed that the eye socket hides the first half of a full spherical sweep, so the visible closure range was remapped before the final preview.
+
+Checks and limits:
+
+- Blender render completed successfully: seven initial 400px/24-sample geometry study renders, followed by 52 final 240px/six-sample renders (45 closed bank poses plus seven neutral closure states). Final render took about 97 seconds. Initial study images were superseded; the current manifest describes the final 240px files only. Future `author_carry_eyes.py` runs without `--bank` put studies in a separate `study/` subfolder.
+- Accepted directional source file SHA-256, mesh/rig preservation fields, action keys and camera are unchanged. `preview_carry_eyes.py` confirms all 205 original pointer/response records exactly match; it imports the unchanged controller rather than duplicating it. All final PNG hashes, transparent borders and replay panel bounds pass.
+- Agent inspected initial closure samples, final seven-state closure sheet, and sampled moving comparison. Closed eyes visibly cover the pupils; no conspicuous sampled face or body clipping was seen. This is not full temporal/user acceptance. No native GUI test or production-size movement claim is made.
+- The final closed carry bank is intended to replace the open carry bank, not multiply every direction by seven lid states. Its 52 images represent 11.43 MiB of raw pixels at 240px, or a hypothetical 31.74 MiB at 400px before any entry/exit bridges. Historical open-eye comparison assets remain private. Process RAM has not been measured.
+- The replay closes and opens near neutral. Its seven neutral samples do NOT solve arbitrary moving eye transitions, interrupted wave entry, capture loss or re-grab. Resolve those in the isolated native trial without delaying window movement or silently multiplying the bank. Keep the 96-frame proposed production cap unless a concrete cost review changes it.
+- Python syntax and Git whitespace checks pass. Main and frozen-backup executable SHA-256 remain `d0ac9f4d32bc35a8399d0211fba770e4458e9aed7587cdc981ad4a7f03b27771`. No desktop install, launch or backup modification occurred.
+
+Next: user review of the requested facial refinement, then Step 04.2 isolated actual-pointer integration. Preserve accepted directional strength and Phase 03 idle/wave. Phase 04 remains active; Godot remains excluded.
