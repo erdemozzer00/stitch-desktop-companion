@@ -43,47 +43,95 @@ internal static class PolishChecks
                 if(side==240){firstHandoff=handoff;oldTail=finish-handoff;}
             }
             Rectangle work=new Rectangle(-1920,40,1920,1040);
-            foreach(Point position in new[]{new Point(-1920,40),new Point(-240,840),new Point(-1900,840),new Point(-260,50)})
+            foreach(Point position in new[]{new Point(-1920,40),new Point(-5,1100),new Point(-1900,1060),new Point(-260,0)})
+            foreach(Size size in new[]{new Size(312,220),new Size(390,275),new Size(624,440)})
             {
-                Size size=new Size(180,46);Point p=CompanionUi.PlaceInWorkArea(new Rectangle(position,new Size(240,240)),size,work);
-                Check(work.Contains(new Rectangle(p,size)),"Toolbar crosses work area edge");
+                Point p=CompanionUi.PlaceInWorkArea(position,size,work);
+                Check(work.Contains(new Rectangle(p,size)),"Remote crosses work area edge");
             }
             Exception failure=null;
             using(PetWindow pet=new PetWindow(Path.Combine(root,"assets"),outDir,true,Path.Combine(root,"carry")))
+            using(Form outside=new Form())
             using(Timer steps=new Timer())
             {
+                outside.Text="Stitch temporary focus check";outside.ShowInTaskbar=false;outside.Size=new Size(220,90);
                 pet.ManualTicks=true;pet.SetSize(240);
-                steps.Interval=250;int stage=0;
+                Point anchor=new Point(Screen.PrimaryScreen.WorkingArea.Right-100,Screen.PrimaryScreen.WorkingArea.Bottom+10);
+                steps.Interval=300;int stage=0;
                 steps.Tick+=delegate
                 {
                     try
                     {
+                        RemotePanel panel=pet.TrayPanel;
                         if(stage==0)
                         {
-                            Check(pet.ControlBar.Visible,"Welcome controls not visible");
-                            Check(pet.ControlBar.More.AccessibleName.Length>0,"More control lacks accessible name");
-                            Capture(pet.ControlBar,Path.Combine(outDir,"toolbar.png"));
-                            pet.ControlBar.Wave.PerformClick();Check(pet.Reactions==1,"Wave button did not invoke existing action");
-                            pet.ControlBar.More.PerformClick();Check(pet.OptionsMenu.Visible,"More did not open options");
+                            Check(pet.Visible && pet.TrayVisible,"Launch must show pet and tray icon");
+                            Check(!panel.Visible,"Panel opened automatically on launch");
+                            Check(panel.Controls.Count==6,"Unexpected extra commands");
+                            foreach(Control c in panel.Controls)
+                            {Check(c.Text!="El salla","Wave command must not appear in remote");Check(!String.IsNullOrEmpty(c.AccessibleName),"Unnamed remote control");}
+                            foreach(ToolStripItem item in pet.OptionsMenu.Items)Check(item.Text!="El salla","Wave command still in tray fallback");
+                            // Dispatch through the actual NotifyIcon event; not a physical shell click.
+                            var field=typeof(PetWindow).GetField("tray",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+                            var method=typeof(NotifyIcon).GetMethod("OnMouseClick",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+                            method.Invoke(field.GetValue(pet),new object[]{new MouseEventArgs(MouseButtons.Left,1,0,0,0)});
                         }
                         else if(stage==1)
                         {
-                            Capture(pet.OptionsMenu,Path.Combine(outDir,"menu.png"));
-                            foreach(ToolStripItem item in pet.OptionsMenu.Items)
-                                if(item.Text=="Boyut")((ToolStripMenuItem)item).DropDownItems[2].PerformClick();
-                            Check(pet.CharacterSize==400,"Size menu failed");
-                            pet.OptionsMenu.Close();
+                            Check(panel.Visible,"Tray left-click handler did not show remote");
+                            Check(panel.Owner==null && !panel.ShowInTaskbar,"Remote depends on pet visibility or has taskbar button");
+                            Capture(panel,Path.Combine(outDir,"tray-remote-visible.png"));
+                            for(int i=0;i<3;i++)
+                            {panel.SizeButtons[i].PerformClick();Check(pet.CharacterSize==240+80*i,"Remote size failed");Check(panel.SizeButtons[i].Selected,"Size selection state is stale");}
+                            pet.ToggleRemote(anchor);Check(!panel.Visible,"Second tray activation must close");
+                            pet.ToggleRemote(anchor);Check(panel.Visible,"Explicit reopen failed");
+                            var key=typeof(RemotePanel).GetMethod("ProcessCmdKey",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+                            object[] keyArgs={new Message(),Keys.Escape};Check((bool)key.Invoke(panel,keyArgs),"Escape not consumed");
+                            Check(!panel.Visible,"Escape did not dismiss");
                             Point grip=new Point(pet.CharacterBounds.Left+200,pet.CharacterBounds.Top+200);
-                            pet.PointerDownAt(grip);Check(!pet.ControlBar.Visible,"Toolbar stayed visible during grab");
-                            pet.CancelPointer();pet.HidePet();Check(!pet.Visible && !pet.ControlBar.Visible,"Hide orphaned toolbar");
-                            pet.ShowOptions(Cursor.Position);
+                            pet.PointerDownAt(grip);pet.PointerUp();Check(pet.Reactions==1,"Character click no longer waves");
+                            Check(!panel.Visible,"Character click opened controls");
                         }
-                        else
+                        else if(stage==2)pet.ToggleRemote(anchor);
+                        else if(stage==3){Check(panel.Visible,"Remote not ready for deactivate test");outside.Show();outside.Activate();}
+                        else if(stage==4)
+                        {
+                            Check(!panel.Visible,"Activation of another native window did not dismiss remote");
+                            outside.Hide();pet.ToggleRemote(anchor);
+                        }
+                        else if(stage==5)
+                        {
+                            Check(panel.Visible,"Remote reopen after deactivate failed");
+                            panel.VisibilityButton.PerformClick();Check(!pet.Visible && !panel.Visible && pet.TrayVisible,"Hide must keep only tray access");
+                        }
+                        else if(stage==6)pet.ToggleRemote(anchor);
+                        else if(stage==7)
+                        {
+                            Check(panel.Visible && panel.VisibilityButton.Text=="Göster","Hidden pet cannot access remote");
+                            Capture(panel,Path.Combine(outDir,"tray-remote-hidden.png"));
+                            panel.VisibilityButton.PerformClick();Check(pet.Visible && !panel.Visible,"Restore must not auto-open remote");
+                        }
+                        else if(stage==8)
+                        {
+                            pet.ToggleRemote(anchor);Check(panel.Visible,"Remote reopen failed");
+                            Point grip=new Point(pet.CharacterBounds.Left+200,pet.CharacterBounds.Top+200),before=pet.Location;
+                            pet.PointerDownAt(grip);Check(!panel.Visible,"Grab left remote visible");
+                            pet.PointerMoveAt(new Point(grip.X+80,grip.Y+30));
+                            Check(pet.Location==new Point(before.X+80,before.Y+30),"Drag no longer immediately follows pointer");pet.PointerUp();
+                            pet.HidePet();pet.ShowOptions(anchor);
+                        }
+                        else if(stage==9)
                         {
                             bool restored=false;
                             foreach(ToolStripItem item in pet.OptionsMenu.Items)if(item.Text=="Göster" && item.Available){item.PerformClick();restored=true;break;}
-                            Check(restored && pet.Visible,"Hidden pet cannot be restored through menu");
-                            pet.OptionsMenu.Close();steps.Stop();pet.Close();
+                            Check(restored && pet.Visible,"Hidden pet cannot be restored through fallback menu");
+                            pet.OptionsMenu.Close();pet.ToggleRemote(anchor);
+                        }
+                        else
+                        {
+                            Check(panel.Visible,"Remote must be open before exit");steps.Stop();panel.ExitButton.PerformClick();
+                            Check(pet.IsDisposed,"Remote exit did not close the pet");
+                            Check(panel.IsDisposed,"Remote was not disposed on app exit");
                         }
                         stage++;
                     }
@@ -94,7 +142,7 @@ internal static class PolishChecks
             if(failure!=null)throw failure;
             Console.WriteLine("{\"status\":\"PASS\",\"assertions\":"+checks+",\"min_text_contrast\":"+minContrast.ToString("F2",CultureInfo.InvariantCulture)
                 +",\"release_idle_at_240_seconds\":"+firstHandoff.ToString("F3",CultureInfo.InvariantCulture)+",\"removed_near_static_tail_seconds\":"+oldTail.ToString("F3",CultureInfo.InvariantCulture)
-                +",\"limits\":\"Real control renders and direct-method UI tests. Physical hover/keyboard, different DPI and user visual acceptance remain separate.\"}");
+                +",\"limits\":\"Real control renders and direct-method UI tests. Tray handler and native deactivate tested; physical shell input, keyboard navigation, other DPI and user acceptance remain separate.\"}");
             return 0;
         }
         catch(Exception e){Console.Error.WriteLine(e);return 1;}

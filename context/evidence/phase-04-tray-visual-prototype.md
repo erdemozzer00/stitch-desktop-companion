@@ -1,5 +1,7 @@
 # Tray remote visual checkpoint — 2026-09-19
 
+**Historical checkpoint, now approved:** the user approved the revised no-wave design and requested integration. The prototype-only stop below describes the earlier checkpoint. Current installed result and next step: [tray integration](phase-04-tray-integration.md).
+
 ## User decision and boundary
 
 The user explicitly withdrew controls attached to or below the character. Keep Stitch's appearance, animation, drag response and standalone floating behavior unchanged. Launching from a normal Windows desktop shortcut should create the pet and its notification-area icon. Clicking that icon opens the remote panel; it is not persistently open and there is no second launcher in a screen corner. Respect the user's Windows shortcut activation settings.

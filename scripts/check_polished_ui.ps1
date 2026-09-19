@@ -11,5 +11,8 @@ $result=& "$output/PolishChecks.exe" $output
 if($LASTEXITCODE -ne 0){throw 'Polish checks failed.'}
 $report=$result | ConvertFrom-Json
 $report | Add-Member checked_at_utc ([DateTime]::UtcNow.ToString('o'))
-$report | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 "$repo/context/evidence/phase-04-polish-checks.json"
+$report | Add-Member sources (@('PetSpike.cs','CarryMotion.cs','CompanionUi.cs','PolishChecks.cs') | ForEach-Object {
+    @{name=$_;sha256=(Get-FileHash -LiteralPath "$repo/host/$_").Hash.ToLowerInvariant()}
+})
+$report | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 "$repo/context/evidence/phase-04-tray-ui-checks.json"
 $result

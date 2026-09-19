@@ -27,7 +27,7 @@ The motion should fit Stitch's stylized design: readable weight, coordinated sho
 
 ## Initial inspection baseline
 
-Tray remote refinement (2026-09-19): the user removed the El salla command from the panel; the recipient will wave by clicking Stitch. The remote contains size, hide/show and exit only at this stage. Preserve click-to-wave unchanged. This refines the visual prototype; it is not yet approval to integrate it.
+Tray remote refinement (2026-09-19): the user removed the El salla command from the panel; the recipient will wave by clicking Stitch. The remote contains size, hide/show and exit only at this stage. Preserve click-to-wave unchanged. The user subsequently approved this visual prototype and explicitly requested integration; the updated trial is installed, pending physical user review.
 
 These observations were reconciled with the generated Phase 01 evidence:
 
@@ -60,3 +60,5 @@ Phase 04 native trial policy: existing idle-entry frames provide the short neutr
 Latest feedback: the user accepted the native carry trial overall ("10/10"), reporting only brief release pixelation and near-static pause. Authorized a fix preserving response strength, followed by a simple modern interface for a nontechnical recipient. Final chosen palette is a restrained near-black PURPLE gradient with white text, superseding the initial black/white idea. The initially implemented character-attached command bar is now superseded by the decision below. This does not authorize unrelated gestures, voice, Godot or early startup/packaging work.
 
 Latest UI decision (2026-09-19): keep the independent floating character and all behaviors unchanged. Move controls entirely to a compact remote opened by clicking the notification-area Stitch icon. No controls above/below the character and no extra screen-corner launcher. Normal desktop shortcut launch creates the pet and tray icon; the panel stays closed until clicked. Use standard Windows shortcut behavior. Research Raycast and WinUI patterns, then present ONLY a static visual prototype; integrate only after explicit visual approval. Use the existing model face as the proposed icon. See [tray visual checkpoint](evidence/phase-04-tray-visual-prototype.md). Startup opt-in/out, single-instance activation and final packaging remain Phase 05.
+
+That visual approval and implementation authorization have now been received. The detached remote is integrated and installed; see [integration result](evidence/phase-04-tray-integration.md). The earlier prototype-only restriction is satisfied. Continue with actual trial feedback; do not re-request design approval.

@@ -150,3 +150,7 @@ The diagnostic probe no longer opens in normal trial launches; `start_carry_tria
 - Final executable SHA-256 `d2e0230381aba8d2c58c30fefec094d49e6c8307cd99e87599594e0dd9e5c881`. Launch PID 27368 was alive at the check; event log confirmed `carry=True`, 240px display size and previous position. PID may later be stale. See `phase-04-polished-install.json` and `phase-04-native-launch.json`.
 
 The user was asked to review the release-quality/pause correction and the purple control bar/menu. That new feedback is pending. Keep Phase 04 active until the updated visual/input handoff is accepted; do not treat the earlier 10/10 reaction feedback as approval of changes made afterward.
+
+## Approved tray remote installed — 2026-09-19
+
+The user approved the detached compact remote without El salla and requested integration. Replaced the character-local toolbar/menu with tray-only controls, kept character-click wave and carry motion, and updated the SAME trial shortcut/executable after backup. Startup panel is closed. Native controls and preserved motion checks passed; physical tray/UI feedback remains pending. See [tray integration evidence](phase-04-tray-integration.md) for exact checks, installed hash, backup, limitations and the continuation boundary. No Phase 05 or Windows 11 acceptance is claimed.

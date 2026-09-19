@@ -2,7 +2,7 @@
 
 A project for a personal Windows 11 desktop companion using a supplied Stitch model. The first version is a silent floating character above normal windows, reacts to clicks, and can be dragged into place. The former desktop-only requirement was withdrawn on 2026-09-18.
 
-**Status:** Phases 01–03 are complete. The user accepted the native open-eye carried-toy response. The same trial shortcut now opens a 400px carry revision with improved release handoff and restrained purple/white contextual controls; review of this polish/UI is pending. Eye closure was cancelled. The original Phase 03 installation and full desktop fallback remain intact. Packaging and target-PC acceptance remain open.
+**Status:** Phases 01–03 are complete. The user accepted the native open-eye carried-toy response. The same trial shortcut now opens a 400px carry revision with improved release handoff and the approved detached purple tray remote. Startup shows only the pet and Stitch tray icon; click the icon for size, hide/show and exit. Click the character to wave. Physical review of this installed UI/release polish is pending. Eye closure was cancelled. The original Phase 03 installation and full desktop fallback remain intact. Packaging and target-PC acceptance remain open.
 
 Verified public repository: [erdemozzer00/stitch-desktop-companion](https://github.com/erdemozzer00/stitch-desktop-companion).
 

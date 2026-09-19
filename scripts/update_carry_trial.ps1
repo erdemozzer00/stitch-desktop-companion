@@ -58,7 +58,7 @@ try{
     Copy-Item -Path "$backup/*" -Destination $installed -Recurse -Force
     throw
 }
-$record=[ordered]@{status='PASS';updated_at_utc=[DateTime]::UtcNow.ToString('o');backup=$backup;revision='phase04-open-eye-400-controls';
+$record=[ordered]@{status='PASS';updated_at_utc=[DateTime]::UtcNow.ToString('o');backup=$backup;revision='phase04-tray-remote';
     executable_sha256=(Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant();carry_frames=45;carry_size=400;settings_preserved=$true;
     original_phase03_installation_changed=$false;limits='Updated isolated trial; user visual and physical UI acceptance still required.'}
 $record | ConvertTo-Json | Set-Content -Encoding UTF8 "$repo/context/evidence/phase-04-polished-install.json"

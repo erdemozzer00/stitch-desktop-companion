@@ -54,9 +54,10 @@ internal sealed class PetWindow : Form
     private readonly Timer timer = new Timer();
     private readonly Stopwatch clock = new Stopwatch();
     private readonly NotifyIcon tray;
+    private readonly Icon trayIcon;
     private readonly ContextMenuStrip menu;
     private readonly CompanionUi controls;
-    private ToolStripMenuItem waveCommand, hideCommand, showCommand;
+    private ToolStripMenuItem hideCommand, showCommand;
     private readonly ToolStripMenuItem[] sizeCommands = new ToolStripMenuItem[3];
     private bool pressed, dragging, resourcesDisposed;
     private Point pointerStart, windowStart;
@@ -72,7 +73,9 @@ internal sealed class PetWindow : Form
     internal bool PointerBusy { get { return pressed || dragging; } }
     internal bool CanReact { get { return Visible && !dragging && !carry.Held && !playback.CarryReady && !playback.Reacting; } }
     internal Rectangle CharacterBounds { get { return new Rectangle(Left+ContentPadding,Top+ContentPadding,side,side); } }
-    internal CommandBar ControlBar { get { return controls==null?null:controls.Bar; } }
+    internal RemotePanel TrayPanel { get { return controls==null?null:controls.Panel; } }
+    internal bool TrayVisible { get { return tray!=null && tray.Visible; } }
+    internal void ToggleRemote(Point anchor) { if(controls!=null){controls.Toggle(anchor);Log("remote visible=" + TrayPanel.Visible);} }
     internal ContextMenuStrip OptionsMenu { get { return menu; } }
     internal bool ManualTicks { get; set; } // Direct-method smoke; ordinary launches use the timer.
     public int Reactions { get; private set; }
@@ -101,8 +104,6 @@ internal sealed class PetWindow : Form
         menu.Renderer=new PetMenuRenderer(); menu.Font=new Font("Segoe UI",10f);
         menu.BackColor=PetPalette.Top; menu.ForeColor=PetPalette.Text; menu.Padding=new Padding(5);
         menu.MinimumSize=new Size(188,0); menu.AccessibleName="Stitch seçenekleri";
-        waveCommand=(ToolStripMenuItem)menu.Items.Add("El salla", null, delegate { React(); });
-        menu.Items.Add(new ToolStripSeparator());
         ToolStripMenuItem sizes=new ToolStripMenuItem("Boyut");
         string[] labels={"Küçük","Orta","Büyük"}; int[] values={240,320,400};
         for(int i=0;i<3;i++)
@@ -121,13 +122,14 @@ internal sealed class PetWindow : Form
         menu.Opening+=delegate{PrepareMenu();};
         if (createTray)
         {
-            tray = new NotifyIcon { Icon = SystemIcons.Information, Text = "Stitch - sağ tık: seçenekler", ContextMenuStrip = menu, Visible = true };
-            tray.DoubleClick += delegate { ShowPet(); };
-            controls=new CompanionUi(this,menu);
+            controls=new CompanionUi(this,idle[0]);
+            trayIcon=StitchIcon.Create(idle[0]);
+            tray = new NotifyIcon { Icon = trayIcon, Text = "Stitch — kontroller", ContextMenuStrip = menu, Visible = true };
+            tray.MouseClick += delegate(object sender,MouseEventArgs e) { if(e.Button==MouseButtons.Left)ToggleRemote(Cursor.Position); };
         }
         timer.Interval = 15;
         timer.Tick += delegate { if (!ManualTicks) Advance(); };
-        Shown += delegate { clock.Restart(); timer.Start(); Advance(); if(controls!=null)controls.Welcome(); Log("launched motion=phase03-appearance-400 carry=" + CarryEnabled + " idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
+        Shown += delegate { clock.Restart(); timer.Start(); Advance(); Log("launched motion=phase03-appearance-400 ui=tray-remote panel=" + (TrayPanel!=null && TrayPanel.Visible) + " carry=" + CarryEnabled + " idle=" + idle.Length + " wave=" + wave.Length + " size=" + side + " location=" + Location); };
         Log("environment os=" + Environment.OSVersion + " screens=" + Screen.AllScreens.Length);
     }
 
@@ -169,10 +171,8 @@ internal sealed class PetWindow : Form
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
-        if(!pressed && controls!=null)controls.Reveal();
         PointerMoveAt(Cursor.Position);
     }
-    protected override void OnMouseEnter(EventArgs e) { base.OnMouseEnter(e);if(controls!=null)controls.Reveal(); }
     // The real event handlers and direct-method checks share these input paths.
     internal void PointerDownAt(Point pointer)
     {
@@ -203,7 +203,6 @@ internal sealed class PetWindow : Form
     protected override void OnMouseUp(MouseEventArgs e)
     {
         base.OnMouseUp(e);
-        if (e.Button == MouseButtons.Right) { ShowOptions(Cursor.Position); return; }
         if (e.Button != MouseButtons.Left || !pressed) return;
         PointerUp();
     }
@@ -277,6 +276,7 @@ internal sealed class PetWindow : Form
         UpdateCanvasSize();
         Location = new Point(Left+oldPadding-ContentPadding, Top+oldPadding-ContentPadding);
         ClampPosition(); Present(CurrentFrame()); SavePosition(); Log("size=" + side);
+        if(controls!=null)controls.RefreshState();
     }
     public void HidePet()
     {
@@ -284,10 +284,10 @@ internal sealed class PetWindow : Form
         timer.Stop(); clock.Reset(); playback.Reset(); carry.Reset(); presented = null; pressed = dragging = false;
         Capture = false; Hide(); Log("hidden");
     }
-    public void ShowPet() { ClampPosition(); Show(); clock.Start(); timer.Start(); Present(CurrentFrame()); if(controls!=null)controls.Welcome(); Log("shown"); }
+    public void ShowPet() { ClampPosition(); Show(); clock.Start(); timer.Start(); Present(CurrentFrame()); if(controls!=null)controls.RefreshState(); Log("shown"); }
     private void PrepareMenu()
     {
-        waveCommand.Enabled=CanReact; hideCommand.Visible=Visible; showCommand.Visible=!Visible;
+        hideCommand.Visible=Visible; showCommand.Visible=!Visible;
         int[] sizes={240,320,400};for(int i=0;i<3;i++)sizeCommands[i].Checked=side==sizes[i];
     }
     internal void ShowOptions(Point position)
@@ -371,6 +371,7 @@ internal sealed class PetWindow : Form
             timer.Stop(); timer.Dispose();
             if(controls!=null)controls.Dispose();
             if (tray != null) { tray.Visible = false; tray.Dispose(); }
+            if (trayIcon != null) trayIcon.Dispose();
             if (menu != null) { menu.Font.Dispose(); menu.Dispose(); }
             if (idle != null) foreach (Bitmap bitmap in idle) bitmap.Dispose();
             if (wave != null) foreach (Bitmap bitmap in wave) bitmap.Dispose();

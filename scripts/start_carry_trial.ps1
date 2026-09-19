@@ -32,7 +32,7 @@ if ($process.HasExited) { throw 'Trial exited during launch; inspect its failure
 $record = [ordered]@{
     status = 'RUNNING_AT_CHECK'; checked_at_utc = [DateTime]::UtcNow.ToString('o'); pid = $process.Id
     executable_sha256 = (Get-FileHash -LiteralPath $exe).Hash.ToLowerInvariant()
-    revision = 'phase04-open-eye-400-controls'; installed_baseline_changed = $false
+    revision = 'phase04-tray-remote'; installed_baseline_changed = $false
     limits = 'Process launch verified only. Physical mouse and user visual acceptance are pending.'
 }
 $record | ConvertTo-Json | Set-Content -Encoding UTF8 "$repo/context/evidence/phase-04-native-launch.json"

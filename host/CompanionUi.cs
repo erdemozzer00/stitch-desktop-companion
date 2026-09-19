@@ -1,18 +1,18 @@
 // Small contextual controls. No web runtime or custom input engine.
 using System;
-using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 internal static class PetPalette
 {
-    internal static readonly Color Top = Color.FromArgb(31,24,44);
-    internal static readonly Color Bottom = Color.FromArgb(48,32,61);
-    internal static readonly Color Text = Color.FromArgb(248,245,252);
-    internal static readonly Color Muted = Color.FromArgb(198,187,210);
-    internal static readonly Color Hover = Color.FromArgb(72,52,88);
-    internal static readonly Color Border = Color.FromArgb(91,72,108);
+    internal static readonly Color Top = Color.FromArgb(24,21,31);
+    internal static readonly Color Bottom = Color.FromArgb(40,29,49);
+    internal static readonly Color Text = Color.FromArgb(246,243,250);
+    internal static readonly Color Muted = Color.FromArgb(181,174,194);
+    internal static readonly Color Hover = Color.FromArgb(53,43,65);
+    internal static readonly Color Border = Color.FromArgb(49,43,59);
     internal static GraphicsPath Round(RectangleF rect, float radius)
     {
         GraphicsPath path = new GraphicsPath(); float d=radius*2;
@@ -66,118 +66,176 @@ internal sealed class PetMenuRenderer : ToolStripProfessionalRenderer
     }
 }
 
-internal sealed class PetCommandButton : Button
+// Native Button keeps keyboard, focus and accessibility semantics; only paint changes.
+internal sealed class RemoteButton : Button
 {
     private bool hover;
-    internal bool More;
-    internal PetCommandButton()
+    internal bool Selected;
+    internal string Symbol;
+    internal RemoteButton()
     {
         SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.SupportsTransparentBackColor,true);
-        BackColor=Color.Transparent; ForeColor=PetPalette.Text; FlatStyle=FlatStyle.Flat;
-        FlatAppearance.BorderSize=0; Cursor=Cursors.Hand; TabStop=true;
-        AccessibleRole=AccessibleRole.PushButton;
+        BackColor=Color.Transparent;ForeColor=PetPalette.Text;FlatStyle=FlatStyle.Flat;
+        FlatAppearance.BorderSize=0;Cursor=Cursors.Hand;TabStop=true;AccessibleRole=AccessibleRole.PushButton;
     }
-    protected override void OnMouseEnter(EventArgs e) { hover=true; Invalidate(); base.OnMouseEnter(e); }
-    protected override void OnMouseLeave(EventArgs e) { hover=false; Invalidate(); base.OnMouseLeave(e); }
+    protected override void OnMouseEnter(EventArgs e){hover=true;Invalidate();base.OnMouseEnter(e);}
+    protected override void OnMouseLeave(EventArgs e){hover=false;Invalidate();base.OnMouseLeave(e);}
     protected override void OnPaint(PaintEventArgs e)
     {
-        e.Graphics.SmoothingMode=SmoothingMode.AntiAlias;
-        if((hover || Focused) && Enabled)
-        using(GraphicsPath path=PetPalette.Round(new RectangleF(1,1,Width-2,Height-2),9))
-        using(Brush fill=new SolidBrush(PetPalette.Hover))e.Graphics.FillPath(fill,path);
-        Color ink=Enabled?PetPalette.Text:PetPalette.Muted;
-        if(More)
+        Graphics g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;float s=Height/32f;
+        if(Selected || hover)
+            using(GraphicsPath p=PetPalette.Round(new RectangleF(1,1,Width-2,Height-2),6*s))
+            using(Brush b=new SolidBrush(Selected?Color.FromArgb(66,54,79):PetPalette.Hover))g.FillPath(b,p);
+        Color ink=Enabled?ForeColor:PetPalette.Muted;
+        Rectangle text=ClientRectangle;
+        if(Symbol!=null)
         {
-            using(Brush fill=new SolidBrush(ink))for(int i=-1;i<=1;i++)e.Graphics.FillEllipse(fill,Width/2f+i*7-1.5f,Height/2f-1.5f,3,3);
+            GraphicsState state=g.Save();g.TranslateTransform(8*s,(Height-18*s)/2);g.ScaleTransform(s,s);
+            using(Pen pen=new Pen(ink,1.2f){StartCap=LineCap.Round,EndCap=LineCap.Round,LineJoin=LineJoin.Round})
+            {
+                if(Symbol=="close"){g.DrawLine(pen,5,5,13,13);g.DrawLine(pen,13,5,5,13);}
+                else if(Symbol=="exit"){g.DrawArc(pen,2,2,14,14,310,280);g.DrawLine(pen,9,0,9,9);}
+                else using(GraphicsPath p=new GraphicsPath())
+                {
+                    p.AddBezier(1,9,5,2,13,2,17,9);p.AddBezier(17,9,13,16,5,16,1,9);g.DrawPath(pen,p);
+                    g.DrawEllipse(pen,6.5f,6.5f,5,5);if(Symbol=="hide")g.DrawLine(pen,1,1,17,17);
+                }
+            }
+            g.Restore(state);text.X=(int)(34*s);text.Width-=text.X;
         }
-        else TextRenderer.DrawText(e.Graphics,Text,Font,ClientRectangle,ink,TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding);
-        if(Focused && ShowFocusCues)ControlPaint.DrawFocusRectangle(e.Graphics,Rectangle.Inflate(ClientRectangle,-4,-4),ink,PetPalette.Top);
+        TextRenderer.DrawText(g,Text,Font,text,ink,TextFormatFlags.VerticalCenter|TextFormatFlags.NoPadding|
+            (Symbol==null?TextFormatFlags.HorizontalCenter:TextFormatFlags.Left));
+        if(Focused && ShowFocusCues)
+            using(GraphicsPath p=PetPalette.Round(new RectangleF(2,2,Width-5,Height-5),5*s))
+            using(Pen pen=new Pen(Color.FromArgb(197,178,227)))g.DrawPath(pen,p);
     }
 }
 
-internal sealed class CommandBar : Form
+internal static class StitchIcon
 {
-    internal readonly PetCommandButton Wave=new PetCommandButton(), More=new PetCommandButton();
-    private readonly ToolTip tips=new ToolTip();
-    internal CommandBar(Action wave, Action more)
+    [DllImport("user32.dll")] private static extern bool DestroyIcon(IntPtr handle);
+    internal static void DrawFace(Graphics g,Image source,RectangleF target)
     {
-        FormBorderStyle=FormBorderStyle.None; ShowInTaskbar=false; TopMost=true;
-        StartPosition=FormStartPosition.Manual; AutoScaleMode=AutoScaleMode.None;
-        BackColor=PetPalette.Top; Text="Stitch kontrolleri"; AccessibleName=Text;
-        float scale;
+        float h=target.Width*164f/292f;
+        g.DrawImage(source,new RectangleF(target.X,target.Y+(target.Height-h)/2,target.Width,h),
+            new RectangleF(source.Width*55f/400,source.Height*30f/400,source.Width*292f/400,source.Height*164f/400),GraphicsUnit.Pixel);
+    }
+    internal static Icon Create(Image source)
+    {
+        int size=Math.Max(16,SystemInformation.SmallIconSize.Width);
+        using(Bitmap b=new Bitmap(size,size))
+        {
+            using(Graphics g=Graphics.FromImage(b)){g.InterpolationMode=InterpolationMode.HighQualityBicubic;DrawFace(g,source,new RectangleF(0,0,size,size));}
+            IntPtr h=b.GetHicon();
+            try{using(Icon borrowed=Icon.FromHandle(h))return (Icon)borrowed.Clone();}
+            finally{DestroyIcon(h);}
+        }
+    }
+}
+
+internal sealed class RemotePanel : Form
+{
+    private readonly PetWindow pet;
+    private readonly Image face; // Borrowed from the pet; disposed by the pet after this form.
+    private readonly float scale;
+    private readonly Font titleFont,labelFont;
+    internal readonly RemoteButton[] SizeButtons=new RemoteButton[3];
+    internal readonly RemoteButton VisibilityButton=new RemoteButton(),ExitButton=new RemoteButton(),DismissButton=new RemoteButton();
+    internal event Action DismissedByDeactivation;
+    internal RemotePanel(PetWindow owner,Image source)
+    {
+        pet=owner;face=source;
+        FormBorderStyle=FormBorderStyle.None;ShowInTaskbar=false;TopMost=true;StartPosition=FormStartPosition.Manual;
+        AutoScaleMode=AutoScaleMode.None;Text="Stitch kontrolleri";AccessibleName=Text;BackColor=PetPalette.Top;
         using(Graphics g=Graphics.FromHwnd(IntPtr.Zero))scale=g.DpiX/96f;
-        ClientSize=new Size((int)Math.Round(180*scale),(int)Math.Round(46*scale));
-        Font=new Font("Segoe UI",10f,FontStyle.Regular);
-        Wave.Text="El salla"; Wave.AccessibleName="Stitch el sallasın"; Wave.TabIndex=0;
-        More.More=true; More.AccessibleName="Stitch seçenekleri"; More.TabIndex=1;
-        Wave.SetBounds((int)(5*scale),(int)(5*scale),(int)(120*scale),Height-(int)(10*scale));
-        More.SetBounds((int)(130*scale),(int)(5*scale),Width-(int)(135*scale),Height-(int)(10*scale));
-        Wave.Click+=delegate{wave();}; More.Click+=delegate{more();};
-        Controls.Add(Wave); Controls.Add(More);
-        tips.SetToolTip(More,"Boyut, gizle ve çıkış");
-        using(GraphicsPath path=PetPalette.Round(new RectangleF(0,0,Width,Height),15*scale))Region=new Region(path);
+        ClientSize=new Size(Px(312),Px(220));Font=new Font("Segoe UI",9.75f);
+        titleFont=new Font("Segoe UI",14.25f,FontStyle.Bold);labelFont=new Font("Segoe UI",9f);
         SetStyle(ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);
+        string[] labels={"Küçük","Orta","Büyük"};int[] sizes={240,320,400};
+        for(int i=0;i<3;i++)
+        {
+            int value=sizes[i];RemoteButton b=new RemoteButton();b.Text=labels[i];b.AccessibleName="Boyut: "+labels[i];b.TabIndex=i;
+            b.Click+=delegate{pet.SetSize(value);RefreshState();};SizeButtons[i]=b;Add(b,19+i*92,105,90,32);
+        }
+        VisibilityButton.TabIndex=3;VisibilityButton.Click+=delegate{Hide();if(pet.Visible)pet.HidePet();else pet.ShowPet();};Add(VisibilityButton,16,172,124,32);
+        ExitButton.Text="Çıkış";ExitButton.AccessibleName="Stitch'ten çık";ExitButton.Symbol="exit";ExitButton.ForeColor=PetPalette.Muted;
+        ExitButton.TabIndex=4;ExitButton.Click+=delegate{pet.Close();};Add(ExitButton,216,172,80,32);
+        DismissButton.Symbol="close";DismissButton.AccessibleName="Paneli kapat";DismissButton.TabIndex=5;
+        DismissButton.Click+=delegate{Hide();};Add(DismissButton,264,14,32,32);
+        using(GraphicsPath p=PetPalette.Round(new RectangleF(0,0,Width,Height),16*scale))Region=new Region(p);
+        RefreshState();
     }
-    protected override bool ShowWithoutActivation { get { return true; } }
-    protected override CreateParams CreateParams { get { CreateParams p=base.CreateParams;p.ExStyle|=0x80;return p; } }
-    protected override void OnPaintBackground(PaintEventArgs e) { PetPalette.Panel(e.Graphics,ClientRectangle,15*Width/180f); }
-    protected override bool ProcessCmdKey(ref Message msg,Keys keyData)
+    private int Px(float value){return (int)Math.Round(value*scale);}
+    private void Add(Control control,int x,int y,int w,int h){control.SetBounds(Px(x),Px(y),Px(w),Px(h));Controls.Add(control);}
+    internal void RefreshState()
     {
-        if(keyData==Keys.Escape){Hide();return true;}return base.ProcessCmdKey(ref msg,keyData);
+        VisibilityButton.Text=pet.Visible?"Gizle":"Göster";VisibilityButton.AccessibleName="Stitch'i "+VisibilityButton.Text;
+        VisibilityButton.Symbol=pet.Visible?"hide":"show";
+        int[] sizes={240,320,400};
+        for(int i=0;i<3;i++)
+        {
+            SizeButtons[i].Selected=pet.CharacterSize==sizes[i];
+            SizeButtons[i].AccessibleDescription=SizeButtons[i].Selected?"Seçili boyut":"";SizeButtons[i].Invalidate();
+        }
+        VisibilityButton.Invalidate();Invalidate();
     }
+    protected override CreateParams CreateParams
+    {get{CreateParams p=base.CreateParams;p.ExStyle|=0x80;p.ClassStyle|=0x00020000;return p;}}
+    protected override void OnPaintBackground(PaintEventArgs e)
+    {
+        Graphics g=e.Graphics;PetPalette.Panel(g,ClientRectangle,16*scale);
+        g.InterpolationMode=InterpolationMode.HighQualityBicubic;
+        StitchIcon.DrawFace(g,face,new RectangleF(Px(20),Px(18),Px(38),Px(38)));
+        TextRenderer.DrawText(g,"Stitch",titleFont,new Point(Px(70),Px(18)),PetPalette.Text,TextFormatFlags.NoPadding);
+        TextRenderer.DrawText(g,pet.Visible?"Masaüstünde":"Gizli",labelFont,new Point(Px(70),Px(45)),PetPalette.Muted,TextFormatFlags.NoPadding);
+        TextRenderer.DrawText(g,"Boyut",labelFont,new Point(Px(20),Px(80)),PetPalette.Muted,TextFormatFlags.NoPadding);
+        using(GraphicsPath p=PetPalette.Round(new RectangleF(Px(16),Px(102),Px(280),Px(38)),8*scale))
+        using(Brush b=new SolidBrush(Color.FromArgb(20,17,26)))g.FillPath(b,p);
+        using(Pen p=new Pen(PetPalette.Border))g.DrawLine(p,Px(20),Px(160),Px(292),Px(160));
+    }
+    protected override void OnDeactivate(EventArgs e)
+    {
+        base.OnDeactivate(e);
+        if(Visible){Hide();if(DismissedByDeactivation!=null)DismissedByDeactivation();}
+    }
+    protected override bool ProcessCmdKey(ref Message msg,Keys keyData)
+    {if(keyData==Keys.Escape){Hide();return true;}return base.ProcessCmdKey(ref msg,keyData);}
+    protected override void OnFormClosing(FormClosingEventArgs e)
+    {if(e.CloseReason==CloseReason.UserClosing){e.Cancel=true;Hide();}base.OnFormClosing(e);}
     protected override void Dispose(bool disposing)
     {
-        if(disposing) { tips.Dispose(); Font.Dispose(); if(Region!=null)Region.Dispose(); }
+        if(disposing){titleFont.Dispose();labelFont.Dispose();Font.Dispose();if(Region!=null)Region.Dispose();}
         base.Dispose(disposing);
     }
 }
 
 internal sealed class CompanionUi : IDisposable
 {
-    private readonly PetWindow pet;
-    private readonly ContextMenuStrip menu;
-    internal readonly CommandBar Bar;
-    private readonly Timer timer=new Timer();
-    private readonly Stopwatch clock=Stopwatch.StartNew();
-    private double keepUntil;
-    internal CompanionUi(PetWindow owner, ContextMenuStrip options)
+    internal readonly RemotePanel Panel;
+    private DateTime dismissedAt=DateTime.MinValue;
+    internal CompanionUi(PetWindow owner,Image face)
     {
-        pet=owner;menu=options;
-        Bar=new CommandBar(pet.React,delegate{pet.ShowOptions(new Point(Bar.Left,Bar.Bottom+5));});
-        timer.Interval=100;timer.Tick+=delegate{Update();};timer.Start();
+        Panel=new RemotePanel(owner,face);
+        Panel.DismissedByDeactivation+=delegate{dismissedAt=DateTime.UtcNow;};
     }
-    internal void Reveal()
+    internal void Toggle(Point anchor)
     {
-        if(!pet.Visible || pet.PointerBusy)return;
-        keepUntil=clock.Elapsed.TotalSeconds+.8; Place(); if(!Bar.Visible)Bar.Show(pet);
+        if(Panel.Visible){Panel.Hide();return;}
+        // Clicking the same tray icon first deactivates this form. Do not reopen it
+        // on that click's mouse-up. A later intentional click opens it normally.
+        if((DateTime.UtcNow-dismissedAt).TotalMilliseconds<200)return;
+        Panel.RefreshState();Panel.Location=PlaceInWorkArea(anchor,Panel.Size,Screen.FromPoint(anchor).WorkingArea);
+        // Independent of the pet's visibility/ownership. Explicit tray click may activate.
+        Panel.Show();Panel.Activate();Panel.SizeButtons[0].Select();
     }
-    internal void Welcome() { Reveal(); keepUntil=clock.Elapsed.TotalSeconds+3; }
-    internal void Hide() { Bar.Hide(); }
-    internal static Point PlaceInWorkArea(Rectangle character,Size bar,Rectangle area)
+    internal void Hide(){Panel.Hide();}
+    internal void RefreshState(){Panel.RefreshState();}
+    internal static Point PlaceInWorkArea(Point anchor,Size panel,Rectangle area)
     {
-        int x=character.Left+(character.Width-bar.Width)/2;
-        int y=character.Bottom+6;
-        if(y+bar.Height>area.Bottom-8)y=character.Top-bar.Height-6;
-        return new Point(Math.Max(area.Left+8,Math.Min(x,area.Right-bar.Width-8)),
-            Math.Max(area.Top+8,Math.Min(y,area.Bottom-bar.Height-8)));
+        int x=anchor.X-panel.Width+24,y=anchor.Y-panel.Height-12;
+        if(y<area.Top+8)y=anchor.Y+12;
+        return new Point(Math.Max(area.Left+8,Math.Min(x,area.Right-panel.Width-8)),
+            Math.Max(area.Top+8,Math.Min(y,area.Bottom-panel.Height-8)));
     }
-    private void Place()
-    {
-        Rectangle body=pet.CharacterBounds;
-        // The sprite canvas has a transparent footer; use the visible feet band.
-        body.Height=(int)Math.Ceiling(body.Height*.94);
-        Bar.Location=PlaceInWorkArea(body,Bar.Size,Screen.FromRectangle(body).WorkingArea);
-    }
-    private void Update()
-    {
-        if(!pet.Visible || pet.PointerBusy) { Bar.Hide(); return; }
-        Bar.Wave.Enabled=pet.CanReact;
-        if(!Bar.Visible)return;
-        Place();
-        Rectangle bridge=Rectangle.Union(pet.CharacterBounds,Bar.Bounds);
-        bridge.Inflate(6,6);
-        if(menu.Visible || Bar.ContainsFocus || bridge.Contains(Cursor.Position))keepUntil=clock.Elapsed.TotalSeconds+.8;
-        if(clock.Elapsed.TotalSeconds>keepUntil)Bar.Hide();
-    }
-    public void Dispose() { timer.Stop();timer.Dispose();Bar.Dispose(); }
+    public void Dispose(){Panel.Dispose();}
 }
