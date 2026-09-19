@@ -48,3 +48,5 @@ On 2026-09-19 the user approved the order: relaxed stance/idle, improved wave, t
 2026-09-19: The user approved splitting the carry trial into 04A (pickup, held-neutral, release/settle) and 04B (direction/speed response after moving review). Godot is cancelled for the current scope. Keep the accepted installed app unchanged during the inexpensive 04A preview experiment.
 
 Latest correction (2026-09-19): The user selected carried-toy A: the pointer directly moves Stitch while body/ears lag and settle. Facing toward travel direction is not the selected effect. The old pickup-only-first review order is superseded; the next preview must show the actual pointer trajectory and synchronized directional response. The user requested a revised plan and explicit approval before starting it. See ANIMATION-PLAN.md; preserve existing accepted app.
+
+The user subsequently approved the revised directional experiment, conditional on a full desktop fallback copy first. The copy was completed and verified before implementation; see context/evidence/phase-04-fallback-backup.json. Godot remains outside the current scope.

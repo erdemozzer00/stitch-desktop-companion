@@ -1,0 +1,18 @@
+{
+  "status": "DRAFT_CHECKS_PASS_NOT_VISUAL_ACCEPTANCE",
+  "bank_frames": 45,
+  "size": 240,
+  "samples": 6,
+  "trace_seconds": 8.5,
+  "display_samples": 205,
+  "unique_frames_used": 15,
+  "max_body_angle_degrees": 10.311471457165746,
+  "max_uncompensated_anchor_drift_at_240": 0.0,
+  "grip_mapping": "Per-frame selected torso anchor mapped to pointer by inverse affine transform; arbitrary grips not proven.",
+  "120_vs_240hz_max_body_angle_difference_degrees": 0.10943463281580121,
+  "final_body_angle_degrees": -1.3147522145170983e-19,
+  "raw_bank_mib_at_240": 9.8876953125,
+  "same_bank_raw_mib_at_400": 27.4658203125,
+  "png_disk_mib": 1.8121461868286133,
+  "limits": "Only scripted pointer replay; no native mouse input, arbitrary entry/grip, full-resolution alpha or production acceptance."
+}

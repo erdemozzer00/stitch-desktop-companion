@@ -44,9 +44,9 @@ Completed refinement: existing chest motion increased by 25% and head motion by 
 - Source preservation checks pass for the named mesh/rig/action fields. New checks should follow new risks, not duplicate existing checks without cause.
 - The user has reviewed actual moving output. Numeric checks, contact sheets and agent-written pose code do not constitute visual acceptance.
 
-## Phase 04 — Carried-toy response, revised plan awaiting approval
+## Phase 04 — Carried-toy response, revised plan approved
 
-The user selected **A: carried toy**, not facing/travelling toward the pointer. They requested research and this plan, then an explicit start approval before implementation. This supersedes the old pickup-only 04A -> directional 04B sequence. Phase 04 remains the only active phase, but implementation is on hold pending that requested approval. Godot, full articulated ragdoll, throwing and free flight remain excluded.
+The user selected **A: carried toy**, not facing/travelling toward the pointer. They requested research and this plan, then an explicit start approval before implementation. This supersedes the old pickup-only 04A -> directional 04B sequence. Phase 04 remains the only active phase, and the user subsequently approved implementation after a verified full fallback copy. Godot, full articulated ragdoll, throwing and free flight remain excluded.
 
 The old `.local/phase-04/04a/` outputs are a diagnostic pose-transition study. They are not accepted as the requested drag effect and are not a prerequisite for accepting the new direction. Preserve them as evidence, but do not re-present the six wave/idle pickup columns as the primary deliverable. Preserve accepted Phase 03 appearance, idle, wave and installed executable.
 
@@ -116,4 +116,4 @@ Confidence is high in the intended behavior and the need to preserve immediate p
 
 This file owns the execution plan; [ACTIVE.md](ACTIVE.md) owns the cursor and [ROADMAP.md](ROADMAP.md) owns phase status. Preserve old 04A evidence as historical diagnostic work. Future direction-based trials belong under ignored `.local/phase-04/`, separately named from `04a`. Code, notes and appropriate evidence belong in Git; models/textures/renders remain private.
 
-**Resume:** wait for the user's explicit approval to start this revised plan. This turn changes documentation only. No new animation, render, host edit, tool installation or app launch is authorized by the planning request itself.
+**Resume:** implementation was authorized and a full fallback copy was verified first. Directional-v1 moving preview is now ready; see ACTIVE.md and the latest execution evidence. Ask for feedback on the actual carried-toy effect shown with its pointer route. Native integration follows that review. Keep the desktop fallback frozen and the accepted installed app unchanged until a candidate earns installation.

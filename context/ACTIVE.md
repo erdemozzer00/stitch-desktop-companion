@@ -2,11 +2,11 @@
 
 **Last completed phase:** 03 - Appearance and animation polish, 2026-09-19.
 
-**Status:** Phase 03 COMPLETE; Phase 04 ACTIVE in planning. The user selected carried-toy direction A and explicitly requested the revised plan plus a start-approval question. Implementation is waiting for that approval. Godot remains excluded.
+**Status:** Phase 03 COMPLETE; Phase 04 ACTIVE: the user approved the revised carried-toy plan after requesting a full fallback copy. Backup completed and SHA-256 verified before implementation. Godot remains excluded.
 
-**Current cursor:** Read [revised Phase 04 plan](ANIMATION-PLAN.md). First deliverable after approval: visible pointer trajectory plus synchronized directional body/ear lag, stops, reversal, vertical/diagonal motion and release. The old pickup-only `.local/phase-04/04a/` study did not communicate the requested effect; it is diagnostic evidence, not pending product acceptance. Do not ask the user to approve that old study or repeat it as the primary preview. The old 04A-then-04B ordering is superseded.
+**Current cursor:** The first pointer-linked directional preview is ready for user moving review: `.local/phase-04/directional-v1/directional-light.gif` and `directional-dark.gif`. It compares normal dragging and carried-toy response along the same 8.5-second pointer route. Uses a 45-pose articulated bank plus bounded visual rotation; actual native input and wave/idle entry integration are not implemented. Read [latest execution evidence](evidence/phase-04-review.md) before continuing. Next after visual-direction acceptance: isolated actual-pointer host trial. Do not repeat the old pickup-only study.
 
-**Preserve:** accepted installed `phase03-appearance-400` at `.local/phase-02/host/StitchPet.exe`, including idle, wave and appearance. No source/runtime/render edits or app launch in the planning turn. The revised plan defines provisional frame budgets, grip limits, early native trial and interruption checks. Naive 563-frame expansion remains rejected. Target Windows 11 and packaging remain later gates.
+**Preserve:** accepted installed `phase03-appearance-400` at `.local/phase-02/host/StitchPet.exe`. Full fallback: `C:/Users/Erdem/Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz`, 22,666 files SHA-256 verified before changes; see `phase-04-fallback-backup.json`. Treat backup as frozen; work only in this main checkout. Main and backup executable hashes still match accepted installation. No desktop deployment happened. Godot stays excluded. Native input, process memory, arbitrary grips/interruptions, production quality, packaging and target Windows 11 acceptance remain open.
 
 ## Selected appearance and evidence
 

@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "verified_at_utc": "2026-09-19T16:10:03.428124+00:00",
+  "source": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion",
+  "backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion-ragdoll-illuzyonsuz",
+  "git_commit": "7be45d3",
+  "installed_revision": "phase03-appearance-400",
+  "files": 22666,
+  "bytes": 1358267049,
+  "verification": "All source and copied files compared by relative path, size and SHA-256; .git and ignored .local included."
+}

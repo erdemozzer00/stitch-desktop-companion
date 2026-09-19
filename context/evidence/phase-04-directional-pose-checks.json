@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "frames": 45,
+  "neutral_max_matrix_error": 5.960464477539062e-07,
+  "max_anchor_reopen_error_px": 0,
+  "source_action_mesh_rig_camera": "PASS",
+  "limits": "Reopened pose/data and selected-anchor checks, not visual or native interaction acceptance."
+}

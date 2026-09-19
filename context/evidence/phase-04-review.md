@@ -35,3 +35,29 @@ Obtain moving feedback on this bounded 04A study, particularly raised-hand picku
 ## User correction and replanning — 2026-09-19
 
 The user clarified that the goal is directional carried-toy lag during actual mouse movement, not a new wave or a held-neutral transition study. The user selected direction A and requested a researched plan plus explicit approval before implementation. The old study remains technical evidence only; it did not satisfy the requested visual demonstration. The current cursor is the revised Phase 04 plan in ANIMATION-PLAN.md. No new render or runtime change was made during replanning.
+
+## Verified fallback and directional preview — 2026-09-19
+
+The user authorized implementation, conditional on taking a full desktop copy first. Copied to `C:/Users/Erdem/Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz` before implementation edits. Robocopy copied 22,666 files (1,358,267,049 bytes) including Git history and ignored private assets/tools. All paths, sizes and SHA-256 contents matched. See `phase-04-fallback-backup.json`; the full manifest and restore guide are inside the backup. Additional backup metadata was written after verification. The copy is a frozen development snapshot with the accepted ordinary-drag app, not a packaged release. Earlier diagnostic motion previews remain in it but are not installed. Do not work in or push from the backup.
+
+### Actual requested effect: directional-v1
+
+The revised preview is `.local/phase-04/directional-v1/directional-light.gif` (plus dark version). It shows the same visible pointer trajectory side by side: plain dragging versus a carried-toy response. The 8.5-second route contains slow right movement, stop, faster left reversal, stop, return, upward/downward movement, diagonals and release. The character's anchor follows the recorded pointer immediately; its visual angle and authored ear/head/limb response evolve separately. This is scripted pointer replay, not a native interactive test.
+
+`author_drag_bank.py` creates a bounded 9x5 bank: 45 poses at 240px / six samples using the accepted scene. Horizontal bank state changes head, ears, arms and leg controls; vertical state makes small articulated changes instead of scaling the image. A continuous rotation around the selected front-torso point supplements those poses. `preview_directional_drag.py` applies a critically damped visual controller, uses a slower ear response, selects a discrete bank frame and transforms it around that anchor. The preview has no unrestricted runtime bone blending, crossfaded silhouettes, physics engine, or Cartesian product of wave/idle/drag states.
+
+The neutral bank pose returns to accepted neutral. This first experiment deliberately isolates directional response: wave/idle entry bridges and live hit-area handling are not implemented. Sustained rest uses a neutral pose; accepted animated idle will be reconnected during a later native trial. No deploy/update script was run.
+
+### Evidence and limits
+
+- Nine extreme-pose drafts were inspected before rendering the full 45-pose bank. Fifty-four render invocations in total, 45 retained bank images, within the 80-draft-image scope cap. Bank render finished around 91 seconds; not a 400px production timing estimate.
+- `verify_drag_bank.py` reopened the saved blend. Neutral maximum evaluated matrix error was about 5.96e-7, and all 45 manifest anchor positions reproduced exactly. Accepted source hash, original action, mesh/rig preservation fields and camera passed.
+- `phase-04-directional-checks.json`: all bank alpha borders clear; transformed characters stay inside the preview panels. Raw selected torso anchor drift across the bank is zero. The inverse affine map fixes that selected point to the pointer, not every possible anatomical grab.
+- Max preview body angle about 10.31 degrees. The same analytic route sampled at 120 and 240 Hz differs by at most about 0.109 degrees in the displayed body angle. Constant-target one-step versus two-half-step spring evaluation matched within 1e-12 in a focused check. These measure the controller, not native display latency or visual quality.
+- This route uses 15 bank images across 205 displayed samples; the complete bank supports more candidate input states. PNG storage is 1.81 MiB; raw pixels 9.89 MiB at 240px or 27.47 MiB for the same 45 poses at 400px. This excludes future bridges, transient surfaces and app overhead. Do not treat it as a finished production budget or measured process memory.
+- Agent inspected extreme poses and a six-moment side-by-side sheet: intended lean and distinct ear/head changes are visible, with no obvious sampled clipping. Full motion acceptance remains user feedback. No new attempt was made to bypass the previously blocked browser-local-HTML policy.
+- Python syntax passed; both main and backup executable hashes still match the accepted Phase 03 installation. No native host tests or process benchmark were claimed because the app was not changed or launched.
+
+### Current handoff
+
+Review directional-light.gif or directional-dark.gif: assess whether the right panel conveys the intended carried-toy effect and whether strength/settling feel natural. Preserve the verified backup. After motion-direction acceptance, proceed to the isolated actual-pointer host trial, accounting for redraw invalidation, frame-selection stepping, transformed bounds, off-center grip and interruption policy. Do not treat this preview as integrated or as Phase 04 completion.
