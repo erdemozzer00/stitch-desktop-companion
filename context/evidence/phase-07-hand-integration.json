@@ -1,5 +1,5 @@
 {
-  "status": "INSTALLED_PENDING_PHYSICAL_ACCEPTANCE",
+  "status": "LOCAL_ACCEPTANCE_CONFIRMED",
   "directory": "C:\\Users\\Erdem\\Desktop\\Hediye",
   "backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion\\.local\\phase-07\\backup-20260920-103328",
   "executable_sha256": "23ba69a8f4c7773f44cbc809c62c567a26f32cafa481aeccdd67a1eadf86d142",
@@ -9,7 +9,17 @@
   "installed_at_utc": "2026-09-20T10:34:21.9579233Z",
   "phase": "07",
   "pose_and_motion_approved": true,
-  "physical_hand_acceptance": "pending",
+  "physical_hand_acceptance": {
+    "status": "ACCEPTED_BY_USER_REPORT",
+    "date": "2026-09-20",
+    "platform": "Developer Windows 10 PC",
+    "confirmed": [
+      "Viewer-left hand click makes peace/V gesture",
+      "Viewer-right hand click waves",
+      "User liked the result and reported everything working"
+    ],
+    "scope": "Physical user feedback; no separately enumerated all-size, drag or reboot checklist and no recipient Windows 11 verification of this update."
+  },
   "hand_checks": {
     "status": "PASS",
     "assertions": 14580,
@@ -91,5 +101,5 @@
     "host/CompanionUi.cs": "a79f3bcab66244fcea1c18ed06a5cd7da645b4f05c10dc493065fc639beaaa47",
     "scripts/prepare_peace_assets.py": "d682c77fbe72f0307f2fce2b84645dcf0774372e0803cc20023af35ee0ec1fc7"
   },
-  "limits": "Direct-method native tests and short resource observations; not physical mouse acceptance, sustained benchmark or recipient Windows 11 verification of this update."
+  "limits": "Automated evidence uses direct-method native tests and short resource observations. Physical hand actions and general satisfaction are now confirmed by user report; sustained benchmarks and recipient Windows 11 verification of this update remain unobserved."
 }

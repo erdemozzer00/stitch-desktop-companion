@@ -64,7 +64,9 @@ Validate the package on the recipient's Windows 11 computer and its actual displ
 
 ## Optional phase 07 — Hand-specific peace gesture
 
-**Status: ACTIVE — pose and motion approved; integrated and installed locally; physical hand-click/drag feedback pending**
+**Status: COMPLETE — local Windows 10 user acceptance on 2026-09-20**
+
+The user tested the installed update, confirmed viewer-left peace and viewer-right wave, and reported that everything was working and liked. The Hediye application is updated with a verified previous-version backup. Recipient Windows 11 acceptance of this new update is not yet observed; do not conflate it with acceptance of the original gift.
 
 Preserve the delivered gift. Approved viewer-left peace pose is the target for a short raise/hold/return clip. Reuse accepted idle movement and exact neutral endpoints. Review moving output before adding hand-specific click routing; preserve viewer-right wave, transparent click-through, no reaction overlap and existing dragging. See [feasibility and checkpoints](evidence/peace-gesture-feasibility.md).
 

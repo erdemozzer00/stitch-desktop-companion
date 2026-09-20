@@ -1,6 +1,6 @@
 # Current handoff
 
-**Active phase:** Optional 07, hand-specific gestures. User approved both the static peace pose and the moving preview. Implementation and local deployment are complete; physical hand-click/drag feedback is pending. Do not re-ask for animation approval.
+**Active phase:** None. Optional Phase 07 is complete with local Windows 10 user acceptance on 2026-09-20. The user tested and liked the installed update: viewer-left hand makes peace and viewer-right hand waves. General use was reported working. Do not repeat completed approval questions.
 
 ## Current installed application
 
@@ -31,6 +31,6 @@
 
 ## Next step
 
-Ask only for the pending native check: right hand waves, left hand makes peace, dragging does not accidentally greet, and transitions feel right at the chosen size. The question is already pending in this task. If accepted, record the local acceptance and prepare a clean updated gift package as needed; do not claim recipient acceptance of this update. If a hit is missed, reproduce against the actual visible hand/size before widening regions.
+Stop at the completed Phase 07 handoff. The installed Hediye application is current. Prepare a clean transfer package if a recipient update is requested; recipient Windows 11 acceptance of this new version remains unobserved. The user explicitly confirmed both hand actions and broad satisfaction, not a separately enumerated all-size/drag/reboot checklist. If a future hit is missed, reproduce against the actual visible hand/size before widening regions.
 
 Keep the installed application synchronized with future fixes after graceful close and verified backup. Updating only the trial does not update Hediye. Preserve the user's position, size, shortcuts and startup preference.
