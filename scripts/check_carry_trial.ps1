@@ -1,4 +1,4 @@
-param([switch]$Live, [string]$TrialDirectory)
+param([switch]$Live, [string]$TrialDirectory, [string]$EvidencePrefix = 'phase-04-native')
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
 $trial = if($TrialDirectory){[IO.Path]::GetFullPath($TrialDirectory)}else{Join-Path $repo '.local/phase-04/native-trial'}
@@ -19,6 +19,6 @@ foreach ($mode in $modes) {
     $report | Add-Member sources (@('PetSpike.cs','CarryMotion.cs','CompanionUi.cs','CarryChecks.cs') | ForEach-Object {
         @{ name = $_; sha256 = (Get-FileHash -LiteralPath "$repo/host/$_").Hash.ToLowerInvariant() }
     })
-    $report | ConvertTo-Json -Depth 6 | Set-Content -Encoding UTF8 "$repo/context/evidence/phase-04-native-$($mode.TrimStart('-')).json"
+    $report | ConvertTo-Json -Depth 6 | Set-Content -Encoding UTF8 "$repo/context/evidence/$EvidencePrefix-$($mode.TrimStart('-')).json"
     $result
 }

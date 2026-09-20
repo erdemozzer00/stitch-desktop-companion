@@ -1,5 +1,7 @@
 # Project
 
+Current handoff (2026-09-20): the original gift was delivered and liked. The user subsequently approved both the static peace/V pose and its moving preview, then authorized hand-click integration. Viewer-right-hand clicks now wave; viewer-left-hand clicks make peace. Body/head clicks do not greet; dragging remains available throughout the visible character. The updated local application is installed at `Desktop/Hediye` after a verified backup; physical click/drag feedback is pending. See [integration evidence](evidence/phase-07-hand-integration.json) and ACTIVE.md. Historical approval/deployment restrictions below describe earlier checkpoints and are superseded by these explicit approvals. Do not claim recipient Windows 11 acceptance of this new update.
+
 ## Purpose
 
 Create a personal gift: a recognizable, naturally animated Stitch companion for the recipient's Windows 11 desktop, using the supplied Blender model.

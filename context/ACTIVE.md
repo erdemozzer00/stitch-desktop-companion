@@ -1,38 +1,36 @@
 # Current handoff
 
-**Last completed phase:** 04 implementation handoff; the user requested moving to daily-use work after the native repaint correction. Explicit visual confirmation of the last correction was not supplied; retain that limitation.
+**Active phase:** Optional 07, hand-specific gestures. User approved both the static peace pose and the moving preview. Implementation and local deployment are complete; physical hand-click/drag feedback is pending. Do not re-ask for animation approval.
 
-**Status:** Phase 05 ACTIVE — requested minimal daily-use implementation is installed; real sign-in, sleep/resume and recipient acceptance remain open.
+## Current installed application
 
-**Current cursor:** Running delivery folder is now `C:/Users/Erdem/Desktop/Stitch - Hediye`, not the old trial. New desktop shortcut `Stitch.lnk` and current-user Startup `Stitch.lnk` target this folder with its Stitch icon, no arguments. Packaged exe automatically loads its adjacent carry bank. User/session-scoped mutex + auto-reset event ensure repeat launches show the existing pet without opening the panel. Packaged process regression and concurrent launch tests passed; invoking the actual Startup shortcut left exactly one process. PID 29440 may be stale; exe hash `32050b363a250286895109d091905a622ee9012b7992a82fdf6f34f393e656d1`. See `phase-05-daily-use.json` and `phase-05-review.md`. Startup is enabled on this PC by explicit user request. Do not repeat approval questions. Next is real sign-in/brief daily-use observation, then recipient Windows 11. Keep scope personal and simple.
+- Actual path: `C:/Users/Erdem/Desktop/Hediye/StitchPet.exe`. The former `Stitch - Hediye` path is stale. Desktop `Stitch.lnk` and current-user Startup `Stitch.lnk` already point to the actual Hediye path and were preserved.
+- Current EXE SHA-256: `23ba69a8f4c7773f44cbc809c62c567a26f32cafa481aeccdd67a1eadf86d142`. Launched and confirmed visible with tray panel closed; observed PID 3664 may become stale.
+- Full previous installed version backed up and all 292 files hash-verified at `.local/phase-07/backup-20260920-103328`. Installed assets/support files: 344 verified against the candidate manifest. Position and size preserved; installer unchanged; Turkish usage note updated.
+- Original Phase 03 fallback remains `.local/phase-02/host/`. Older frozen full backup remains `C:/Users/Erdem/Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz`. Never overwrite those fallbacks.
+- Recipient liked the original gift and reported it working. This new update has only been installed on the developer's Windows 10 PC, not remotely on the recipient's Windows 11 PC.
 
-**Future updates:** update BOTH candidate/trial and the delivery folder deliberately after graceful close/backup, then launch the delivery folder. The existing updater only updates the trial and must not be mistaken for delivery deployment. Old trial shortcut remains but its current binary shares the same singleton, so it cannot open a second character while the delivery app runs. Original Phase 03 remains a frozen separate fallback.
-**Preserve:** accepted installed `phase03-appearance-400` at `.local/phase-02/host/StitchPet.exe`. Full fallback: `C:/Users/Erdem/Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz`, 22,666 files SHA-256 verified before changes; see `phase-04-fallback-backup.json`. Treat backup as frozen; work only in this main checkout. Main and backup executable hashes still match accepted installation. The separate trial does not replace that installation. Godot stays excluded. Direct-method Windows rendering and short process measurements exist; physical input, user visual acceptance, arbitrary anatomical grip, sustained resource behavior, production quality, packaging and target Windows 11 remain open.
+## Current behavior
 
-## Selected appearance and evidence
+- Viewer-right hand click waves; viewer-left hand click makes the approved peace/V gesture. These are screen sides: rig `.L` waves, `.R` makes peace.
+- Body/head non-drag clicks do nothing. Drag remains available from any opaque part. No extra panel commands, facial changes, sounds or physics engine.
+- Snapshot hand intent at pointer-down; trigger on non-drag release. Ignore reaction-time presses, repeated/opposite clicks and cancelled presses. Size/alpha/padding/residual carry transform are accounted for.
+- Existing gesture finishes while the window follows dragging immediately, then hands over to the carry bank. Keep this accepted transition policy; do not reset the raised hand mid-motion.
+- New gesture starts/ends at exact accepted neutral pixels; existing idle/entry/wave/carry banks are unchanged. Complete old asset banks still work in legacy mode for baseline comparisons; partial peace banks are rejected.
 
-Latest UI: approved 312 x 220 logical-pixel tray remote is integrated. El salla is absent from both remote and tray fallback; waving by clicking Stitch is preserved. No hover/character-local control panel. Physical opening/dismissal/hide-show are user-confirmed; await repaint-fix and icon visual confirmation.
+## Evidence and reproduction
 
-- Four neutral/wave variants were rendered: baseline, soft lower fill, stronger lower fill and legacy outline. Soft fill improves lower-body separation while retaining shaping. Stronger fill was unnecessarily bright/flat. Legacy outline rendered markedly dark and remains disabled; no root-cause repair is claimed.
-- `phase-03-appearance-samples.json`: 24/64-sample static comparisons at 400px, composited on light/dark backgrounds. Mean absolute channel difference around 0.90-1.16/255, p95 around 3-5; outliers remain. This supports a bounded sample choice, not proof of temporal quality.
-- `phase-03-motion-checks.json`: reopened appearance scenes preserve original source/action fields, every accepted idle/wave/entry action key and the camera. Feet remain stable; idle periodic endpoint matches; all entry endpoints match expected matrices exactly. Maximum entry toe difference about 2.4e-7.
-- `phase-03-runtime-frames.json`: all 237 400px PNG hashes, alpha boundaries and neutral/entry endpoints PASS. All entry starts match sampled idle images. Geometry/camera are unchanged, retaining the measured maximum entry approximation of 0.669px at 400px.
-- `phase-03-host-checks.json`: six groups / 1943 assertions PASS with current 400px assets, including all idle click phases, settings/alpha and visible direct-method Windows smoke. Not physical mouse automation or 1943 independent tests.
-- `phase-03-host-install.json`: installed executable hash, backup path and settings preservation. Current prior-app backup: `.local/phase-03/host-backup-20260919-152055-087/`. Earlier motion/source backups remain untouched.
-- Installed process launch was verified with `motion=phase03-appearance-400 idle=96 wave=45`, 240px size and prior position. PID file may later be stale; inspect the real process/log before future claims. The earlier request to close the old app is resolved; do not ask again for this deployment.
+- [Integration record](evidence/phase-07-hand-integration.json): hand checks 14,580 assertions; baseline 1,941; carry 179,452; tray UI 156. Counts include repeated pixel/state assertions, not independent tests. Packaged singleton/hidden-restore/concurrent-launch checks passed.
+- First singleton attempt encountered the already-running old Hediye application and correctly activated it. Located and verified that binary, gracefully closed it, backed it up, and reran successfully. Do not mislabel this as a singleton regression.
+- Independent read-only review found no material issues. Its minor partial-bank edge was reproduced, fixed and retested. User-facing mouse acceptance is still distinct from these checks.
+- Six-second host/tray observations: about 38-39MiB additional private/working memory; GDI objects stayed at 35. This is not sustained resource certification.
+- Research, approvals and motion evidence: [peace gesture record](evidence/peace-gesture-feasibility.md). Approved pose: `.local/peace-preview/peace-pose-v1.blend`. Approved motion: `.local/peace-motion-preview/peace-motion-v1.blend` (60 frames / 24fps).
+- Production output already completed: `.local/phase-07/assets/` (400px, 24 samples, 60 PNGs and 96-frame hand regions). Do not rerender to resume. Candidate: `.local/phase-07/trial/`.
+- `prepare_peace_assets.py` exports hand regions/renders saved motion; `stage_hand_trial.py` hash-verifies/stages the candidate. Neither deploys. `build_host_spike.ps1 -OutputDirectory .local/phase-07/trial` builds it.
+- Focused checks: `check_hand_gestures.ps1`; existing host/carry/UI scripts now accept phase-specific evidence destinations. Preserve historical evidence files. Model assets and renders stay private under ignored `.local/`.
 
-## Private review artifacts and reproduction
+## Next step
 
-The following appearance commands describe the historical Phase 03 baseline. For the current Phase 04 candidate use `render_carry_final.py`, `stage_carry_trial.py --final`, the polished-trial build/checks, then `update_carry_trial.ps1 -Launch`. Do not deploy Phase 04 with the old `update_host_motion.ps1` path, which omits carry assets and launch flags.
+Ask only for the pending native check: right hand waves, left hand makes peace, dragging does not accidentally greet, and transitions feel right at the chosen size. The question is already pending in this task. If accepted, record the local acceptance and prepare a clean updated gift package as needed; do not claim recipient acceptance of this update. If a hit is missed, reproduce against the actual visible hand/size before widening regions.
 
-Current scenes/PNG manifests: `.local/phase-03/appearance-final/{idle,wave,entries}/`. Review: `appearance-final/supported-sizes-review.gif`, `supported-sizes-neutral.png`, `supported-sizes-wave.png`. These show actual 240/320/400 sizes on light/dark backgrounds. Static outputs were inspected; the user subsequently approved the installed appearance. Historical 320px timing checks/previews remain as earlier evidence, not current runtime assets.
-
-Use Blender 5.2.2 with auto-execution disabled: `render_appearance.py -- --mode production --variant soft --samples 24` loads accepted saved motion and applies appearance only. Completed production render exited successfully; do not rerender it to resume. Verify with `verify_companion_motion.py -- --appearance`; build review with bundled-Python `preview_appearance.py`. Deploy through `update_host_motion.ps1 -Python <Pillow/numpy Python> -Launch`, which targets the appearance-final folder, validates, tests, backs up and preserves settings. Later motion changes require new matching entry and appearance renders before deployment.
-
-## Settled scope and remaining boundaries
-
-Silent offline native C# layered-window host, floating above normal apps; no browser hiding or desktop-shell embedding. Keep the accepted idle/wave and introduce no unrelated gestures. The limited idle polish is accepted: chest +25%, head +20%, same four-second timing. Earlier user observation found no conspicuous jump/stutter when clicking different idle phases. The appearance pass preserves those motion keys; the user subsequently approved its appearance as well.
-
-The active Phase 04 experiment is a bounded authored carry/drag response with ordinary dragging as fallback, not full physics or an engine migration. Phase 03 handoff is complete; research findings now constrain the first experiment. Phase 05 handles startup, packaging, duplicate instances and daily-use checks; recipient Windows 11 acceptance is Phase 06. Exact tray restoration and the covered-body counter remain native integration checklist items.
-
-Official Blender MCP previously worked through the isolated diagnostic stdio client; it is optional for live inspection. Direct scripts/renders are used for repeatability, since hidden viewport capture could be stale. Computer Use desktop capture previously failed; no fresh desktop screenshot proof is claimed. Windows smoke uses app methods and real layered-window calls; physical visual/input acceptance belongs to the user's observations. Keep all model/texture/render assets private under ignored `.local/`.
+Keep the installed application synchronized with future fixes after graceful close and verified backup. Updating only the trial does not update Hediye. Preserve the user's position, size, shortcuts and startup preference.

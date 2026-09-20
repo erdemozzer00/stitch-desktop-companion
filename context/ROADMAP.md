@@ -34,7 +34,7 @@ The accepted baseline combines the relaxed soft stance, polished four-second idl
 
 ## Phase 04 — Integrated first version
 
-**Status: ACTIVE — native carry accepted; approved detached tray remote integrated and installed; tray flows and release polish user-confirmed; corrected native repaint awaits visual confirmation (2026-09-19)**
+**Status: IMPLEMENTATION HANDED OFF — delivered build subsequently accepted by broad user/recipient feedback (2026-09-20); no separate final repaint-specific report**
 
 The character-attached control bar has been removed after visual approval. See [tray integration evidence](evidence/phase-04-tray-integration.md). The compact tray-click panel starts closed and contains size, hide/show and exit; character click still waves. No extra desktop launcher surface. Phase 05 and 06 remain separate.
 
@@ -48,7 +48,7 @@ First run the approved, bounded carry/drag reaction experiment described in the 
 
 ## Phase 05 — Daily use and packaging
 
-**Status: ACTIVE — minimal package, automatic startup and duplicate prevention installed; actual sign-in and daily-use observation pending**
+**Status: IMPLEMENTATION HANDED OFF — personal gift delivered and reported working; actual sign-in, sleep/resume and Explorer restart were not individually documented**
 
 Enable startup at sign-in by default as explicitly requested and prevent duplicate running instances. Keep removal/disable instructions simple using Windows; do not add a settings system or elaborate installer for this one-recipient gift. Check sleep/resume, Explorer restart, settings persistence, and recovery from missing or invalid local settings. Produce a package that does not depend on Blender or development tools.
 
@@ -56,8 +56,16 @@ Enable startup at sign-in by default as explicitly requested and prevent duplica
 
 ## Phase 06 — Recipient-computer acceptance and delivery
 
-**Status: PLANNED**
+**Status: RECIPIENT ACCEPTED BY USER REPORT (2026-09-20) — gift delivered and liked; individual Windows 11 checklist items were not directly observed or separately reported**
 
 Validate the package on the recipient's Windows 11 computer and its actual display configuration. Check installation, startup, wallpaper/desktop behavior, interaction, sizing, silence, and removal. Finalize any personal message and the gift package.
 
 **Exit:** target-computer acceptance results, delivered package and usage note, and explicit known limitations. Local developer-machine checks do not substitute for target-computer evidence.
+
+## Optional phase 07 — Hand-specific peace gesture
+
+**Status: ACTIVE — pose and motion approved; integrated and installed locally; physical hand-click/drag feedback pending**
+
+Preserve the delivered gift. Approved viewer-left peace pose is the target for a short raise/hold/return clip. Reuse accepted idle movement and exact neutral endpoints. Review moving output before adding hand-specific click routing; preserve viewer-right wave, transparent click-through, no reaction overlap and existing dragging. See [feasibility and checkpoints](evidence/peace-gesture-feasibility.md).
+
+**Exit:** accepted moving preview, verified hand hit regions at supported sizes, click-versus-drag and reaction/carry regressions, measured resource change, then a deliberately updated personal package. Static pose approval alone does not meet this exit.

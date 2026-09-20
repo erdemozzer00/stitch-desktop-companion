@@ -17,16 +17,16 @@ public static class InstanceWindows {
 '@
 $children=@()
 try{
-    $first=Start-Process $exe -PassThru;$children+=$first
+    $first=Start-Process $exe -WindowStyle Hidden -PassThru;$children+=$first
     $deadline=[DateTime]::UtcNow.AddSeconds(8)
     do{$handle=[InstanceWindows]::Find($first.Id);if($handle -ne [IntPtr]::Zero){break};Start-Sleep -Milliseconds 100}while([DateTime]::UtcNow -lt $deadline)
     if($handle -eq [IntPtr]::Zero){throw 'Primary did not open.'}
     [InstanceWindows]::ShowWindow($handle,0)|Out-Null
-    $second=Start-Process $exe -PassThru;$children+=$second
+    $second=Start-Process $exe -WindowStyle Hidden -PassThru;$children+=$second
     if(-not $second.WaitForExit(3000)){throw 'Duplicate instance stayed running.'}
     Start-Sleep -Milliseconds 500
     if(-not [InstanceWindows]::IsWindowVisible($handle)){throw 'Existing hidden pet was not restored.'}
-    $burst=1..4|ForEach-Object{Start-Process $exe -PassThru};$children+=$burst
+    $burst=1..4|ForEach-Object{Start-Process $exe -WindowStyle Hidden -PassThru};$children+=$burst
     foreach($p in $burst){if(-not $p.WaitForExit(3000)){throw 'Concurrent duplicate stayed running.'}}
     if($first.HasExited){throw 'Primary unexpectedly exited.'}
     Write-Output 'PASS: duplicate and four concurrent launches exited; hidden primary restored.'

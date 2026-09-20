@@ -91,8 +91,10 @@ internal static class PolishChecks
                             var key=typeof(RemotePanel).GetMethod("ProcessCmdKey",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
                             object[] keyArgs={new Message(),Keys.Escape};Check((bool)key.Invoke(panel,keyArgs),"Escape not consumed");
                             Check(!panel.Visible,"Escape did not dismiss");
-                            Point grip=new Point(pet.CharacterBounds.Left+200,pet.CharacterBounds.Top+200);
-                            pet.PointerDownAt(grip);pet.PointerUp();Check(pet.Reactions==1,"Character click no longer waves");
+                            // Greeting is now specific to the visible waving hand;
+                            // body dragging below remains independently exercised.
+                            Point grip=new Point(pet.CharacterBounds.Left+(int)Math.Round(.655*pet.CharacterSize),pet.CharacterBounds.Top+(int)Math.Round(.69*pet.CharacterSize));
+                            pet.PointerDownAt(grip);pet.PointerUp();Check(pet.Reactions==1,"Waving-hand click no longer waves");
                             Check(!panel.Visible,"Character click opened controls");
                         }
                         else if(stage==2)pet.ToggleRemote(anchor);

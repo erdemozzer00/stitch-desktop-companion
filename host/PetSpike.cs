@@ -65,6 +65,9 @@ internal sealed class PetWindow : Form
     private readonly string statePath, logPath;
     private readonly Bitmap[] idle;
     private readonly Bitmap[] wave;
+    private readonly Bitmap[] peace;
+    private readonly HandRegions hands;
+    private ReactionKind pressedReaction;
     private readonly Bitmap[][] entries = new Bitmap[24][];
     private readonly MotionPlayback playback = new MotionPlayback();
     private readonly Timer timer = new Timer();
@@ -103,6 +106,13 @@ internal sealed class PetWindow : Form
         logPath = Path.Combine(output, "events.log");
         idle = ReadClip(assets, "idle_", 96);
         wave = ReadClip(assets, "wave_", 45);
+        // Old asset banks remain usable for the frozen baseline and comparisons.
+        // A partially installed new bank must fail instead of silently changing input.
+        if (File.Exists(Path.Combine(assets,"hands.csv")) || Directory.GetFiles(assets,"peace_*.png").Length!=0)
+        {
+            hands = new HandRegions(Path.Combine(assets,"hands.csv"));
+            peace = ReadClip(assets,"peace_",60);
+        }
         for (int i = 0; i < entries.Length; i++) entries[i] = ReadClip(assets, "entry_" + i.ToString("00") + "_", 4);
         if (carryDirectory != null) carryBank = new CarryBank(carryDirectory);
         Text = "Stitch";
@@ -192,6 +202,9 @@ internal sealed class PetWindow : Form
     // The real event handlers and direct-method checks share these input paths.
     internal void PointerDownAt(Point pointer)
     {
+        // Capture intent from the displayed pose. Idle may move before mouse-up;
+        // a press during another reaction must not become a queued greeting.
+        pressedReaction = CanReact ? ReactionAt(pointer) : ReactionKind.None;
         pressed = true; dragging = false;
         if(controls!=null)controls.Hide();
         pointerStart = pointer; windowStart = Location;
@@ -202,7 +215,7 @@ internal sealed class PetWindow : Form
         int dx = pointer.X - pointerStart.X, dy = pointer.Y - pointerStart.Y;
         Size threshold = SystemInformation.DragSize;
         bool starting = !dragging && (Math.Abs(dx) >= threshold.Width / 2 || Math.Abs(dy) >= threshold.Height / 2);
-        if (starting) dragging = true;
+        if (starting) { dragging = true; pressedReaction = ReactionKind.None; }
         if (!dragging) return;
         // Move first. Neither pose transitions nor response smoothing gate location.
         Location = new Point(windowStart.X + dx, windowStart.Y + dy);
@@ -226,11 +239,13 @@ internal sealed class PetWindow : Form
     {
         if (!pressed) return;
         bool wasDrag = dragging;
+        ReactionKind reaction = pressedReaction;
+        pressedReaction = ReactionKind.None;
         pressed = false;
         dragging = false;
         Capture = false;
         if (wasDrag) { carry.Release(); ClampPosition(); SavePosition(); Log("drag-ended location=" + Location); }
-        else React();
+        else React(reaction);
     }
     protected override void OnMouseCaptureChanged(EventArgs e)
     {
@@ -242,16 +257,33 @@ internal sealed class PetWindow : Form
     }
     internal void CancelPointer()
     {
+        pressedReaction = ReactionKind.None;
         pressed = dragging = false; carry.Release();
         Capture = false;
         ClampPosition(); SavePosition(); Log("drag-cancelled");
     }
-    public void React()
+    private ReactionKind ReactionAt(Point pointer)
     {
+        if (hands == null) return ReactionKind.Wave;
+        double x=(pointer.X-Left-ContentPadding)/(double)side;
+        double y=(pointer.Y-Top-ContentPadding)/(double)side;
+        // Invert the displayed carry transform, including its residual settling.
+        double c=Math.Cos(carry.Angle), s=Math.Sin(carry.Angle);
+        double dx=x-carry.Pivot.X-carry.Offset.X, dy=y-carry.Pivot.Y-carry.Offset.Y;
+        x=c*dx+s*dy+carry.Pivot.X; y=-s*dx+c*dy+carry.Pivot.Y;
+        if(x<0 || y<0 || x>=1 || y>=1) return ReactionKind.None;
+        Bitmap frame=idle[playback.IdleIndex];
+        if(frame.GetPixel((int)(x*frame.Width),(int)(y*frame.Height)).A<8) return ReactionKind.None;
+        return hands.At(playback.IdleIndex,new PointF((float)x,(float)y));
+    }
+    public void React() { React(ReactionKind.Wave); }
+    private void React(ReactionKind reaction)
+    {
+        if(reaction==ReactionKind.None || (reaction==ReactionKind.Peace && peace==null)) return;
         if (!Visible) { Log("hidden-reaction-ignored"); return; }
         if (carry.Held || playback.CarryReady || dragging) { Log("held-reaction-ignored"); return; }
-        if (!playback.React(clock.Elapsed.TotalSeconds)) { Log("repeat-click-ignored"); return; }
-        Reactions++; Advance(); Log("reaction-start count=" + Reactions + " entry=" + playback.EntryBucket);
+        if (!playback.React(clock.Elapsed.TotalSeconds,reaction)) { Log("repeat-click-ignored"); return; }
+        Reactions++; Advance(); Log("reaction-start count=" + Reactions + " gesture=" + reaction + " entry=" + playback.EntryBucket);
     }
     private void Advance()
     {
@@ -296,6 +328,7 @@ internal sealed class PetWindow : Form
     }
     public void HidePet()
     {
+        pressedReaction = ReactionKind.None;
         if(controls!=null)controls.Hide();
         timer.Stop(); clock.Reset(); playback.Reset(); carry.Reset(); presented = null; pressed = dragging = false;
         Capture = false; Hide(); Log("hidden");
@@ -318,7 +351,8 @@ internal sealed class PetWindow : Form
     {
         if (carryBank != null && playback.CarryReady) return carryBank.Frames[carry.FrameIndex];
         if (!playback.Reacting) return idle[playback.IdleIndex];
-        return playback.ReactionIndex < 4 ? entries[playback.EntryBucket][playback.ReactionIndex] : wave[playback.ReactionIndex - 4];
+        return playback.ReactionIndex < 4 ? entries[playback.EntryBucket][playback.ReactionIndex]
+            : (playback.Reaction==ReactionKind.Peace ? peace : wave)[playback.ReactionIndex - 4];
     }
     private void ClampPosition()
     {
@@ -391,6 +425,7 @@ internal sealed class PetWindow : Form
             if (menu != null) { menu.Font.Dispose(); menu.Dispose(); }
             if (idle != null) foreach (Bitmap bitmap in idle) bitmap.Dispose();
             if (wave != null) foreach (Bitmap bitmap in wave) bitmap.Dispose();
+            if (peace != null) foreach (Bitmap bitmap in peace) bitmap.Dispose();
             if (carryBank != null) carryBank.Dispose();
             foreach (Bitmap[] clip in entries) if (clip != null) foreach (Bitmap bitmap in clip) bitmap.Dispose();
         }
@@ -399,21 +434,60 @@ internal sealed class PetWindow : Form
 }
 
 // Time is supplied by the host's monotonic clock; checks exercise the exact same player.
+internal enum ReactionKind { None, Wave, Peace }
+
+internal sealed class HandRegions
+{
+    private readonly RectangleF[] wave=new RectangleF[96], peace=new RectangleF[96];
+    internal HandRegions(string path)
+    {
+        string[] rows=File.ReadAllLines(path);
+        if(rows.Length!=96) throw new InvalidDataException("Expected 96 idle hand regions.");
+        for(int i=0;i<96;i++)
+        {
+            string[] values=rows[i].Split(',');
+            if(values.Length!=9 || Int32.Parse(values[0],System.Globalization.CultureInfo.InvariantCulture)!=i)
+                throw new InvalidDataException("Hand region frame order mismatch.");
+            wave[i]=Read(values,1);peace[i]=Read(values,5);
+            if(peace[i].Right>=wave[i].Left) throw new InvalidDataException("Hand regions overlap.");
+        }
+    }
+    private static RectangleF Read(string[] values,int start)
+    {
+        float[] b=new float[4];
+        for(int i=0;i<4;i++)
+        {
+            b[i]=Single.Parse(values[start+i],System.Globalization.CultureInfo.InvariantCulture);
+            if(!(b[i]>=0 && b[i]<=1)) throw new InvalidDataException("Invalid hand region coordinate.");
+        }
+        if(b[2]<=b[0] || b[3]<=b[1]) throw new InvalidDataException("Empty hand region.");
+        return RectangleF.FromLTRB(b[0],b[1],b[2],b[3]);
+    }
+    internal ReactionKind At(int frame,PointF point)
+    {
+        if(wave[frame].Contains(point))return ReactionKind.Wave;
+        if(peace[frame].Contains(point))return ReactionKind.Peace;
+        return ReactionKind.None;
+    }
+}
+
 internal sealed class MotionPlayback
 {
     public int IdleIndex { get; private set; }
     public int ReactionIndex { get; private set; }
     public int EntryBucket { get; private set; }
     public bool Reacting { get; private set; }
+    internal ReactionKind Reaction { get; private set; }
     internal bool CarryReady { get; private set; }
     internal bool EntryOnly { get; private set; }
     private bool carryRequested;
     private double idleStart, reactionStart;
-    public void Reset() { idleStart = reactionStart = 0; IdleIndex = ReactionIndex = EntryBucket = 0; Reacting = CarryReady = EntryOnly = carryRequested = false; }
+    public void Reset() { idleStart = reactionStart = 0; IdleIndex = ReactionIndex = EntryBucket = 0; Reaction=ReactionKind.None; Reacting = CarryReady = EntryOnly = carryRequested = false; }
     internal void BeginCarry(double now)
     {
         carryRequested = true;
         if (Reacting || CarryReady) return;
+        Reaction=ReactionKind.None;
         EntryBucket = ((IdleIndex+2)/4)%24;
         reactionStart = now; ReactionIndex = 0; Reacting = EntryOnly = true;
     }
@@ -422,9 +496,10 @@ internal sealed class MotionPlayback
         carryRequested = false;
         if (CarryReady) { CarryReady = false; IdleIndex = 0; idleStart = now; }
     }
-    public bool React(double now)
+    public bool React(double now,ReactionKind reaction=ReactionKind.Wave)
     {
-        if (Reacting || carryRequested || CarryReady) return false;
+        if (reaction==ReactionKind.None || Reacting || carryRequested || CarryReady) return false;
+        Reaction=reaction;
         // Use the last displayed idle frame, not a future timer sample.
         EntryBucket = ((IdleIndex + 2) / 4) % 24;
         reactionStart = now; ReactionIndex = 0; Reacting = true;
@@ -436,9 +511,10 @@ internal sealed class MotionPlayback
         if (Reacting)
         {
             ReactionIndex = (int)((now - reactionStart) * 24);
-            int length = EntryOnly ? 4 : 49;
+            int length = EntryOnly ? 4 : Reaction==ReactionKind.Peace ? 64 : 49;
             if (ReactionIndex < length) return;
             Reacting = false;
+            Reaction=ReactionKind.None;
             EntryOnly = false;
             idleStart = reactionStart + length / 24.0;
             if (carryRequested) { CarryReady = true; IdleIndex = 0; return; }
