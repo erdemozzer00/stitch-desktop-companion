@@ -1,6 +1,6 @@
 # Current handoff
 
-**Active phase:** None. Optional Phase 07 is complete with local Windows 10 user acceptance on 2026-09-20. The user tested and liked the installed update: viewer-left hand makes peace and viewer-right hand waves. General use was reported working. Do not repeat completed approval questions.
+**Active phase:** Optional 08, isolated ear reaction preview. The user approved a single-ear moving probe before any application integration: quick ear fold/rebound with subtle head tilt, approximately 0.5-0.7s. Preserve installed hand gestures and drag behavior. Phase 07 is accepted locally and on the recipient computer by user report (2026-09-20).
 
 ## Current installed application
 
@@ -8,7 +8,7 @@
 - Current EXE SHA-256: `23ba69a8f4c7773f44cbc809c62c567a26f32cafa481aeccdd67a1eadf86d142`. Launched and confirmed visible with tray panel closed; observed PID 3664 may become stale.
 - Full previous installed version backed up and all 292 files hash-verified at `.local/phase-07/backup-20260920-103328`. Installed assets/support files: 344 verified against the candidate manifest. Position and size preserved; installer unchanged; Turkish usage note updated.
 - Original Phase 03 fallback remains `.local/phase-02/host/`. Older frozen full backup remains `C:/Users/Erdem/Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz`. Never overwrite those fallbacks.
-- Recipient liked the original gift and reported it working. This new update has only been installed on the developer's Windows 10 PC, not remotely on the recipient's Windows 11 PC.
+- The user reports that the hand-gesture update also works on the recipient's Windows 11 computer (2026-09-20). This is recipient acceptance by user report, not a directly observed or individually enumerated Windows checklist.
 
 ## Current behavior
 
@@ -31,6 +31,6 @@
 
 ## Next step
 
-Stop at the completed Phase 07 handoff. The installed Hediye application is current. Prepare a clean transfer package if a recipient update is requested; recipient Windows 11 acceptance of this new version remains unobserved. The user explicitly confirmed both hand actions and broad satisfaction, not a separately enumerated all-size/drag/reboot checklist. If a future hit is missed, reproduce against the actual visible hand/size before widening regions.
+The isolated viewer-left ear probe is rendered and checked (2026-09-21). Show `.local/ear-motion-preview/ear-motion-review.gif` and wait for motion feedback. No runtime routing or deployment is authorized at this preview checkpoint. Evidence and continuation: [ear preview](evidence/ear-reaction-preview.md). Preserve all accepted appearance and hand/carry banks.
 
 Keep the installed application synchronized with future fixes after graceful close and verified backup. Updating only the trial does not update Hediye. Preserve the user's position, size, shortcuts and startup preference.

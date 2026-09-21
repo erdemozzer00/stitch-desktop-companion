@@ -66,8 +66,16 @@ Validate the package on the recipient's Windows 11 computer and its actual displ
 
 **Status: COMPLETE — local Windows 10 user acceptance on 2026-09-20**
 
-The user tested the installed update, confirmed viewer-left peace and viewer-right wave, and reported that everything was working and liked. The Hediye application is updated with a verified previous-version backup. Recipient Windows 11 acceptance of this new update is not yet observed; do not conflate it with acceptance of the original gift.
+The user tested the installed update, confirmed viewer-left peace and viewer-right wave, and reported that everything was working and liked. The Hediye application is updated with a verified previous-version backup. The user subsequently reports this update also working on the recipient Windows 11 computer (2026-09-20); this is user-reported acceptance, not direct checklist observation.
 
 Preserve the delivered gift. Approved viewer-left peace pose is the target for a short raise/hold/return clip. Reuse accepted idle movement and exact neutral endpoints. Review moving output before adding hand-specific click routing; preserve viewer-right wave, transparent click-through, no reaction overlap and existing dragging. See [feasibility and checkpoints](evidence/peace-gesture-feasibility.md).
 
 **Exit:** accepted moving preview, verified hand hit regions at supported sizes, click-versus-drag and reaction/carry regressions, measured resource change, then a deliberately updated personal package. Static pose approval alone does not meet this exit.
+
+## Optional phase 08 — Short ear reactions
+
+**Status: ACTIVE — isolated single-ear moving preview authorized**
+
+Start with a viewer-left ear fold/rebound and subtle head tilt, approximately 0.5-0.7s. Preserve the accepted appearance and installed app. Show a real Blender motion preview before adding the opposite side, hit regions or runtime integration.
+
+**Exit:** user-approved motion, both ear regions verified without breaking hand clicks or dragging, transition/regression checks and deliberate deployment. This preview alone does not meet the phase exit.

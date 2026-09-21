@@ -101,5 +101,11 @@
     "host/CompanionUi.cs": "a79f3bcab66244fcea1c18ed06a5cd7da645b4f05c10dc493065fc639beaaa47",
     "scripts/prepare_peace_assets.py": "d682c77fbe72f0307f2fce2b84645dcf0774372e0803cc20023af35ee0ec1fc7"
   },
-  "limits": "Automated evidence uses direct-method native tests and short resource observations. Physical hand actions and general satisfaction are now confirmed by user report; sustained benchmarks and recipient Windows 11 verification of this update remain unobserved."
+  "limits": "Automated evidence uses direct-method native tests and short resource observations. Local hand actions and recipient operation are confirmed by user report; sustained benchmarks and individually enumerated recipient Windows checks remain unobserved.",
+  "recipient_acceptance": {
+    "status": "ACCEPTED_BY_USER_REPORT",
+    "date": "2026-09-20",
+    "report": "User says the hand-gesture update works on the girlfriend's computer too.",
+    "limits": "No direct observation or individually enumerated Windows 11 checklist."
+  }
 }
