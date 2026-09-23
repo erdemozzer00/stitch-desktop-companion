@@ -52,3 +52,7 @@ One 24-frame 400x400 RGBA bank is approximately 14.65MiB of raw pixel storage. T
 The installed `C:/Users/Erdem/Desktop/Hediye/StitchPet.exe` was read-only hash-checked and remains `9560de22be8a5b61a634997fbd5a0b3cfc8318663a9cc1f05059a741643cb360`. No app code, installed asset, shortcut, startup setting or accepted source was changed. Only research output and project notes were added. App regression tests are not applicable to these documentation-only tracked changes.
 
 Report the result and proposed facial-pose preview to the user. Do not silently begin preview authoring or deployment. The accepted ear timing/no-overlap policy stays in place; the user's superseded speed/overlap request is not pending work.
+
+## Subsequent authorization — 2026-09-23
+
+The user authorized starting the preview and specifically requested sweet, expressive eye closure at the full smile. This supersedes this research's open-eye recommendation for the new smile reaction. It does not restore the cancelled closed-eye carry feature. Author the isolated facial preview using existing Chin controls and adapted geometric eyelids, with visible pose/motion review before integration. The installed gift remains unchanged.
