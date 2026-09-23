@@ -7,7 +7,7 @@
 - Actual executable: `C:/Users/Erdem/Desktop/Hediye/StitchPet.exe`.
 - SHA-256: `9560de22be8a5b61a634997fbd5a0b3cfc8318663a9cc1f05059a741643cb360`. Installed and launched with tray panel closed on 2026-09-21; observed PID 9736 may be stale.
 - Previous hand-gesture application: `.local/phase-08/backup-20260921-032739`, all 353 files hash-verified. 377 candidate asset/support files installed and hash-verified. Position, size, shortcuts and startup preserved; Turkish usage note updated.
-- Desktop and current-user Startup `Stitch.lnk` still use Hediye. `Stitch - Hediye` is a stale path.
+- On 2026-09-23 the current-user Startup `Stitch.lnk` still targets Hediye; the desktop `Stitch.lnk` is absent. Do not assume why or silently recreate it. The executable is available directly in Hediye. `Stitch - Hediye` is a stale path.
 - Preserve older `.local/phase-07/backup-20260920-103328`, `.local/phase-02/host/` and frozen `Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz` fallbacks.
 
 ## Behavior
