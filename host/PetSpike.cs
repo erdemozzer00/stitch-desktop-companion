@@ -67,6 +67,8 @@ internal sealed class PetWindow : Form
     private readonly Bitmap[] wave;
     private readonly Bitmap[] peace;
     private readonly Bitmap[] earLeft, earRight;
+    private readonly Bitmap[] smile;
+    private readonly NoseRegions nose;
     private readonly EarRegions ears;
     private readonly HandRegions hands;
     private ReactionKind pressedReaction;
@@ -121,6 +123,12 @@ internal sealed class PetWindow : Form
             ears = new EarRegions(Path.Combine(assets,"ears.csv"));
             earLeft = ReadClip(assets,"ear_left_",16);
             earRight = ReadClip(assets,"ear_right_",16);
+        }
+        if (File.Exists(Path.Combine(assets,"nose.csv")) || Directory.GetFiles(assets,"smile_*.png").Length!=0)
+        {
+            if(hands==null) throw new InvalidDataException("Smile assets require hand assets.");
+            nose = new NoseRegions(Path.Combine(assets,"nose.csv"));
+            smile = ReadClip(assets,"smile_",28);
         }
         for (int i = 0; i < entries.Length; i++) entries[i] = ReadClip(assets, "entry_" + i.ToString("00") + "_", 4);
         if (carryDirectory != null) carryBank = new CarryBank(carryDirectory);
@@ -285,13 +293,17 @@ internal sealed class PetWindow : Form
         if(frame.GetPixel((int)(x*frame.Width),(int)(y*frame.Height)).A<8) return ReactionKind.None;
         PointF point=new PointF((float)x,(float)y);
         ReactionKind hand=hands.At(playback.IdleIndex,point);
-        return hand!=ReactionKind.None || ears==null ? hand : ears.At(playback.IdleIndex,point);
+        if(hand!=ReactionKind.None) return hand;
+        ReactionKind ear=ears==null ? ReactionKind.None : ears.At(playback.IdleIndex,point);
+        if(ear!=ReactionKind.None) return ear;
+        return nose!=null && nose.Contains(playback.IdleIndex,point) ? ReactionKind.Smile : ReactionKind.None;
     }
     public void React() { React(ReactionKind.Wave); }
     private void React(ReactionKind reaction)
     {
         if(reaction==ReactionKind.None || (reaction==ReactionKind.Peace && peace==null)
-            || (reaction==ReactionKind.EarLeft && earLeft==null) || (reaction==ReactionKind.EarRight && earRight==null)) return;
+            || (reaction==ReactionKind.EarLeft && earLeft==null) || (reaction==ReactionKind.EarRight && earRight==null)
+            || (reaction==ReactionKind.Smile && smile==null)) return;
         if (!Visible) { Log("hidden-reaction-ignored"); return; }
         if (carry.Held || playback.CarryReady || dragging) { Log("held-reaction-ignored"); return; }
         if (!playback.React(clock.Elapsed.TotalSeconds,reaction)) { Log("repeat-click-ignored"); return; }
@@ -364,7 +376,7 @@ internal sealed class PetWindow : Form
         if (carryBank != null && playback.CarryReady) return carryBank.Frames[carry.FrameIndex];
         if (!playback.Reacting) return idle[playback.IdleIndex];
         return playback.ReactionIndex < 4 ? entries[playback.EntryBucket][playback.ReactionIndex]
-            : (playback.Reaction==ReactionKind.Peace ? peace : playback.Reaction==ReactionKind.EarLeft ? earLeft : playback.Reaction==ReactionKind.EarRight ? earRight : wave)[playback.ReactionIndex - 4];
+            : (playback.Reaction==ReactionKind.Smile ? smile : playback.Reaction==ReactionKind.Peace ? peace : playback.Reaction==ReactionKind.EarLeft ? earLeft : playback.Reaction==ReactionKind.EarRight ? earRight : wave)[playback.ReactionIndex - 4];
     }
     private void ClampPosition()
     {
@@ -440,6 +452,7 @@ internal sealed class PetWindow : Form
             if (peace != null) foreach (Bitmap bitmap in peace) bitmap.Dispose();
             if (earLeft != null) foreach (Bitmap bitmap in earLeft) bitmap.Dispose();
             if (earRight != null) foreach (Bitmap bitmap in earRight) bitmap.Dispose();
+            if (smile != null) foreach (Bitmap bitmap in smile) bitmap.Dispose();
             if (carryBank != null) carryBank.Dispose();
             foreach (Bitmap[] clip in entries) if (clip != null) foreach (Bitmap bitmap in clip) bitmap.Dispose();
         }
@@ -448,7 +461,24 @@ internal sealed class PetWindow : Form
 }
 
 // Time is supplied by the host's monotonic clock; checks exercise the exact same player.
-internal enum ReactionKind { None, Wave, Peace, EarLeft, EarRight }
+internal enum ReactionKind { None, Wave, Peace, EarLeft, EarRight, Smile }
+
+internal sealed class NoseRegions
+{
+    private readonly PointF[][] regions=new PointF[96][];
+    internal NoseRegions(string path)
+    {
+        string[] rows=File.ReadAllLines(path);
+        if(rows.Length!=96)throw new InvalidDataException("Expected 96 nose regions.");
+        for(int i=0;i<96;i++){
+            string[] parts=rows[i].Split('|');
+            if(parts.Length!=2 || Int32.Parse(parts[0],System.Globalization.CultureInfo.InvariantCulture)!=i)
+                throw new InvalidDataException("Nose frame order mismatch.");
+            regions[i]=EarRegions.Read(parts[1]);
+        }
+    }
+    internal bool Contains(int frame,PointF point){return EarRegions.Contains(regions[frame],point);}
+}
 
 internal sealed class EarRegions
 {
@@ -464,7 +494,7 @@ internal sealed class EarRegions
             left[i]=Read(parts[1]);right[i]=Read(parts[2]);
         }
     }
-    private static PointF[] Read(string value)
+    internal static PointF[] Read(string value)
     {
         string[] vertices=value.Split(';');
         if(vertices.Length<3 || vertices.Length>256)throw new InvalidDataException("Invalid ear polygon.");
@@ -480,7 +510,7 @@ internal sealed class EarRegions
         if(Math.Abs(area)<.00001)throw new InvalidDataException("Empty ear polygon.");
         return points;
     }
-    private static bool Contains(PointF[] polygon,PointF p)
+    internal static bool Contains(PointF[] polygon,PointF p)
     {
         bool inside=false;
         for(int i=0,j=polygon.Length-1;i<polygon.Length;j=i++){
@@ -572,7 +602,7 @@ internal sealed class MotionPlayback
         if (Reacting)
         {
             ReactionIndex = (int)((now - reactionStart) * 24);
-            int length = EntryOnly ? 4 : Reaction==ReactionKind.Peace ? 64 : (Reaction==ReactionKind.EarLeft || Reaction==ReactionKind.EarRight) ? 20 : 49;
+            int length = EntryOnly ? 4 : Reaction==ReactionKind.Smile ? 32 : Reaction==ReactionKind.Peace ? 64 : (Reaction==ReactionKind.EarLeft || Reaction==ReactionKind.EarRight) ? 20 : 49;
             if (ReactionIndex < length) return;
             Reacting = false;
             Reaction=ReactionKind.None;

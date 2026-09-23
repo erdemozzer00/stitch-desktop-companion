@@ -82,8 +82,10 @@ The user approved the viewer-left fold/rebound and subtle head tilt. Mirrored th
 
 ## Optional phase 09 — Nose-click smile
 
-**Status: ACTIVE — isolated expressive smile/eye-closure preview authorized (2026-09-23)**
+**Status: ACTIVE — preview approved; integrated smile installed locally, physical acceptance pending (2026-09-23)**
 
 Research Stitch's expression from official Disney imagery and inspect the accepted Blender model before recommending a bounded smile preview. See [feasibility and proposed checkpoints](evidence/nose-smile-feasibility.md). Start with the existing Chin controls; a limited facial shape key is a fallback if needed, not a preselected new rig. Preserve the accepted app and source assets.
 
 **Current sequence:** user authorized starting and requested sweet eye closure during the full smile. Inspect neutral-versus-smile poses, then a short moving preview; only after visual approval, nose-specific click routing and focused regression/resource checks, then deliberate package update. Keep existing wave, peace, ear and drag behavior, including open eyes during carry. Do not silently deploy the preview.
+
+The user approved v4 with "uyuyor". Nose-specific routing and the 28-frame smile are installed in Hediye following successful native checks and a verified 386-file backup. Existing action banks and UI are preserved. See [integration](evidence/phase-09-smile-integration.json). Next checkpoint is physical user feedback on nose click versus dragging; do not repeat preview approval or production rendering.

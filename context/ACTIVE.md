@@ -1,18 +1,20 @@
 # Current handoff
 
-**Active phase:** Optional 09, isolated smile/soft-eye-closure preview ready for user review on 2026-09-23. This supersedes open eyes for this new reaction only; accepted carry remains open-eyed. No runtime integration or deployment yet. See [current preview](evidence/nose-smile-preview.md) and [research](evidence/nose-smile-feasibility.md). Optional 08 is accepted locally; Phase 07 works locally and on the recipient computer by user report.
+**Active phase:** Optional 09, approved smile integrated and installed locally on 2026-09-23; physical user acceptance pending. The user approved v4 with "uyuyor"; do not repeat visual approval. Closed eyes apply to this reaction only; accepted carry remains open-eyed. See [integration](evidence/phase-09-smile-integration.json) and [preview/history](evidence/nose-smile-preview.md).
 
 ## Current installed application
 
 - Actual executable: `C:/Users/Erdem/Desktop/Hediye/StitchPet.exe`.
-- SHA-256: `9560de22be8a5b61a634997fbd5a0b3cfc8318663a9cc1f05059a741643cb360`. Reverified on 2026-09-23 during smile research; the installed executable is unchanged. Installed and launched with tray panel closed on 2026-09-21; observed PID 9736 may be stale.
+- SHA-256: `c07c9fbbe13d6a25a9859adb4ac46c1ef0ff2ff495e144d474da2a4d0b442812`. Installed and launched on 2026-09-23, observed PID 18376 may become stale. Tray panel remains closed on startup.
+- Previous accepted ear-enabled gift: `.local/phase-09/backup-20260923-180927`, all 386 files hash-verified. Current installation has 406 verified asset/support files; accepted banks retained byte-for-byte. Position/size and shortcut state preserved at installation, Turkish usage note updated. User movement after launch is expected to change position.txt.
 - Previous hand-gesture application: `.local/phase-08/backup-20260921-032739`, all 353 files hash-verified. 377 candidate asset/support files installed and hash-verified. Position, size, shortcuts and startup preserved; Turkish usage note updated.
 - On 2026-09-23 the current-user Startup `Stitch.lnk` still targets Hediye; the desktop `Stitch.lnk` is absent. Do not assume why or silently recreate it. The executable is available directly in Hediye. `Stitch - Hediye` is a stale path.
 - Preserve older `.local/phase-07/backup-20260920-103328`, `.local/phase-02/host/` and frozen `Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz` fallbacks.
 
 ## Behavior
 
-- Viewer-right hand waves; viewer-left hand makes peace. Each ear click selects that ear's quick fold/rebound. Face/body clicks do nothing; any opaque part can be dragged.
+- Viewer-right hand waves; viewer-left hand makes peace. Each ear click selects that ear's quick fold/rebound. Nose click smiles with soft full eye closure; other face/body clicks do nothing. Any opaque part can be dragged.
+- Smile: 28 authored frames / 24fps plus four existing entry frames = 1.333 seconds total. The 301-vertex nose component is projected to a convex hull for each of 96 idle frames. Existing hand/ear priority, alpha gating and inverse carry mapping apply.
 - Ear authored motion: 16 frames / 24fps, plus four existing entry frames = 0.833s total. Both return to exact accepted neutral pixels.
 - Press intent starts on non-drag release; no overlapping/restarted/queued reactions. Existing immediate pointer following, carry interruption and residual-transform mapping preserved.
 - Both ear regions use per-idle-frame projected ear hulls plus sprite alpha. Existing hand regions retain priority. UI, accepted hand/carry banks and model appearance are unchanged.
@@ -30,6 +32,8 @@
 
 The user accepted the current ear behavior and subsequently confirmed the installed ear update works (2026-09-23). The intermediate requests for double speed and overlapping ear reactions were withdrawn; do not implement them or repeat acceptance questions. This is general local user acceptance, not a separately observed regression checklist. Recipient Windows 11 acceptance of this ear update remains separate; the earlier report covers the hand update only.
 
-Show `.local/phase-09/smile-preview-v4/smile-motion-review.gif` and collect feedback on the smile/eye expression before native nose-click integration. Current author/review scripts are `preview_smile_motion.py` and `review_smile_motion.py`; source and installed executable hashes are preserved. The 28-frame/24fps clip uses one localized mouth shape key because actual Chin-only renders exposed a lower gum artifact, plus four added geometric lids. It returns to exact neutral pixels. Earlier v1/v2/v3 folders are rejected/intermediate studies, not the current deliverable. Do not add closed eyes to carry or change accepted hand/ear/tray behavior. Do not expand into a full face rig, Tripo replacement or Godot.
+Ask for physical feedback on installed nose click and nose dragging; keep hand/ear behavior intact. The smile checks (36,918 assertions), existing ear/hand/carry/tray suites and actual duplicate-launch check passed; these are repeated state/pixel/direct-method assertions, not independent cases or physical user acceptance. Production `.local/phase-09/assets` and verified `.local/phase-09/trial` are complete; do not rerender to resume. `prepare_smile_assets.py`, `stage_smile_trial.py`, `check_smile_gesture.ps1` reproduce the work. `install_smile_update.ps1` intentionally requires the previous ear EXE hash; do not blindly rerun it on this updated package. Recipient acceptance remains separate.
+
+Six-second sequential observations using the same host and peace gesture: current roughly 285MiB working set / 281MiB private bytes, about 17MiB/18MiB above the prior asset bank; GDI 35. This is a short memory observation, not a sustained benchmark or smile-specific CPU measurement. No UI change, full facial rig, Tripo replacement or Godot.
 
 Keep installed Hediye synchronized with future fixes after graceful close and verified backup. Preserve position, size, shortcuts and startup. Do not silently add more features.

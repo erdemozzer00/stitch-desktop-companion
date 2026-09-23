@@ -40,3 +40,19 @@ The accepted source SHA-256 remains `9c5e27504da499b8659285e8a7f56264caa9baae0ab
 ## Next step
 
 Show the v4 moving preview and collect feedback on the smile and closed-eye expression. If accepted, plan the minimal nose-click integration using the existing press-intent/non-drag release and no-overlap policy, with per-idle-phase nose mapping and focused hand/ear/carry regressions. Then deliberately update the gift package after backup. Do not silently integrate this preview or revisit withdrawn ear timing changes.
+
+## Approval — 2026-09-23
+
+The user replied "uyuyor" to the moving preview and the explicit proposal to connect it to nose clicks after approval. Visual approval is satisfied; integration and the ordinary verified gift update may proceed. Do not ask for the same approval again.
+
+## Native integration and installation — 2026-09-23
+
+Rendered the approved saved scene at 24 samples with unchanged timing/geometry, checked endpoint poses/hidden lids/zero smile, and substituted exact accepted neutral endpoint PNGs. `prepare_smile_assets.py` projects the isolated 301-vertex Nose component into 96 per-idle-frame hulls. `stage_smile_trial.py` verifies 406 total asset/support files and alpha bounds, retaining all accepted banks byte-for-byte. A production peak render was visually inspected.
+
+The host loads Smile only when nose/clip assets are present, rejects incomplete new banks, retains legacy bank compatibility, and reuses current non-drag release, busy-click rejection, immediate dragging and inverse carry mapping. Smile playback is 32 total frames including entry. Head/body outside the nose still does nothing; hand and ear regions retain priority. UI and carry sources are unchanged.
+
+Checks passed: 36,918 smile assertions across 96 idle phases and 240/320/400px, neighboring feature misses, repeated/opposite actions, drag/cancel/resize, residual transform, actual bitmap selection, duration/carry handoff, partial installation and legacy-bank behavior. Existing ears 16,295; hands 14,580; carry 179,452; tray 156 assertions. These repeated pixel/state assertions are not independent cases. Actual packaged duplicate/concurrent launch and hidden restore passed.
+
+Sequential six-second measurements using the same new host with old/new asset banks sampled a peace gesture, not a smile-specific CPU workload. New bank: roughly 285MiB working set / 281MiB private bytes, compared with 267MiB / 263MiB; GDI remained 35. These short observations are not a sustained performance/leak benchmark. Exact samples accompany the integration record.
+
+Installed into `Desktop/Hediye` after hashing all 386 previous files in `.local/phase-09/backup-20260923-180927`. All 406 candidate asset/support hashes and the executable matched after installation; position/size and shortcut presence/contents were preserved at that point. Updated the Turkish usage note and launched the application. User movement after launch may normally change the saved position. See [deployment evidence](phase-09-smile-integration.json). Physical nose-click/drag feedback and recipient acceptance remain pending; do not claim them from direct-method checks or process liveness.

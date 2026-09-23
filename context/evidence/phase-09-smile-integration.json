@@ -1,0 +1,83 @@
+{
+  "status": "INSTALLED_PENDING_PHYSICAL_ACCEPTANCE",
+  "installed_at_utc": "2026-09-23T18:09:29.6656839Z",
+  "directory": "C:\\Users\\Erdem\\Desktop\\Hediye",
+  "backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion\\.local\\phase-09\\backup-20260923-180927",
+  "backup_files": 386,
+  "verified_assets": 406,
+  "executable_sha256": "c07c9fbbe13d6a25a9859adb4ac46c1ef0ff2ff495e144d474da2a4d0b442812",
+  "position_and_shortcuts_preserved": true,
+  "source_assets_unchanged": true,
+  "smile_assertions": 36918,
+  "ear_assertions": 16295,
+  "hand_assertions": 14580,
+  "carry_assertions": 179452,
+  "tray_assertions": 156,
+  "single_instance": "PASS",
+  "limits": "Direct-method/state/pixel checks and local packaging; physical user and recipient acceptance remain separate.",
+  "memory_baseline": {
+    "samples": [
+      {
+        "phase": "idle",
+        "elapsed_seconds": 2.012,
+        "cpu_seconds": 0.344,
+        "working_set": 280383488,
+        "private_bytes": 275853312,
+        "managed_bytes": 1035144,
+        "gdi_objects": 35
+      },
+      {
+        "phase": "gesture",
+        "elapsed_seconds": 3.021,
+        "cpu_seconds": 0.641,
+        "working_set": 280526848,
+        "private_bytes": 275857408,
+        "managed_bytes": 1125256,
+        "gdi_objects": 35
+      },
+      {
+        "phase": "idle_return",
+        "elapsed_seconds": 6.013,
+        "cpu_seconds": 0.938,
+        "working_set": 279347200,
+        "private_bytes": 275857408,
+        "managed_bytes": 1248136,
+        "gdi_objects": 35
+      }
+    ],
+    "scope": "Six-second real host window/tray observation; not a sustained resource benchmark"
+  },
+  "memory_current": {
+    "samples": [
+      {
+        "phase": "idle",
+        "elapsed_seconds": 2.003,
+        "cpu_seconds": 0.5,
+        "working_set": 298242048,
+        "private_bytes": 294391808,
+        "managed_bytes": 4131456,
+        "gdi_objects": 35
+      },
+      {
+        "phase": "gesture",
+        "elapsed_seconds": 3.055,
+        "cpu_seconds": 0.672,
+        "working_set": 298377216,
+        "private_bytes": 294395904,
+        "managed_bytes": 4196992,
+        "gdi_objects": 35
+      },
+      {
+        "phase": "idle_return",
+        "elapsed_seconds": 6.055,
+        "cpu_seconds": 1.109,
+        "working_set": 298381312,
+        "private_bytes": 294395904,
+        "managed_bytes": 4278912,
+        "gdi_objects": 35
+      }
+    ],
+    "scope": "Six-second real host window/tray observation; not a sustained resource benchmark"
+  },
+  "memory_limit": "Same new host with old/new banks; six-second peace-gesture observation, not a smile-specific CPU or sustained benchmark."
+}

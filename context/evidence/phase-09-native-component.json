@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "assertions": 179452,
+  "python_replay_max_angle_error": 3.7183734292764774E-08,
+  "limits": "Controller/state/pixel/direct-method checks; not physical mouse or visual acceptance.",
+  "checked_at_utc": "2026-09-23T18:06:23.7749607Z",
+  "sources": [
+    {
+      "sha256": "00f6a77bfc646f68c48eb1c05d5e33382ee298c1d69579c36f12d880120e9cc5",
+      "name": "PetSpike.cs"
+    },
+    {
+      "sha256": "bc0f111c73d40e2ee5e767bb7c72bf43b842519ac3b86ac9006592d8870fa36a",
+      "name": "CarryMotion.cs"
+    },
+    {
+      "sha256": "a79f3bcab66244fcea1c18ed06a5cd7da645b4f05c10dc493065fc639beaaa47",
+      "name": "CompanionUi.cs"
+    },
+    {
+      "sha256": "f75309289686159abaf820a98d82ce0aa5efa1c05d558ceff10475102f810a24",
+      "name": "CarryChecks.cs"
+    }
+  ]
+}

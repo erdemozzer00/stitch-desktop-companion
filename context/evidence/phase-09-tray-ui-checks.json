@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "assertions": 156,
+  "min_text_contrast": 6.23,
+  "release_idle_at_240_seconds": 0.425,
+  "removed_near_static_tail_seconds": 0.292,
+  "limits": "Real control renders and direct-method UI tests. Tray handler and native deactivate tested; physical shell input, keyboard navigation, other DPI and user acceptance remain separate.",
+  "checked_at_utc": "2026-09-23T18:06:29.7157066Z",
+  "sources": [
+    {
+      "sha256": "00f6a77bfc646f68c48eb1c05d5e33382ee298c1d69579c36f12d880120e9cc5",
+      "name": "PetSpike.cs"
+    },
+    {
+      "sha256": "bc0f111c73d40e2ee5e767bb7c72bf43b842519ac3b86ac9006592d8870fa36a",
+      "name": "CarryMotion.cs"
+    },
+    {
+      "sha256": "a79f3bcab66244fcea1c18ed06a5cd7da645b4f05c10dc493065fc639beaaa47",
+      "name": "CompanionUi.cs"
+    },
+    {
+      "sha256": "8aa0937be057dd4b69803dc3e494291830b822511b5c713f5cbe4ec78eacfd30",
+      "name": "PolishChecks.cs"
+    }
+  ]
+}
