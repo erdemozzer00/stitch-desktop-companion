@@ -1,0 +1,63 @@
+{
+  "status": "INSTALLED_PENDING_PHYSICAL_ACCEPTANCE",
+  "phase": "08",
+  "directory": "C:\\Users\\Erdem\\Desktop\\Hediye",
+  "backup": "C:\\Users\\Erdem\\Desktop\\stitch-desktop-companion\\.local\\phase-08\\backup-20260921-032739",
+  "backup_files": 353,
+  "verified_assets": 377,
+  "executable_sha256": "9560de22be8a5b61a634997fbd5a0b3cfc8318663a9cc1f05059a741643cb360",
+  "position_preserved": true,
+  "installed_at_utc": "2026-09-21T03:27:43.0570021Z",
+  "pid": 9736,
+  "ear_assertions": 16295,
+  "hand_assertions": 14580,
+  "carry_assertions": 179452,
+  "ui_assertions": 156,
+  "single_instance": "PASS",
+  "motion_approval": "User approved viewer-left moving preview on 2026-09-21; opposite side mirrored on rig.",
+  "saved_scene_checks": {
+    "left_endpoint_and_toe_max_error": 5.960464477539062e-07,
+    "right_endpoint_and_toe_max_error": 1.430511474609375e-06
+  },
+  "memory": {
+    "samples": [
+      {
+        "phase": "idle",
+        "elapsed_seconds": 2.057,
+        "cpu_seconds": 0.344,
+        "working_set": 279900160,
+        "private_bytes": 275611648,
+        "managed_bytes": 860144,
+        "gdi_objects": 35
+      },
+      {
+        "phase": "gesture",
+        "elapsed_seconds": 3.053,
+        "cpu_seconds": 0.359,
+        "working_set": 280031232,
+        "private_bytes": 275619840,
+        "managed_bytes": 917488,
+        "gdi_objects": 35
+      },
+      {
+        "phase": "idle_return",
+        "elapsed_seconds": 6.028,
+        "cpu_seconds": 0.828,
+        "working_set": 280031232,
+        "private_bytes": 275619840,
+        "managed_bytes": 983024,
+        "gdi_objects": 35
+      }
+    ],
+    "scope": "Six-second real host window/tray observation; not a sustained resource benchmark"
+  },
+  "limits": "Native direct-method tests, not physical mouse acceptance. Recipient Windows 11 acceptance of ear update pending. Resource sample is six seconds, not a sustained benchmark.",
+  "handoff_reverified_date": "2026-09-23",
+  "installed_asset_hashes_reverified": 377,
+  "sources_sha256": {
+    "host/PetSpike.cs": "c03a664077784a9bd0b328b2feebc728133bcc59257f3682fe596cb3887c60a1",
+    "host/EarChecks.cs": "874acd76fc9d3767068fc91f64fc098d070f6b21e3c9b3aef1e3bf4b059125cf",
+    "scripts/prepare_ear_assets.py": "61608a2b6eb63b340d86ecf33d924554675931f06bf84bd295a7bfac36c0ab6b",
+    "scripts/stage_ear_trial.py": "e145f89ce1ddf108e08569824e1ad60dfd9833407794dc22a65af3fb8b24aa00"
+  }
+}

@@ -74,8 +74,8 @@ Preserve the delivered gift. Approved viewer-left peace pose is the target for a
 
 ## Optional phase 08 — Short ear reactions
 
-**Status: ACTIVE — isolated single-ear moving preview authorized**
+**Status: ACTIVE — preview approved, both ear reactions integrated and installed locally; physical acceptance pending (2026-09-21)**
 
-Start with a viewer-left ear fold/rebound and subtle head tilt, approximately 0.5-0.7s. Preserve the accepted appearance and installed app. Show a real Blender motion preview before adding the opposite side, hit regions or runtime integration.
+The user approved the viewer-left fold/rebound and subtle head tilt. Mirrored the opposite side on the rig, retained the 0.667s clip, integrated per-ear routing and verified regressions. The updated Hediye app is installed after a verified full backup. See [integration evidence](evidence/phase-08-ear-integration.json). Physical user feedback is pending.
 
 **Exit:** user-approved motion, both ear regions verified without breaking hand clicks or dragging, transition/regression checks and deliberate deployment. This preview alone does not meet the phase exit.

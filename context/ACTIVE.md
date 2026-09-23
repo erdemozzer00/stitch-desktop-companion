@@ -1,36 +1,33 @@
 # Current handoff
 
-**Active phase:** Optional 08, isolated ear reaction preview. The user approved a single-ear moving probe before any application integration: quick ear fold/rebound with subtle head tilt, approximately 0.5-0.7s. Preserve installed hand gestures and drag behavior. Phase 07 is accepted locally and on the recipient computer by user report (2026-09-20).
+**Active phase:** Optional 08, integrated ear reactions installed locally; physical mouse acceptance pending. User approved the viewer-left moving preview on 2026-09-21. Do not repeat preview approval. Phase 07 hand gestures work locally and on the recipient computer by user report.
 
 ## Current installed application
 
-- Actual path: `C:/Users/Erdem/Desktop/Hediye/StitchPet.exe`. The former `Stitch - Hediye` path is stale. Desktop `Stitch.lnk` and current-user Startup `Stitch.lnk` already point to the actual Hediye path and were preserved.
-- Current EXE SHA-256: `23ba69a8f4c7773f44cbc809c62c567a26f32cafa481aeccdd67a1eadf86d142`. Launched and confirmed visible with tray panel closed; observed PID 3664 may become stale.
-- Full previous installed version backed up and all 292 files hash-verified at `.local/phase-07/backup-20260920-103328`. Installed assets/support files: 344 verified against the candidate manifest. Position and size preserved; installer unchanged; Turkish usage note updated.
-- Original Phase 03 fallback remains `.local/phase-02/host/`. Older frozen full backup remains `C:/Users/Erdem/Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz`. Never overwrite those fallbacks.
-- The user reports that the hand-gesture update also works on the recipient's Windows 11 computer (2026-09-20). This is recipient acceptance by user report, not a directly observed or individually enumerated Windows checklist.
+- Actual executable: `C:/Users/Erdem/Desktop/Hediye/StitchPet.exe`.
+- SHA-256: `9560de22be8a5b61a634997fbd5a0b3cfc8318663a9cc1f05059a741643cb360`. Installed and launched with tray panel closed on 2026-09-21; observed PID 9736 may be stale.
+- Previous hand-gesture application: `.local/phase-08/backup-20260921-032739`, all 353 files hash-verified. 377 candidate asset/support files installed and hash-verified. Position, size, shortcuts and startup preserved; Turkish usage note updated.
+- Desktop and current-user Startup `Stitch.lnk` still use Hediye. `Stitch - Hediye` is a stale path.
+- Preserve older `.local/phase-07/backup-20260920-103328`, `.local/phase-02/host/` and frozen `Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz` fallbacks.
 
-## Current behavior
+## Behavior
 
-- Viewer-right hand click waves; viewer-left hand click makes the approved peace/V gesture. These are screen sides: rig `.L` waves, `.R` makes peace.
-- Body/head non-drag clicks do nothing. Drag remains available from any opaque part. No extra panel commands, facial changes, sounds or physics engine.
-- Snapshot hand intent at pointer-down; trigger on non-drag release. Ignore reaction-time presses, repeated/opposite clicks and cancelled presses. Size/alpha/padding/residual carry transform are accounted for.
-- Existing gesture finishes while the window follows dragging immediately, then hands over to the carry bank. Keep this accepted transition policy; do not reset the raised hand mid-motion.
-- New gesture starts/ends at exact accepted neutral pixels; existing idle/entry/wave/carry banks are unchanged. Complete old asset banks still work in legacy mode for baseline comparisons; partial peace banks are rejected.
+- Viewer-right hand waves; viewer-left hand makes peace. Each ear click selects that ear's quick fold/rebound. Face/body clicks do nothing; any opaque part can be dragged.
+- Ear authored motion: 16 frames / 24fps, plus four existing entry frames = 0.833s total. Both return to exact accepted neutral pixels.
+- Press intent starts on non-drag release; no overlapping/restarted/queued reactions. Existing immediate pointer following, carry interruption and residual-transform mapping preserved.
+- Both ear regions use per-idle-frame projected ear hulls plus sprite alpha. Existing hand regions retain priority. UI, accepted hand/carry banks and model appearance are unchanged.
 
 ## Evidence and reproduction
 
-- [Integration record](evidence/phase-07-hand-integration.json): hand checks 14,580 assertions; baseline 1,941; carry 179,452; tray UI 156. Counts include repeated pixel/state assertions, not independent tests. Packaged singleton/hidden-restore/concurrent-launch checks passed.
-- First singleton attempt encountered the already-running old Hediye application and correctly activated it. Located and verified that binary, gracefully closed it, backed it up, and reran successfully. Do not mislabel this as a singleton regression.
-- Independent read-only review found no material issues. Its minor partial-bank edge was reproduced, fixed and retested. User-facing mouse acceptance is still distinct from these checks.
-- Six-second host/tray observations: about 38-39MiB additional private/working memory; GDI objects stayed at 35. This is not sustained resource certification.
-- Research, approvals and motion evidence: [peace gesture record](evidence/peace-gesture-feasibility.md). Approved pose: `.local/peace-preview/peace-pose-v1.blend`. Approved motion: `.local/peace-motion-preview/peace-motion-v1.blend` (60 frames / 24fps).
-- Production output already completed: `.local/phase-07/assets/` (400px, 24 samples, 60 PNGs and 96-frame hand regions). Do not rerender to resume. Candidate: `.local/phase-07/trial/`.
-- `prepare_peace_assets.py` exports hand regions/renders saved motion; `stage_hand_trial.py` hash-verifies/stages the candidate. Neither deploys. `build_host_spike.ps1 -OutputDirectory .local/phase-07/trial` builds it.
-- Focused checks: `check_hand_gestures.ps1`; existing host/carry/UI scripts now accept phase-specific evidence destinations. Preserve historical evidence files. Model assets and renders stay private under ignored `.local/`.
+- [Ear integration](evidence/phase-08-ear-integration.json), [motion and checkpoints](evidence/ear-reaction-preview.md).
+- Ear assertions 16,295; existing hands 14,580; carry 179,452; tray 156; packaged singleton checks passed. These are repeated state/pixel assertions, not independent cases. Native direct-method checks do not replace physical user feedback.
+- Both saved Blender scenes checked: endpoint/toe max error < 1.5e-6; no alpha clipping; exact neutral image endpoints. Source hashes preserved.
+- `.local/phase-08/assets/`: final 24-sample PNG banks, ear hull CSV, saved scenes and manifest. `.local/phase-08/trial/`: verified candidate and private test outputs. Never transfer the entire trial directory or publish model/render assets.
+- `prepare_ear_assets.py` produces both sides; `stage_ear_trial.py` verifies accepted and new assets; `check_ear_gestures.ps1` checks native routing. Production render is complete; do not rerender just to resume.
+- Six-second host observation: about 267MiB working set, 263MiB private bytes, GDI 35. No sustained benchmark claim.
 
 ## Next step
 
-The isolated viewer-left ear probe is rendered and checked (2026-09-21). Show `.local/ear-motion-preview/ear-motion-review.gif` and wait for motion feedback. No runtime routing or deployment is authorized at this preview checkpoint. Evidence and continuation: [ear preview](evidence/ear-reaction-preview.md). Preserve all accepted appearance and hand/carry banks.
+Ask for physical ear-click acceptance on the updated installed app: each ear reacts on its own side, ear dragging does not trigger the reaction, both hand gestures still work. Record feedback before closing Phase 08. Recipient Windows 11 acceptance of this ear update remains separate; the earlier report covers the hand update only.
 
-Keep the installed application synchronized with future fixes after graceful close and verified backup. Updating only the trial does not update Hediye. Preserve the user's position, size, shortcuts and startup preference.
+Keep installed Hediye synchronized with future fixes after graceful close and verified backup. Preserve position, size, shortcuts and startup. Do not silently add more features.
