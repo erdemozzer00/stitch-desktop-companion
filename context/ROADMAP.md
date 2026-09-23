@@ -74,8 +74,16 @@ Preserve the delivered gift. Approved viewer-left peace pose is the target for a
 
 ## Optional phase 08 — Short ear reactions
 
-**Status: ACTIVE — preview approved, both ear reactions integrated and installed locally; physical acceptance pending (2026-09-21)**
+**Status: COMPLETE — current installed ear update accepted locally by user report (2026-09-23)**
 
-The user approved the viewer-left fold/rebound and subtle head tilt. Mirrored the opposite side on the rig, retained the 0.667s clip, integrated per-ear routing and verified regressions. The updated Hediye app is installed after a verified full backup. See [integration evidence](evidence/phase-08-ear-integration.json). Physical user feedback is pending.
+The user approved the viewer-left fold/rebound and subtle head tilt. Mirrored the opposite side on the rig, retained the 0.667s clip, integrated per-ear routing and verified regressions. The updated Hediye app is installed after a verified full backup. See [integration evidence](evidence/phase-08-ear-integration.json) for the historical deployment checkpoint and [subsequent acceptance](evidence/ear-reaction-preview.md). The user withdrew the later double-speed/overlap request, accepted the current behavior and confirmed it works. Recipient acceptance of this ear update is not separately established.
 
 **Exit:** user-approved motion, both ear regions verified without breaking hand clicks or dragging, transition/regression checks and deliberate deployment. This preview alone does not meet the phase exit.
+
+## Optional phase 09 — Nose-click smile
+
+**Status: RESEARCH HANDOFF — no implementation authorized (2026-09-23)**
+
+Research Stitch's expression from official Disney imagery and inspect the accepted Blender model before recommending a bounded smile preview. See [feasibility and proposed checkpoints](evidence/nose-smile-feasibility.md). Start with the existing Chin controls; a limited facial shape key is a fallback if needed, not a preselected new rig. Preserve the accepted app and source assets.
+
+**Proposed sequence, pending authorization:** neutral-versus-smile pose review; short moving preview; only after visual approval, nose-specific click routing and focused regression/resource checks; then deliberate package update. Keep existing wave, peace, ear and drag behavior. Do not silently add features or deploy a research experiment.

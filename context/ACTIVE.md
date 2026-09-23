@@ -1,11 +1,11 @@
 # Current handoff
 
-**Active phase:** Optional 08, integrated ear reactions installed locally; physical mouse acceptance pending. User approved the viewer-left moving preview on 2026-09-21. Do not repeat preview approval. Phase 07 hand gestures work locally and on the recipient computer by user report.
+**Active phase:** No implementation phase active. Optional 08 is accepted locally by user report on 2026-09-23. Current work is research for an optional nose-click smile; no smile preview, runtime integration or deployment is authorized yet. See [smile feasibility](evidence/nose-smile-feasibility.md). Phase 07 hand gestures work locally and on the recipient computer by user report.
 
 ## Current installed application
 
 - Actual executable: `C:/Users/Erdem/Desktop/Hediye/StitchPet.exe`.
-- SHA-256: `9560de22be8a5b61a634997fbd5a0b3cfc8318663a9cc1f05059a741643cb360`. Installed and launched with tray panel closed on 2026-09-21; observed PID 9736 may be stale.
+- SHA-256: `9560de22be8a5b61a634997fbd5a0b3cfc8318663a9cc1f05059a741643cb360`. Reverified on 2026-09-23 during smile research; the installed executable is unchanged. Installed and launched with tray panel closed on 2026-09-21; observed PID 9736 may be stale.
 - Previous hand-gesture application: `.local/phase-08/backup-20260921-032739`, all 353 files hash-verified. 377 candidate asset/support files installed and hash-verified. Position, size, shortcuts and startup preserved; Turkish usage note updated.
 - On 2026-09-23 the current-user Startup `Stitch.lnk` still targets Hediye; the desktop `Stitch.lnk` is absent. Do not assume why or silently recreate it. The executable is available directly in Hediye. `Stitch - Hediye` is a stale path.
 - Preserve older `.local/phase-07/backup-20260920-103328`, `.local/phase-02/host/` and frozen `Desktop/stitch-desktop-companion-ragdoll-illuzyonsuz` fallbacks.
@@ -28,6 +28,8 @@
 
 ## Next step
 
-Ask for physical ear-click acceptance on the updated installed app: each ear reacts on its own side, ear dragging does not trigger the reaction, both hand gestures still work. Record feedback before closing Phase 08. Recipient Windows 11 acceptance of this ear update remains separate; the earlier report covers the hand update only.
+The user accepted the current ear behavior and subsequently confirmed the installed ear update works (2026-09-23). The intermediate requests for double speed and overlapping ear reactions were withdrawn; do not implement them or repeat acceptance questions. This is general local user acceptance, not a separately observed regression checklist. Recipient Windows 11 acceptance of this ear update remains separate; the earlier report covers the hand update only.
+
+Report the nose-smile research, then wait for authorization of the proposed small facial-pose preview. Start with existing Chin controls on a private copy; use a localized shape key only if the existing deformation proves insufficient. Preserve open eyes and all accepted appearance, hand, ear, carry and tray behavior. Do not expand into a full face rig, Tripo replacement or Godot.
 
 Keep installed Hediye synchronized with future fixes after graceful close and verified backup. Preserve position, size, shortcuts and startup. Do not silently add more features.
